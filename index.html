@@ -738,7 +738,7 @@ input,textarea{font-size:16px!important}
 <div class="setrow"><span>📞 通話した回数</span><span style="color:#8e8e93;font-size:12.5px" id="set-calls">0回</span></div>
 <button class="btn-main" style="background:#ff3b30;color:#fff;width:100%;margin:6px 0 12px" onclick="location.reload()">🔁 物語を最初からやり直す</button>
 <div style="font-size:13px;font-weight:800;margin:2px 2px 8px">📞 通話履歴</div><div id="set-calllog" style="background:#fff;border-radius:12px;padding:6px 14px;margin-bottom:6px"><div style="font-size:12.5px;color:#8e8e93;padding:8px 0">まだ通話はない</div></div><button id="calllog-clear" style="background:none;border:none;color:#8e8e93;font-size:12px;cursor:pointer;font-family:inherit;padding:2px 2px 12px">通話履歴を消す</button>
-<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v287</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
+<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v288</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
 </div>
 </section>
 
@@ -1382,11 +1382,11 @@ every(()=>{ const now=Date.now(); $$("#act-list .act-row").forEach(r=>{ if(!r.da
     btn.addEventListener("click",()=>{ if(window._va&&window._va!==au){ window._va.pause(); } if(au.paused){ au.play(); window._va=au; bub.classList.add("playing"); btn.textContent="⏸"; } else { au.pause(); bub.classList.remove("playing"); btn.textContent="▶"; } });
     au.addEventListener("ended",()=>{ bub.classList.remove("playing"); btn.textContent="▶"; });
     au.addEventListener("pause",()=>{ if(au.ended) return; bub.classList.remove("playing"); btn.textContent="▶"; }); };
-  $("#talk-party").addEventListener("click",()=>{ later(()=>{ if(partyVoiceDone) return; partyVoiceDone=true; pVoice("assets/vm-party.mp3","0:03"); },13500); });
+  $("#talk-party").addEventListener("click",()=>{ later(()=>{ if(partyVoiceDone) return; if(state.phase==="prologue"&&(state.chapter||0)<2) return; partyVoiceDone=true; pVoice("assets/vm-party.mp3","0:03"); },13500); });
 })();
 /* ===== v30: 3-years-ago fanmeet premise ===== */
 (function(){ let fanTopicDone=false;
-  $("#talk-party").addEventListener("click",()=>{ later(()=>{ if(fanTopicDone) return; fanTopicDone=true;
+  $("#talk-party").addEventListener("click",()=>{ later(()=>{ if(fanTopicDone) return; if(state.phase==="prologue"&&(state.chapter||0)<2) return; fanTopicDone=true;
     pMsg("ゆい","そういえばなお、3年前の大翔くんとズハオの合同ファンミ行ってたよね？　本人に言った？笑",nowTime());
     later(()=>pMsg("ひろと","…そうなん？　ありがとうな",nowTime()),3200);
     later(()=>pMsg("りな","え、じゃあ今日が初対面じゃないじゃん！",nowTime()),6400);
