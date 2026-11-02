@@ -311,6 +311,19 @@ button,input,textarea{touch-action:manipulation}
 .album-tabs button{border:1px solid #d9d9de;background:#fff;border-radius:999px;padding:6px 14px;font-size:12.5px;font-weight:700;cursor:pointer;font-family:inherit}
 .album-tabs button.act{background:#111;color:#fff;border-color:#111}
 .foot{font-size:11px;color:#8b93a5;padding:0 16px 18px;text-align:center;line-height:1.7;max-width:560px}
+
+/* v8 polish */
+.stk-panel{flex-wrap:wrap;gap:6px;padding:10px 12px;background:#f7f7f9;border-top:1px solid #ececf0}
+.stk-btn{font-size:26px;background:#fff;border:1px solid #e6e6ea;border-radius:12px;width:52px;height:52px;cursor:pointer}
+.bub.stk{background:transparent;font-size:36px;padding:0 2px;box-shadow:none}
+#line-search{width:100%;border:none;background:#f2f2f7;border-radius:10px;padding:8px 12px;font-size:13.5px;font-family:inherit;outline:none;box-sizing:border-box}
+.th-reply{position:sticky;bottom:0;background:#fff;border-top:1px solid #eff3f4;display:flex;gap:8px;align-items:center;padding:10px 12px;z-index:2}
+#th-text{flex:1;border:1px solid #cfd9de;border-radius:999px;padding:8px 14px;font-size:13.5px;font-family:inherit;outline:none;min-width:0}
+#th-send{background:#1d9bf0;color:#fff;border:none;border-radius:999px;padding:8px 14px;font-weight:800;font-size:12.5px;cursor:pointer;font-family:inherit}
+.endstats{background:#f7f9fb;border-radius:12px;padding:10px 12px;font-size:12.5px;line-height:1.7;color:#536471}
+.fav-badge{position:absolute;top:6px;right:6px;color:#ff3040;font-size:15px;text-shadow:0 1px 4px rgba(0,0,0,.45);z-index:2}
+#pv-fav.fav-on{color:#ff3040}
+#mute-btn{margin-top:10px;background:rgba(255,255,255,.16);color:#fff;border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:5px 12px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit}
 </style>
 </head>
 <body>
@@ -542,7 +555,7 @@ button,input,textarea{touch-action:manipulation}
 
 <!-- ===== PHOTOS ===== -->
 <section class="view" id="v-photos">
-<div id="ph-view"><button id="pv-close" style="position:absolute;top:52px;left:12px;background:rgba(255,255,255,.14);color:#fff;border:none;width:34px;height:34px;border-radius:50%;font-size:15px;cursor:pointer;z-index:2">✕</button><button class="pv-nav" id="pv-prev" style="left:8px">‹</button><button class="pv-nav" id="pv-next" style="right:8px">›</button><img class="main" id="pv-img" src="" alt=""><div class="pv-meta"><div class="pv-cap" id="pv-cap"></div><div class="pv-date" id="pv-date"></div></div></div>
+<div id="ph-view"><button id="pv-fav" style="position:absolute;top:52px;right:12px;background:rgba(255,255,255,.14);color:#fff;border:none;width:34px;height:34px;border-radius:50%;font-size:15px;cursor:pointer;z-index:2">♡</button><button id="pv-close" style="position:absolute;top:52px;left:12px;background:rgba(255,255,255,.14);color:#fff;border:none;width:34px;height:34px;border-radius:50%;font-size:15px;cursor:pointer;z-index:2">✕</button><button class="pv-nav" id="pv-prev" style="left:8px">‹</button><button class="pv-nav" id="pv-next" style="right:8px">›</button><img class="main" id="pv-img" src="" alt=""><div class="pv-meta"><div class="pv-cap" id="pv-cap"></div><div class="pv-date" id="pv-date"></div></div></div>
 <div class="appbar"><button class="back" data-home>‹</button><span class="t">写真</span><span class="s">ひろと＋思い出</span></div>
 <div class="scroll">
 <div class="album-tabs" id="album-tabs"><button data-album="all" class="act">すべて</button><button data-album="him">彼</button><button data-album="date">デート</button><button data-album="post">投稿</button></div>
@@ -609,7 +622,7 @@ let timers=[];
 function later(fn,ms){timers.push(setTimeout(fn,ms))}
 function every(fn,ms){timers.push(setInterval(fn,ms))}
 /* clock */
-function tickClock(){const d=new Date();$("#clock").textContent=String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0")}
+function tickClock(){const d=new Date();$("#clock").textContent=String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0");const lt=$("#lock-time");if(lt)lt.textContent=$("#clock").textContent}
 tickClock(); setInterval(tickClock,20000);
 /* navigation */
 function show(id){ const _g=$("#group-chat"); if(_g){ _g.style.display="none"; if(id==="line"){ $("#line-list").style.display="block"; $("#line-head-list").style.display="flex"; $("#line-chat").style.display="none"; } }$$(".view").forEach(v=>v.classList.remove("on"));$("#v-"+id).classList.add("on");
@@ -635,7 +648,7 @@ if(k==="news"){state.news++; if(!$("#v-news").classList.contains("on")) setBadge
 function clearBadge(k){setBadge(k,0); if(k==="line"){state.lineUnread=0;$("#line-unread").style.display="none"} if(k==="news"){state.news=0}}
 /* push */
 let pushCb=null;
-function pop(){ try{ if(navigator.vibrate) navigator.vibrate(25); if(!window._ac) window._ac=new (window.AudioContext||window.webkitAudioContext)(); const ac=window._ac; if(ac.state==="suspended") ac.resume(); const o=ac.createOscillator(),g=ac.createGain(); o.type="sine"; o.frequency.value=920; g.gain.setValueAtTime(0.05,ac.currentTime); g.gain.exponentialRampToValueAtTime(0.001,ac.currentTime+0.16); o.connect(g); g.connect(ac.destination); o.start(); o.stop(ac.currentTime+0.18);}catch(e){} }
+function pop(){ if(state.mute){ try{ if(navigator.vibrate) navigator.vibrate(12); }catch(e){} return; } try{ if(navigator.vibrate) navigator.vibrate(25); if(!window._ac) window._ac=new (window.AudioContext||window.webkitAudioContext)(); const ac=window._ac; if(ac.state==="suspended") ac.resume(); const o=ac.createOscillator(),g=ac.createGain(); o.type="sine"; o.frequency.value=920; g.gain.setValueAtTime(0.05,ac.currentTime); g.gain.exponentialRampToValueAtTime(0.001,ac.currentTime+0.16); o.connect(g); g.connect(ac.destination); o.start(); o.stop(ac.currentTime+0.18);}catch(e){} }
 function push(app,color,icon,title,body,cb){ pop(); $("#push-app").textContent=app; const ic=$("#push-ic"); ic.style.background=color; ic.textContent=icon; $("#push-title").textContent=title; $("#push-body").textContent=body; pushCb=cb||null; $("#push").classList.add("in"); clearTimeout(push._t); push._t=setTimeout(()=>$("#push").classList.remove("in"),7000);}
 $("#push").addEventListener("click",()=>{ $("#push").classList.remove("in"); if(pushCb) pushCb();});
 /* ============ v4: prologue (from the beginning) ============ */
@@ -700,7 +713,7 @@ $("#v-lock").addEventListener("click",unlock);
 (function(){const d=new Date();const w=["日","月","火","水","木","金","土"][d.getDay()];$("#lock-date").textContent="9月27日 土曜日";$("#lock-time").textContent=String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0")}());
 function fmt(n){return n.toLocaleString("ja-JP")}
 function animateCount(el,from,to,dur,format){const t0=performance.now();function step(t){const p=Math.min(1,(t-t0)/dur);const e=1-Math.pow(1-p,3);const v=Math.round(from+(to-from)*e);el.textContent=format?format(v):fmt(v);if(p<1)requestAnimationFrame(step)}requestAnimationFrame(step)}
-function setHeat(v){state.heat=Math.min(100,v);$("#w-meter").style.width=state.heat+"%"}
+function setHeat(v){state.heat=Math.min(100,v);state._heatPeak=Math.max(state._heatPeak||0,state.heat);$("#w-meter").style.width=state.heat+"%"}
 function startScandal(){ if(state.started) return; state.started=true;
 $("#w-title").textContent="🔥 バレた。スマホが止まらない";
 $("#w-main").textContent="ひろと熱愛報道——お相手、“なお”って特定され始めてる";
@@ -713,7 +726,7 @@ animateCount($("#his-fol-n"),81476,77900,26000,v=>(v/10000).toFixed(1)+"万");
 buildTrends(); buildTimeline(); toast("🔥 <b>炎上度上昇中</b>：トレンド1位を獲得");
 floodComments(); floodMentions(); floodDms(); every(genContent,15000); every(genAct,13000); every(bumpTrends,8000);
   state._imp=312; every(()=>{ if(state._imp<1480){ state._imp+=Math.floor(Math.random()*26+7); const el=$("#imp-n"); if(el) el.textContent=state._imp.toLocaleString("ja-JP")+"万"; } },3000);
-  state._batt=43; every(()=>{ if(state._batt>36){ state._batt--; $("#batt-n").textContent=state._batt; document.querySelector(".batt .fill").style.width=state._batt+"%"; } },25000);
+  state._batt=43; every(()=>{ if(state._batt>36){ state._batt--; $("#batt-n").textContent=state._batt; const bf=document.querySelector(".batt .fill"); bf.style.width=state._batt+"%"; bf.style.background=state._batt<=39?"#ff9f0a":"#fff"; if(state._batt===38&&!state._battWarned){ state._battWarned=true; toast("🪫 <b>電池残量わずか</b>： 通知の嵐で電池がピンチ"); } } },25000);
   $("#nao-story-viewers").innerHTML="👁 2,314人 ・ <b>193.hiroto_jixiang</b>、yui_s、sauna_m 他 —— 彼、見てる…";
   later(groupFlood,23000); later(()=>{ if(!state._mgrDone){ state._mgrDone=true; showIncomingCall("manager"); } },85000);
 later(()=>push("X","#000","𝕏","トレンド1位 #大翔熱愛","「裏切られた」「幸せなら応援」賛否が真っ二つ",()=>show("x")),6000);
@@ -879,7 +892,7 @@ const PHOTO_DATES={"crown.jpg":"9月 ・ 神戸","crown-full.jpg":"9月 ・ 保�
 let pvIdx=0;
 function pvList(){ return $$("#ph-grid figure").filter(f=>f.style.display!=="none"); }
 function pvShow(i){ const list=pvList(); if(!list.length) return; pvIdx=(i+list.length)%list.length; const img=list[pvIdx].querySelector("img"); const cap=list[pvIdx].querySelector("figcaption"); const base=(img.getAttribute("src")||"").split("/").pop();
-  $("#pv-img").src=img.getAttribute("src"); $("#pv-cap").textContent=cap?cap.textContent:"思い出"; $("#pv-date").textContent=(PHOTO_DATES[base]||"思い出")+" ・ "+(pvIdx+1)+" / "+list.length; }
+  $("#pv-img").src=img.getAttribute("src"); $("#pv-cap").textContent=cap?cap.textContent:"思い出"; $("#pv-date").textContent=(PHOTO_DATES[base]||"思い出")+" ・ "+(pvIdx+1)+" / "+list.length; const fb=$("#pv-fav"); if(fb){ const on=FAVS.has(base); fb.textContent=on?"♥":"♡"; fb.classList.toggle("fav-on",on); } }
 $("#ph-grid").addEventListener("click",e=>{ const f=e.target.closest("figure"); if(!f) return; $("#ph-view").classList.add("on"); pvShow(pvList().indexOf(f)); });
 $("#pv-close").addEventListener("click",()=>$("#ph-view").classList.remove("on"));
 $("#pv-prev").addEventListener("click",()=>pvShow(pvIdx-1));
@@ -938,9 +951,9 @@ $("#story-view").addEventListener("click",e=>{ if(e.target.id==="story-close") r
   if(right){ if(storyIdx<storySegs.length-1) storyShow(storyIdx+1); else $("#story-view").classList.remove("on"); } else if(storyIdx>0) storyShow(storyIdx-1); });
 /* ringtone */
 function ringStart(){ ringStop(); try{ if(!window._ac) window._ac=new (window.AudioContext||window.webkitAudioContext)(); }catch(e){}
-  const beep=()=>{ try{ const ac=window._ac; if(!ac) return; if(ac.state==="suspended") ac.resume(); [0,0.45].forEach(off=>{ const o=ac.createOscillator(),g=ac.createGain(); o.frequency.value=1046; const t0=ac.currentTime+off; g.gain.setValueAtTime(0.0001,t0); g.gain.exponentialRampToValueAtTime(0.03,t0+0.03); g.gain.exponentialRampToValueAtTime(0.0001,t0+0.3); o.connect(g); g.connect(ac.destination); o.start(t0); o.stop(t0+0.34); }); }catch(e){} };
-  beep(); state._ringIv=setInterval(beep,2200); }
-function ringStop(){ if(state._ringIv){ clearInterval(state._ringIv); state._ringIv=null; } }
+  const beep=()=>{ if(state.mute) return; try{ const ac=window._ac; if(!ac) return; if(ac.state==="suspended") ac.resume(); [0,0.45].forEach(off=>{ const o=ac.createOscillator(),g=ac.createGain(); o.frequency.value=1046; const t0=ac.currentTime+off; g.gain.setValueAtTime(0.0001,t0); g.gain.exponentialRampToValueAtTime(0.03,t0+0.03); g.gain.exponentialRampToValueAtTime(0.0001,t0+0.3); o.connect(g); g.connect(ac.destination); o.start(t0); o.stop(t0+0.34); }); }catch(e){} };
+  beep(); state._ringIv=setInterval(beep,2200); try{ if(navigator.vibrate){ navigator.vibrate([500,300,500]); state._vibIv=setInterval(()=>navigator.vibrate([500,300,500]),2200); } }catch(e){} }
+function ringStop(){ if(state._ringIv){ clearInterval(state._ringIv); state._ringIv=null; } if(state._vibIv){ clearInterval(state._vibIv); state._vibIv=null; } try{ navigator.vibrate(0); }catch(e){} }
 /* X composer */
 function mentionV7(name,text){ const list=$("#x-men-list"); const empty=$("#x-men-empty"); if(empty) empty.remove(); const d=document.createElement("div"); d.className="post"; d.innerHTML=avaTxt(name)+'<span style="min-width:0"><span class="nm">'+name+'</span> <span class="hd">@'+name+' ・ 今</span><div class="tx"></div><div class="mt"><span>💬</span><span>🔁</span><span>❤️</span></div></span>'; d.querySelector(".tx").textContent=text; list.prepend(d); bump("x"); }
 (function(){ const xv=$("#v-x"); const btn=document.createElement("button"); btn.id="x-compose-btn"; btn.textContent="＋"; xv.appendChild(btn);
@@ -968,7 +981,7 @@ $$("#album-tabs button").forEach(b=>b.addEventListener("click",()=>{ $$("#album-
   b2.addEventListener("click",()=>toast("💬 彼へのDMは、物語の中ではLINEでね"));
   row.appendChild(b1); row.appendChild(b2); prof.after(row); })();
 /* weather chip on home widget */
-(function(){ const w=$("#widget"); if(!w) return; const d=document.createElement("div"); d.style.cssText="margin-top:8px;font-size:12px;color:#dfe5f2"; d.innerHTML="📍 大阪市 ☀️ 18° ・ 夕方は冷えるから上着を"; w.appendChild(d); })();
+(function(){ const w=document.querySelector(".widget"); if(!w) return; const d=document.createElement("div"); d.style.cssText="margin-top:8px;font-size:12px;color:#dfe5f2"; d.innerHTML="📍 大阪市 ☀️ 18° ・ 夕方は冷えるから上着を"; w.appendChild(d); })();
 /* ===== v2: likes ===== */
 document.addEventListener("click",e=>{const b=e.target.closest(".like-btn"); if(!b) return; const on=b.classList.toggle("liked"); const m=b.textContent.match(/([\d,]+)/); if(m){let n=parseInt(m[1].replace(/,/g,"")); n+=on?1:-1; b.textContent=b.textContent.replace(m[1],n.toLocaleString("ja-JP"));}});
 /* ===== v2: infinite generators ===== */
@@ -1059,7 +1072,43 @@ async function startAct2(kind){ if(state._act2) return; state._act2=true; state.
   later(async()=>{ show("line"); openChat(); await himMsg("おはよ",600); await himMsg(kind==="open"?"投稿、出したで":kind==="wait"?"投稿、見た？":"投稿だけ、先に出した"); await himMsg("なおは、ちゃんと寝れた？"); toast("💬 ここからはLINEで<b>自由に送れる</b>よ。下の入力欄からどうぞ"); },5000);
   later(()=>{ const d=document.createElement("div"); d.className="endcard"; d.id="endcard2"; d.innerHTML=`<h3>🌅 翌朝 —— fin</h3><p>炎上は、少しずつ日常に変わっていく。トレンドから名前が消えても、LINEのいちばん上は変わらないまま。続きは、なおの言葉で。</p><button class="btn-main" style="background:#111;color:#fff" onclick="location.reload()">🔁 最初からもう一度</button>`; $("#news-scroll").prepend(d); push("ニュース速報","#e60012","N","続報：応援の声が広がる","「本人の言葉」にファンの反応は——タップで結末へ",()=>show("news")); },14000);
 }
-function showEnding(box){ if($("#endcard")) return; const d=document.createElement("div"); d.className="endcard"; d.id="endcard"; d.innerHTML=`<h3>${box.h}</h3><p>${box.t}</p><button class="btn-main" style="background:#06c755;color:#fff" onclick="startAct2(state.ending||'wait')">🌅 翌朝を見る</button><button class="btn-main" style="background:#111;color:#fff" onclick="location.reload()">🔁 最初からもう一度</button>`; $("#news-scroll").prepend(d); show("news");}
+function showEnding(box){ if($("#endcard")) return; const d=document.createElement("div"); d.className="endcard"; d.id="endcard"; d.innerHTML=`<h3>${box.h}</h3><p>${box.t}</p><p class="endstats">📊 この夜の記録<br>Instagram フォロワー 342 → ${$("#w-ig").textContent} ／ X フォロワー 189 → ${$("#w-x").textContent}<br>炎上度ピーク ${state._heatPeak||state.heat}% ・ 電池は ${$("#batt-n").textContent}% まで減った</p><button class="btn-main" style="background:#06c755;color:#fff" onclick="startAct2(state.ending||'wait')">🌅 翌朝を見る</button><button class="btn-main" style="background:#111;color:#fff" onclick="location.reload()">🔁 最初からもう一度</button>`; $("#news-scroll").prepend(d); show("news");}
+
+/* ===== v8: polish pass ===== */
+const FAVS=new Set();
+$("#pv-fav").addEventListener("click",()=>{ const list=pvList(); const f=list[pvIdx]; if(!f) return; const img=f.querySelector("img"); const base=(img.getAttribute("src")||"").split("/").pop(); let on;
+  if(FAVS.has(base)){ FAVS.delete(base); on=false; const bd=f.querySelector(".fav-badge"); if(bd) bd.remove(); }
+  else { FAVS.add(base); on=true; const bd=document.createElement("span"); bd.className="fav-badge"; bd.textContent="♥"; f.appendChild(bd); }
+  const fb=$("#pv-fav"); fb.textContent=on?"♥":"♡"; fb.classList.toggle("fav-on",on); pop(); });
+(function(){ const pv=$("#ph-view"); let sx=null;
+  pv.addEventListener("touchstart",e=>{ sx=e.touches[0].clientX; },{passive:true});
+  pv.addEventListener("touchend",e=>{ if(sx===null) return; const dx=e.changedTouches[0].clientX-sx; sx=null; if(Math.abs(dx)>42){ if(dx<0) pvShow(pvIdx+1); else pvShow(pvIdx-1); } },{passive:true});
+  document.addEventListener("keydown",e=>{ if(!pv.classList.contains("on")) return; if(e.key==="ArrowRight") pvShow(pvIdx+1); if(e.key==="ArrowLeft") pvShow(pvIdx-1); if(e.key==="Escape") pv.classList.remove("on"); });
+})();
+/* LINE sticker panel */
+(function(){ const chat=$("#line-chat"); if(!chat) return; const panel=document.createElement("div"); panel.className="stk-panel"; panel.style.display="none";
+  ["🥺","❤️","🍮","🍺","✨","😎","🐱","🙏"].forEach(em=>{ const b=document.createElement("button"); b.className="stk-btn"; b.textContent=em; b.title="スタンプを送信";
+    b.addEventListener("click",()=>{ panel.style.display="none"; meMsg(em); const bs=$$("#chat .msg.me .bub"); const bub=bs[bs.length-1]; if(bub) bub.classList.add("stk"); clearTimeout(state._replyT); state._replyT=setTimeout(()=>himReply(em),1100); });
+    panel.appendChild(b); });
+  const row=chat.querySelector(".line-input"); row.parentElement.insertBefore(panel,row);
+  const plus=row.querySelector("span"); plus.style.cursor="pointer"; plus.title="スタンプ"; plus.addEventListener("click",()=>{ panel.style.display=panel.style.display==="none"?"flex":"none"; });
+})();
+/* LINE talk search */
+(function(){ const list=$("#line-list"); if(!list) return; const wrap=document.createElement("div"); wrap.style.cssText="padding:8px 12px 2px"; const inp=document.createElement("input"); inp.id="line-search"; inp.placeholder="🔍 トークを検索"; inp.autocomplete="off"; wrap.appendChild(inp); list.parentElement.insertBefore(wrap,list);
+  inp.addEventListener("input",()=>{ const q=inp.value.trim(); $$("#line-list .talkrow").forEach(r=>{ r.style.display=(!q||r.textContent.includes(q))?"":"none"; }); });
+})();
+/* X thread reply */
+(function(){ const th=$("#x-thread"); if(!th) return; const row=document.createElement("div"); row.className="th-reply";
+  row.innerHTML='<img class="avatar" src="assets/default-avatar.svg" width="30" height="30" alt=""><input id="th-text" placeholder="返信をポスト" autocomplete="off"><button id="th-send">返信</button>'; th.appendChild(row);
+  function send(){ const inp=row.querySelector("#th-text"); const v=inp.value.trim(); if(!v) return; inp.value=""; const el=postEl({n:"なお",h:"@nao_0324",t:v,m:["💬 0","🔁 0","❤️ 0"]},false); $("#thread-replies").prepend(el); toast("🐦 <b>返信しました</b>");
+    if(state.started){ const lb=el.querySelector(".like-btn"); let n=0; const iv=setInterval(()=>{ n+=Math.floor(Math.random()*25+4); if(lb) lb.textContent="❤️ "+n.toLocaleString("ja-JP"); if(n>260) clearInterval(iv); },2800); timers.push(iv); } }
+  row.querySelector("#th-send").addEventListener("click",send);
+  row.querySelector("#th-text").addEventListener("keydown",e=>{ if(e.key==="Enter") send(); });
+})();
+/* mute toggle */
+(function(){ const w=document.querySelector(".widget"); if(!w) return; const b=document.createElement("button"); b.id="mute-btn"; b.textContent="🔊 音あり";
+  b.addEventListener("click",()=>{ state.mute=!state.mute; b.textContent=state.mute?"🔇 ミュート中":"🔊 音あり"; if(state.mute) ringStop(); toast(state.mute?"🔇 <b>音をミュートしました</b>":"🔊 <b>音を出す設定にしました</b>"); });
+  w.appendChild(b); })();
 </script>
 </body>
 </html>
