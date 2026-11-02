@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>熱愛バレた件｜ひろとのスマホ風SNS</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+--line:#06c755; --x:#000; --ig1:#feda75; --ig2:#fa7e1e; --ig3:#d62976; --ig4:#962fbf; --ig5:#4f5bd5;
+--ink:#111; --sub:#8e8e93; --bg:#f2f2f7; --red:#ff3b30;
+}
+html,body{height:100%}
+body{
+font-family:-apple-system,"Hiragino Kaku Gothic ProN","Hiragino Sans","Noto Sans JP",sans-serif;
+background:radial-gradient(1200px 700px at 20% 0%,#2b3245 0%,#14161d 55%,#0b0c10 100%);
+color:#fff; display:flex; flex-direction:column; align-items:center; min-height:100dvh;
+}
+.page-head{padding:18px 16px 10px;text-align:center;max-width:560px}
+.page-head h1{font-size:20px;letter-spacing:.04em}
+.page-head p{font-size:12px;color:#b9c0cf;margin-top:5px;line-height:1.6}
+.page-head .src{font-size:10.5px;color:#7d8598;margin-top:6px;line-height:1.6}
+.page-head .src a{color:#9fb4dd}
+/* ===== phone frame (iPhone風: Project-Tyson等のMIT系モックの構造を参考に自作) ===== */
+.phone{
+position:relative; width:min(400px,100vw); height:min(844px,calc(100dvh - 130px));
+background:#000; border-radius:54px; padding:11px;
+box-shadow:0 0 0 2px #3a3d42,0 0 0 5px #17181c,0 30px 70px rgba(0,0,0,.65), inset 0 0 4px #555;
+margin-bottom:14px; flex:none;
+}
+@media (max-width:430px){.phone{border-radius:0;padding:0;height:calc(100dvh - 108px);box-shadow:none}.page-head{padding:10px 12px 6px}.page-head .src{display:none}}
+.screen{position:relative;width:100%;height:100%;border-radius:44px;overflow:hidden;background:#000}
+@media (max-width:430px){.screen{border-radius:0}}
+.island{position:absolute;top:10px;left:50%;transform:translateX(-50%);width:112px;height:30px;background:#000;border-radius:20px;z-index:200}
+.statusbar{
+position:absolute;top:0;left:0;right:0;height:52px;z-index:150;display:flex;align-items:flex-end;
+justify-content:space-between;padding:0 30px 4px;font-size:14.5px;font-weight:600;color:#fff;pointer-events:none;
+text-shadow:0 1px 4px rgba(0,0,0,.35);mix-blend-mode:difference;
+}
+.statusbar .sicons{display:flex;gap:6px;align-items:center;font-size:12px}
+.batt{display:inline-flex;align-items:center;gap:3px}
+.batt .box{width:24px;height:12px;border:1.5px solid rgba(255,255,255,.7);border-radius:4px;padding:1.5px;display:inline-block}
+.batt .fill{display:block;height:100%;width:43%;background:#fff;border-radius:2px}
+.homebar{position:absolute;bottom:6px;left:50%;transform:translateX(-50%);width:134px;height:5px;border-radius:3px;background:rgba(255,255,255,.85);z-index:190;cursor:pointer;box-shadow:0 0 3px rgba(0,0,0,.3)}
+/* ===== views ===== */
+.view{position:absolute;inset:0;display:none;flex-direction:column;background:#fff;color:var(--ink)}
+.view.on{display:flex}
+#v-home{background:#000}
+/* ===== home ===== */
+.wallpaper{position:absolute;inset:0;background:url('assets/crown.jpg') center 18%/cover no-repeat}
+.wallpaper:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.18),rgba(0,0,0,0) 30%,rgba(0,0,0,0) 70%,rgba(0,0,0,.28))}
+.home-inner{position:relative;z-index:2;display:flex;flex-direction:column;height:100%;padding:64px 20px 16px}
+.widget{
+background:rgba(20,22,30,.55);backdrop-filter:blur(14px);border-radius:22px;color:#fff;
+padding:12px 14px;margin-bottom:16px;border:1px solid rgba(255,255,255,.14);
+}
+.widget .w-title{font-size:11px;color:#ffd60a;font-weight:700;letter-spacing:.06em}
+.widget .w-main{font-size:14.5px;font-weight:700;margin-top:3px;line-height:1.45}
+.widget .w-row{display:flex;gap:14px;margin-top:7px;font-size:11.5px;color:#d7dbe4}
+.widget .w-row b{color:#fff;font-size:13px}
+.meter{height:6px;background:rgba(255,255,255,.22);border-radius:3px;margin-top:8px;overflow:hidden}
+.meter i{display:block;height:100%;width:0%;background:linear-gradient(90deg,#ffd60a,#ff9500,#ff3b30);border-radius:3px;transition:width 1.2s ease}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:17px 12px}
+.appicon{display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;position:relative;background:none;border:none;font-family:inherit}
+.appicon .ic{width:58px;height:58px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:27px;color:#fff;box-shadow:0 3px 8px rgba(0,0,0,.3);position:relative}
+.appicon .lb{font-size:10.5px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.6)}
+.badge{position:absolute;top:-5px;right:-7px;min-width:19px;height:19px;padding:0 5px;border-radius:10px;background:var(--red);color:#fff;font-size:11px;font-weight:700;display:none;align-items:center;justify-content:center;z-index:3;border:1.5px solid rgba(0,0,0,.15)}
+.badge.on{display:flex}
+.ic-line{background:var(--line)}.ic-x{background:#000;border:1px solid #333;font-weight:900;font-style:normal}
+.ic-ig{background:linear-gradient(45deg,var(--ig1),var(--ig2),var(--ig3),var(--ig4),var(--ig5))}
+.ic-news{background:#e60012}.ic-photo{background:#fff}.ic-tel{background:#34c759}
+.ic-msg{background:#34c759}.ic-safari{background:#fff}.ic-set{background:#8e8e93}.ic-cam{background:#e9e9ee}
+.dock{margin-top:auto;background:rgba(255,255,255,.22);backdrop-filter:blur(16px);border-radius:26px;padding:10px 14px;display:flex;justify-content:space-between}
+/* ===== push banner ===== */
+.push{
+position:absolute;top:58px;left:10px;right:10px;z-index:180;background:rgba(245,245,247,.92);backdrop-filter:blur(16px);
+border-radius:20px;padding:11px 13px;display:flex;gap:10px;box-shadow:0 10px 30px rgba(0,0,0,.35);cursor:pointer;
+transform:translateY(-190%);transition:transform.55s cubic-bezier(.2,.9,.25,1);color:#111;text-align:left;border:none;width:calc(100% - 20px);font-family:inherit;
+}
+.push.in{transform:translateY(0)}
+.push .p-ic{width:34px;height:34px;border-radius:9px;flex:none;display:flex;align-items:center;justify-content:center;font-size:18px;color:#fff}
+.push .p-head{display:flex;justify-content:space-between;font-size:11px;color:#6e6e73}
+.push .p-title{font-size:13.5px;font-weight:700;margin-top:1px}
+.push .p-body{font-size:12.5px;color:#3a3a3c;line-height:1.45;margin-top:1px}
+/* ===== generic app chrome ===== */
+.appbar{padding:56px 14px 9px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #e5e5ea;flex:none;background:#fff;z-index:5}
+.appbar .back{border:none;background:none;font-size:19px;cursor:pointer;color:#111;padding:2px 4px}
+.appbar .t{font-size:16.5px;font-weight:800}
+.appbar .s{font-size:11px;color:var(--sub)}
+.scroll{overflow-y:auto;flex:1;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+.scroll::-webkit-scrollbar{width:0}
+.tabbar{flex:none;display:flex;border-top:1px solid #e5e5ea;background:#fff;padding:7px 4px 20px}
+.tabbar button{flex:1;background:none;border:none;font-size:19px;cursor:pointer;color:#111;position:relative;padding:3px 0}
+.tabbar .tb-badge{position:absolute;top:-3px;right:calc(50% - 19px);min-width:16px;height:16px;border-radius:8px;background:var(--red);color:#fff;font-size:9.5px;font-weight:700;display:none;align-items:center;justify-content:center;padding:0 4px}
+.tabbar .tb-badge.on{display:flex}
+.push .p-head,.push .p-title,.push .p-body{display:block}
+.ava-txt{width:38px;height:38px;border-radius:50%;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;flex:none}
+.avatar{border-radius:50%;object-fit:cover;background:#ddd;flex:none}
+.chip{display:inline-block;background:#f2f2f7;border-radius:12px;padding:3px 9px;font-size:11.5px;color:#3a3a3c}
+/* ===== X ===== */
+#v-x{background:#fff}
+.x-tabs{display:flex;border-bottom:1px solid #e5e5ea;flex:none;background:#fff}
+.x-tabs button{flex:1;padding:10px 0;background:none;border:none;font-size:13.5px;font-weight:700;color:#536471;cursor:pointer;font-family:inherit}
+.x-tabs button.act{color:#111;box-shadow:inset 0 -3px 0 #1d9bf0}
+.post{display:flex;gap:10px;padding:12px 14px;border-bottom:1px solid #eff3f4;animation:fadeup.4s ease;text-align:left;width:100%;background:#fff;border-left:none;border-right:none;border-top:none;font-family:inherit;cursor:default}
+.post .nm{font-size:14px;font-weight:800}
+.post .hd{font-size:12.5px;color:#536471;font-weight:400}
+.post .tx{font-size:14px;line-height:1.55;margin-top:2px;white-space:pre-wrap;word-break:break-word}
+.post .mt{font-size:12px;color:#536471;margin-top:7px;display:flex;gap:22px}
+.post .mt .hot{color:#f91880;font-weight:700}
+.verified{color:#1d9bf0;font-size:13px}
+.trend{padding:12px 16px;border-bottom:1px solid #eff3f4}
+.trend .cat{font-size:12px;color:#536471}
+.trend .kw{font-size:15.5px;font-weight:800;margin:1px 0}
+.trend .cnt{font-size:12px;color:#536471}
+.x-profile{padding:14px 16px;border-bottom:1px solid #eff3f4}
+.x-profile .counts{display:flex;gap:18px;margin-top:9px;font-size:13px;color:#536471}
+.x-profile .counts b{color:#111;font-size:14.5px}
+/* ===== Instagram ===== */
+.ig-head{padding:56px 14px 9px;display:flex;align-items:center;gap:9px;border-bottom:1px solid #e5e5ea;background:#fff;flex:none}
+.ig-head .t{font-size:16.5px;font-weight:800}
+.ig-prof{padding:14px 16px 8px;display:flex;gap:22px;align-items:center}
+.ig-stats{display:flex;gap:20px;flex:1;justify-content:space-around;text-align:center}
+.ig-stats .n{font-size:16.5px;font-weight:800}
+.ig-stats .l{font-size:11.5px;color:#3a3a3c}
+.ig-bio{padding:0 16px 10px;font-size:13px;line-height:1.55}
+.ig-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.ig-grid img{width:100%;aspect-ratio:1;object-fit:cover;display:block}
+.ig-post{border-bottom:1px solid #e5e5ea;padding-bottom:10px;animation:fadeup.4s ease}
+.ig-post .ph{display:flex;align-items:center;gap:9px;padding:9px 12px;font-size:13.5px;font-weight:700}
+.ig-post .pimg{width:100%;aspect-ratio:4/4.4;object-fit:cover;display:block}
+.ig-post .acts{padding:8px 12px 0;font-size:20px;display:flex;gap:15px}
+.ig-post .cap{padding:5px 12px 0;font-size:13px;line-height:1.55}
+.cmt{padding:5px 12px 0;font-size:13px;line-height:1.5;animation:fadeup.35s ease}
+.cmt b{margin-right:5px}
+.cmt .tm{color:var(--sub);font-size:11px;margin-left:6px}
+.dmrow{display:flex;gap:11px;padding:11px 14px;align-items:center;border-bottom:1px solid #f2f2f7;animation:fadeup.35s ease}
+.dmrow .tx{font-size:13px;color:#3a3a3c;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dmrow .nm{font-size:14px;font-weight:700}
+/* ===== LINE ===== */
+#v-line{background:#8ba6c9}
+.line-head{padding:56px 14px 10px;background:#fff;border-bottom:1px solid #e5e5ea;flex:none;display:flex;gap:10px;align-items:center}
+.line-list{background:#fff;flex:1;overflow-y:auto}
+.talkrow{display:flex;gap:11px;padding:12px 14px;align-items:center;cursor:pointer;border-bottom:1px solid #f2f2f7;width:100%;background:#fff;border-left:none;border-right:none;border-top:none;font-family:inherit;text-align:left}
+.talkrow .nm{font-size:15px;font-weight:700;display:flex;gap:7px;align-items:center}
+.talkrow .pv{font-size:12.5px;color:var(--sub);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:230px}
+.talkrow .tm{margin-left:auto;font-size:11px;color:var(--sub);text-align:right;flex:none}
+.ubadge{min-width:19px;height:19px;border-radius:10px;background:var(--line);color:#fff;font-size:11px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;padding:0 5px}
+.chat-scroll{flex:1;overflow-y:auto;padding:14px 12px 8px;display:flex;flex-direction:column;gap:9px}
+.daychip{align-self:center;background:rgba(0,0,0,.22);color:#fff;font-size:11px;border-radius:11px;padding:3px 11px}
+.msg{display:flex;gap:7px;max-width:82%;animation:fadeup.3s ease}
+.msg.me{align-self:flex-end;flex-direction:row-reverse}
+.msg .bub{padding:8px 12px;border-radius:16px;font-size:14.5px;line-height:1.55;background:#fff;white-space:pre-wrap;word-break:break-word}
+.msg.me .bub{background:#a7e28f;border-bottom-right-radius:4px}
+.msg.him .bub{border-bottom-left-radius:4px}
+.msg .meta{align-self:flex-end;font-size:10px;color:rgba(255,255,255,.95);text-shadow:0 1px 2px rgba(0,0,0,.25);flex:none}
+.typing{align-self:flex-start;background:#fff;border-radius:16px;border-bottom-left-radius:4px;padding:11px 14px;display:none;gap:4px}
+.typing.on{display:flex}
+.typing i{width:7px;height:7px;border-radius:50%;background:#b0b0b5;animation:ty 1s infinite}
+.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
+@keyframes ty{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(-4px);opacity:1}}
+.choices{flex:none;background:rgba(255,255,255,.96);border-top:1px solid #ddd;padding:10px 12px 22px;display:none;flex-direction:column;gap:8px}
+.choices.on{display:flex}
+.choices .q{font-size:11.5px;color:var(--sub);text-align:center}
+.choices button{border:1.5px solid var(--line);color:#07873a;background:#f2fdf5;border-radius:20px;padding:10px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit}
+.choices button:active{background:#dcf5e3}
+.line-input{flex:none;background:#fff;display:flex;gap:8px;align-items:center;padding:9px 12px 22px;border-top:1px solid #e5e5ea}
+.line-input .fake{flex:1;background:#f2f2f7;border-radius:18px;padding:9px 13px;font-size:13.5px;color:var(--sub)}
+/* ===== news ===== */
+.news-hero{margin:12px 14px 4px;border-radius:14px;overflow:hidden;background:#111;color:#fff;animation:fadeup.4s ease}
+.news-hero img{width:100%;height:170px;object-fit:cover;opacity:.85;display:block}
+.news-hero .in{padding:11px 13px}
+.news-hero .tag{display:inline-block;background:var(--red);font-size:10.5px;font-weight:800;border-radius:4px;padding:2px 7px}
+.news-hero h3{font-size:16.5px;line-height:1.5;margin-top:6px}
+.news-hero p{font-size:12px;color:#c7c7cc;margin-top:4px;line-height:1.5}
+.newsrow{display:flex;gap:11px;padding:11px 14px;border-bottom:1px solid #f2f2f7;animation:fadeup.35s ease}
+.newsrow img{width:74px;height:62px;object-fit:cover;border-radius:9px;flex:none}
+.newsrow .h{font-size:13.5px;font-weight:700;line-height:1.5}
+.newsrow .m{font-size:11px;color:var(--sub);margin-top:3px}
+.article{padding:16px 17px;font-size:14.5px;line-height:1.95}
+.article h2{font-size:19px;line-height:1.55;margin-bottom:8px}
+.article .m{font-size:11.5px;color:var(--sub);margin-bottom:13px}
+.article .box{background:#f2f2f7;border-radius:10px;padding:11px 13px;font-size:13.5px;line-height:1.8;margin:13px 0}
+/* ===== photos / call / misc ===== */
+.ph-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.ph-grid figure{position:relative}
+.ph-grid img{width:100%;aspect-ratio:1;object-fit:cover;display:block}
+.ph-grid figcaption{position:absolute;left:0;right:0;bottom:0;font-size:9.5px;color:#fff;background:linear-gradient(transparent,rgba(0,0,0,.65));padding:12px 6px 4px}
+#v-call{background:linear-gradient(180deg,#3a4152,#14161d);color:#fff;align-items:center}
+.call-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;padding:70px 24px 30px;text-align:center;width:100%}
+.call-wrap img{width:118px;height:118px;border-radius:50%;object-fit:cover;border:3px solid rgba(255,255,255,.35)}
+.call-sub{min-height:66px;font-size:15px;line-height:1.7;color:#e8ebf2;max-width:300px}
+.call-btns{display:flex;gap:56px;margin-top:14px}
+.call-btns .cb{width:62px;height:62px;border-radius:50%;border:none;font-size:25px;cursor:pointer;color:#fff}
+.toastbox{position:absolute;left:12px;right:12px;bottom:88px;z-index:170;display:flex;flex-direction:column;gap:7px;pointer-events:none}
+.toast{background:rgba(20,20,24,.88);color:#fff;font-size:12.5px;border-radius:13px;padding:9px 13px;animation:fadeup.3s ease;backdrop-filter:blur(8px);line-height:1.5}
+.toast b{color:#ffd60a}
+@keyframes fadeup{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+.endcard{margin:16px 14px;background:#fff;border-radius:16px;padding:17px;box-shadow:0 4px 18px rgba(0,0,0,.08);animation:fadeup.5s ease}
+.endcard h3{font-size:16.5px;margin-bottom:7px}
+.endcard p{font-size:13.5px;line-height:1.8;color:#3a3a3c}
+.btn-main{display:block;width:100%;margin-top:12px;border:none;border-radius:12px;padding:12px;font-size:14.5px;font-weight:800;cursor:pointer;font-family:inherit}
+.foot{font-size:11px;color:#8b93a5;padding:0 16px 18px;text-align:center;line-height:1.7;max-width:560px}
+</style>
+</head>
+<body>
+<header class="page-head">
+<h1>🔥 熱愛バレた件</h1>
+<p>アイドル・ひろととの熱愛がスクープされた日。Xとインスタが爆発して、炎上して、彼からLINEがくる——スマホ風SNSゲーム。</p>
+<p class="src">土台メモ：iPhone枠は GitHub の MIT ライセンス系モック（<a href="https://github.com/c2prods/Project-Tyson" target="_blank" rel="noopener">c2prods/Project-Tyson</a> 等）の構造を参考に自作し、アプリ群の作りは自作ゲーム『キープ管理中！』の方式を流用。写真はなおが送ってくれたものだけを使用。これは創作フィクションです。</p>
+</header>
+
+<div class="phone" id="phone">
+<div class="screen">
+<div class="island"></div>
+<div class="statusbar"><span id="clock">20:49</span><span class="sicons"><svg width="17" height="11" viewBox="0 0 17 11" fill="#fff"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="4.5" y="5" width="3" height="6" rx="1"/><rect x="9" y="2.5" width="3" height="8.5" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1" opacity=".4"/></svg><svg width="16" height="11" viewBox="0 0 16 12" fill="#fff"><path d="M8 9.6a1.9 1.9 0 1 1 0 3.8 1.9 1.9 0 0 1 0-3.8zM8 5.4c1.7 0 3.3.67 4.5 1.87l-1.77 1.77A3.9 3.9 0 0 0 8 8.28c-1.03 0-2 .27-2.73.76L3.5 7.27A6.36 6.36 0 0 1 8 5.4zM8 1c2.97 0 5.77 1.16 7.87 3.26L14.1 6.03A8.5 8.5 0 0 0 8 3.5c-2.27 0-4.4.88-6.1 2.53L.13 4.26A11.1 11.1 0 0 1 8 1z" transform="scale(1,-1) translate(0,-12)"/></svg><span class="batt">43<span class="box"><span class="fill"></span></span></span></span></div>
+
+<!-- push banner -->
+<button class="push" id="push" aria-live="polite">
+<span class="p-ic" id="push-ic" style="background:#e60012">N</span>
+<span style="flex:1;min-width:0">
+<span class="p-head"><span id="push-app">ニュース速報</span><span>今</span></span>
+<span class="p-title" id="push-title"></span>
+<span class="p-body" id="push-body"></span>
+</span>
+</button>
+
+<!-- ===== HOME ===== -->
+<section class="view on" id="v-home">
+<div class="wallpaper"></div>
+<div class="home-inner">
+<div class="widget">
+<div class="w-title" id="w-title">📱 なおのスマホ｜いつも通り</div>
+<div class="w-main" id="w-main">ひろとのインスタ、昨日も更新されてた。</div>
+<div class="w-row">
+<span>Instagram フォロワー <b id="w-ig">342</b></span>
+<span>X フォロワー <b id="w-x">189</b></span>
+</div>
+<div style="font-size:11px;color:#d7dbe4;margin-top:7px">炎上度</div>
+<div class="meter"><i id="w-meter"></i></div>
+</div>
+<div class="grid">
+<button class="appicon" data-open="line"><span class="ic ic-line">💬<span class="badge" id="bd-line"></span></span><span class="lb">LINE</span></button>
+<button class="appicon" data-open="x"><span class="ic ic-x">𝕏<span class="badge" id="bd-x"></span></span><span class="lb">X</span></button>
+<button class="appicon" data-open="ig"><span class="ic ic-ig">📷<span class="badge" id="bd-ig"></span></span><span class="lb">Instagram</span></button>
+<button class="appicon" data-open="news"><span class="ic ic-news">N<span class="badge" id="bd-news"></span></span><span class="lb">ニュース</span></button>
+<button class="appicon" data-open="photos"><span class="ic ic-photo">🌼</span><span class="lb">写真</span></button>
+<button class="appicon" data-open="hisig"><span class="ic" style="background:#111">🤴</span><span class="lb">ひろとの垢</span></button>
+<button class="appicon" data-toast="カメラは今は開かなくて大丈夫…"><span class="ic ic-cam">📸</span><span class="lb">カメラ</span></button>
+<button class="appicon" data-toast="設定：通知が止まらないのでミュート推奨"><span class="ic ic-set">⚙️</span><span class="lb">設定</span></button>
+</div>
+<div class="dock">
+<button class="appicon" data-open="line"><span class="ic ic-tel">📞</span></button>
+<button class="appicon" data-toast="Safari：検索履歴『大翔 熱愛』が増殖中…"><span class="ic ic-safari">🧭</span></button>
+<button class="appicon" data-open="ig"><span class="ic ic-msg">💬</span></button>
+<button class="appicon" data-open="photos"><span class="ic ic-photo">🎵</span></button>
+</div>
+</div>
+</section>
+
+<!-- ===== X ===== -->
+<section class="view" id="v-x">
+<div class="appbar"><button class="back" data-home>‹</button><img class="avatar" src="assets/nao.jpg" width="30" height="30" alt=""><span class="t">𝕏 ホーム</span><span class="s" style="margin-left:auto" id="x-head-note"></span></div>
+<div class="x-tabs">
+<button data-xtab="tl" class="act">タイムライン</button>
+<button data-xtab="trend">トレンド</button>
+<button data-xtab="mention">メンション <span id="x-men-n"></span></button>
+<button data-xtab="me">自分</button>
+</div>
+<div class="scroll" id="x-scroll">
+<div id="x-pane-tl"></div>
+<div id="x-pane-trend" style="display:none"></div>
+<div id="x-pane-mention" style="display:none"><div style="padding:26px 18px;color:#536471;font-size:13.5px" id="x-men-empty">まだメンションはない。…今のところは。</div><div id="x-men-list"></div></div>
+<div id="x-pane-me" style="display:none">
+<div class="x-profile">
+<img class="avatar" src="assets/nao.jpg" width="56" height="56" alt="">
+<div style="font-size:17px;font-weight:800;margin-top:7px">なお</div>
+<div style="font-size:13px;color:#536471">@nao_0324</div>
+<div style="font-size:13.5px;margin-top:6px">ふつうの会社員。推し活とサウナとエビが好き。</div>
+<div class="counts"><span><b id="x-fol-n">189</b> フォロワー</span><span><b>96</b> フォロー中</span></div>
+</div>
+<div id="x-me-posts"></div>
+</div>
+</div>
+</section>
+
+<!-- ===== Instagram (nao) ===== -->
+<section class="view" id="v-ig">
+<div class="ig-head"><button class="back" data-home style="border:none;background:none;font-size:19px;cursor:pointer">‹</button><span class="t">nao_0324</span><span style="margin-left:auto;font-size:19px">🔔<span id="ig-bell"></span></span></div>
+<div class="scroll" id="ig-scroll">
+<div class="ig-prof">
+<img class="avatar" src="assets/nao.jpg" width="76" height="76" alt="">
+<div class="ig-stats">
+<div><div class="n">12</div><div class="l">投稿</div></div>
+<div><div class="n" id="ig-fol-n">342</div><div class="l">フォロワー</div></div>
+<div><div class="n">211</div><div class="l">フォロー中</div></div>
+</div>
+</div>
+<div class="ig-bio">なお｜大阪<br>サウナとエビと推し活の記録🦐<br><span style="color:#00376b">#日常</span></div>
+<div style="padding:0 14px 10px"><span class="chip">最新投稿へのコメント <b id="ig-cmt-n">3</b>件</span> <span class="chip">DMリクエスト <b id="ig-dm-n">0</b>件</span></div>
+<div class="ig-post">
+<div class="ph"><img class="avatar" src="assets/nao.jpg" width="30" height="30" alt=""> nao_0324</div>
+<img class="pimg" src="assets/selfie.jpg" alt="なおの最新投稿…ではなく匂わせ疑惑で掘られた写真" style="object-position:top">
+<div class="acts"><span>❤️</span><span>💬</span><span>✈️</span><span style="margin-left:auto">🔖</span></div>
+<div class="cap"><b>nao_0324</b> カフェでゆっくりできた日☕️</div>
+<div id="ig-cmts">
+<div class="cmt"><b>yui_s</b>かわいい〜！<span class="tm">2時間前</span></div>
+<div class="cmt"><b>sauna_m</b>今度サウナも行こ<span class="tm">1時間前</span></div>
+<div class="cmt"><b>m2326</b>そのカフェ私も好き<span class="tm">32分前</span></div>
+</div>
+</div>
+<div style="padding:13px 14px 4px;font-weight:800;font-size:14.5px">📩 DMリクエスト</div>
+<div id="ig-dms"><div style="padding:8px 14px 20px;color:#8e8e93;font-size:13px" id="ig-dm-empty">リクエストはまだない。</div></div>
+</div>
+</section>
+
+<!-- ===== Instagram (hiroto) ===== -->
+<section class="view" id="v-hisig">
+<div class="ig-head"><button class="back" data-home style="border:none;background:none;font-size:19px;cursor:pointer">‹</button><span class="t">193.hiroto_jixiang <span class="verified">☑</span></span></div>
+<div class="scroll">
+<div class="ig-prof">
+<img class="avatar" src="assets/selfie.jpg" width="76" height="76" alt="">
+<div class="ig-stats">
+<div><div class="n">86</div><div class="l">投稿</div></div>
+<div><div class="n" id="his-fol-n">128.4万</div><div class="l">フォロワー</div></div>
+<div><div class="n">12</div><div class="l">フォロー中</div></div>
+</div>
+</div>
+<div class="ig-bio"><b>井汲大翔 / Ikumi Hiroto</b><br>😎🍤🥤<br>いつも応援ありがとう。</div>
+<div class="ig-grid">
+<img src="assets/stage.jpg" alt=""><img src="assets/crown.jpg" alt=""><img src="assets/selfie.jpg" alt="">
+<img src="assets/crown-full.jpg" alt=""><img src="assets/insta-post.jpg" alt=""><img src="assets/stage.jpg" alt="">
+</div>
+<div class="ig-post" style="margin-top:4px">
+<div class="ph"><img class="avatar" src="assets/selfie.jpg" width="30" height="30" alt=""> 193.hiroto_jixiang <span class="verified">☑</span><span style="margin-left:auto;color:#8e8e93">…</span></div>
+<img class="pimg" src="assets/insta-post.jpg" alt="ひろとの投稿スクリーンショット">
+<div class="acts"><span>❤️</span><span>💬 43</span><span>🔁 50</span><span style="margin-left:auto">🔖</span></div>
+<div class="cap">いいね！：<b>__m2326</b>、他<br><b>193.hiroto_jixiang</b> 冬終わらんといてほしい🙃<br><span style="color:#8e8e93;font-size:12px">1日前</span></div>
+<div id="his-cmts">
+<div class="cmt"><b>rottdan_a</b>この写真すき！</div>
+<div class="cmt"><b>hiro_pyon</b>冬終わらんでいいよ〜ずっと見てたい</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ===== LINE ===== -->
+<section class="view" id="v-line">
+<div class="line-head" id="line-head-list"><button class="back" data-home style="border:none;background:none;font-size:19px;cursor:pointer">‹</button><span class="t" style="font-size:16.5px;font-weight:800">トーク</span></div>
+<div class="line-list" id="line-list">
+<button class="talkrow" id="talk-hiroto">
+<img class="avatar" src="assets/selfie.jpg" width="48" height="48" alt="">
+<span style="min-width:0"><span class="nm">ひろと <span class="ubadge" id="line-unread" style="display:none"></span></span><br><span class="pv" id="line-preview">昨日はありがとうな😎</span></span>
+<span class="tm">昨日</span>
+</button>
+<button class="talkrow" data-toast="友達グループ：既読が爆速でついてる">
+<img class="avatar" src="assets/nao.jpg" width="48" height="48" alt="">
+<span style="min-width:0"><span class="nm">いつメン🍻</span><br><span class="pv">次の飲みいつにする？</span></span>
+<span class="tm">月曜</span>
+</button>
+</div>
+<div id="line-chat" style="display:none;flex:1;flex-direction:column;min-height:0">
+<div class="line-head" style="padding-top:56px"><button class="back" id="line-back" style="border:none;background:none;font-size:19px;cursor:pointer">‹</button><img class="avatar" src="assets/selfie.jpg" width="32" height="32" alt=""><span><span class="t" style="font-size:15.5px;font-weight:800;display:block">ひろと</span><span class="s" style="font-size:10.5px;color:#8e8e93">ISFPの本音は短い。行動で来る。</span></span><span style="margin-left:auto;font-size:18px">📞</span></div>
+<div class="chat-scroll" id="chat">
+<div class="daychip">昨日</div>
+<div class="msg him"><img class="avatar" src="assets/selfie.jpg" width="34" height="34" alt=""><span class="bub">昨日はありがとうな😎</span><span class="meta">21:03</span></div>
+<div class="msg him"><span style="width:34px"></span><span class="bub">カフェオレ、また飲みに行こ</span><span class="meta">21:03</span></div>
+<div class="daychip">今日</div>
+</div>
+<div class="typing" id="typing" style="margin:0 12px 8px"><i></i><i></i><i></i></div>
+<div class="choices" id="choices"></div>
+<div class="line-input"><span style="font-size:19px">＋</span><span class="fake" id="line-fake">メッセージを入力</span><span style="font-size:19px">🎤</span></div>
+</div>
+</section>
+
+<!-- ===== NEWS ===== -->
+<section class="view" id="v-news">
+<div class="appbar"><button class="back" data-home>‹</button><span class="t">ニュース</span><span class="s" id="news-note">11月2日(月) 夜</span></div>
+<div class="scroll" id="news-scroll">
+<div id="news-list">
+<div class="newsrow"><img src="assets/stage.jpg" alt=""><span><span class="h">人気アイドル、ワールドツアーの追加公演を発表　チケット争奪戦へ</span><br><span class="m">エンタメ通信 ・ 18:20</span></span></div>
+<div class="newsrow"><img src="assets/crown.jpg" alt=""><span><span class="h">ファンミーティングで見せた“王子様衣装”がSNSで話題に</span><br><span class="m">芸能デスク ・ 17:05</span></span></div>
+<div style="padding:26px 18px;color:#8e8e93;font-size:13px" id="news-calm">——まだ、嵐の前。静かな夜。</div>
+</div>
+<div id="news-article" style="display:none"></div>
+</div>
+</section>
+
+<!-- ===== PHOTOS ===== -->
+<section class="view" id="v-photos">
+<div class="appbar"><button class="back" data-home>‹</button><span class="t">写真</span><span class="s">ひろと＋思い出</span></div>
+<div class="scroll">
+<div class="ph-grid">
+<figure><img src="assets/crown.jpg" alt=""><figcaption>ファンミの日🤴</figcaption></figure>
+<figure><img src="assets/stage.jpg" alt=""><figcaption>ステージ</figcaption></figure>
+<figure><img src="assets/selfie.jpg" alt=""><figcaption>送ってくれた自撮り</figcaption></figure>
+<figure><img src="assets/insta-post.jpg" alt=""><figcaption>例の投稿（1日前）</figcaption></figure>
+<figure><img src="assets/crown-full.jpg" alt=""><figcaption>保存用</figcaption></figure>
+<figure><img src="assets/stage.jpg" alt=""><figcaption>ボトル持ってるやつ</figcaption></figure>
+</div>
+<div style="padding:14px 16px;font-size:13px;line-height:1.8;color:#3a3a3c">
+※週刊誌に載った“手つなぎ写真”はここにはない。でもXでは、昨日のカフェとネックレスと、この投稿のキャプションが「匂わせ」として掘られていく…。
+</div>
+</div>
+</section>
+
+<!-- ===== CALL ===== -->
+<section class="view" id="v-call">
+<div class="call-wrap">
+<img src="assets/selfie.jpg" alt="">
+<div style="font-size:23px;font-weight:800">ひろと</div>
+<div style="font-size:13px;color:#aeb6c6" id="call-state">通話中… <span id="call-time">00:00</span></div>
+<div class="call-sub" id="call-sub">「…なおの声、聞きたかってん」</div>
+<div class="call-btns">
+<button class="cb" style="background:#3a3f4d">🔇</button>
+<button class="cb" style="background:#ff3b30" id="call-end">📞</button>
+<button class="cb" style="background:#3a3f4d">🔊</button>
+</div>
+</div>
+</section>
+
+<div class="toastbox" id="toastbox"></div>
+<div class="homebar" id="homebar"></div>
+</div>
+</div>
+<p class="foot">遊び方：まず速報プッシュを待ってタップ（約3秒後）。そのあとX・Instagram・ニュースを行き来すると数字とコメントが増えていく。LINEは返信を選ぶとひろとの反応が変わるよ。最初からやり直すときは再読み込み。</p>
+
+<script>
+"use strict";
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const state={started:false,ended:false,igFol:342,xFol:189,igCmt:3,igDm:0,lineUnread:0,xMen:0,news:0,heat:0,choice1:null,callSec:0,callTimer:null};
+let timers=[];
+function later(fn,ms){timers.push(setTimeout(fn,ms))}
+function every(fn,ms){timers.push(setInterval(fn,ms))}
+/* clock */
+function tickClock(){const d=new Date();$("#clock").textContent=String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0")}
+tickClock(); setInterval(tickClock,20000);
+/* navigation */
+function show(id){$$(".view").forEach(v=>v.classList.remove("on"));$("#v-"+id).classList.add("on");
+if(id==="line"){clearBadge("line")} if(id==="x"){clearBadge("x")} if(id==="ig"){clearBadge("ig")} if(id==="news"){clearBadge("news")}
+window.scrollTo({top:0});
+}
+$$("[data-open]").forEach(b=>b.addEventListener("click",()=>{show(b.dataset.open); toastOpen(b.dataset.open)}));
+$$("[data-home]").forEach(b=>b.addEventListener("click",()=>show("home")));
+$("#homebar").addEventListener("click",()=>{ if($("#v-line").classList.contains("on") && $("#line-chat").style.display!=="none"){closeChat();} else show("home");});
+$$("[data-toast]").forEach(b=>b.addEventListener("click",()=>toast(b.dataset.toast)));
+function toastOpen(app){ if(!state.started) return;
+if(app==="x") toast("𝕏 メンションが<b>止まらない</b>…");
+if(app==="ig") toast("📷 フォロワーが<b>増え続けている</b>");
+if(app==="news") toast("📰 続報が<b>どんどん増えている</b>");
+}
+function toast(html){const t=document.createElement("div");t.className="toast";t.innerHTML=html;$("#toastbox").appendChild(t);setTimeout(()=>{t.style.opacity="0";t.style.transition="opacity.4s";setTimeout(()=>t.remove(),420)},3400)}
+/* badges */
+function setBadge(k,n){const b=$("#bd-"+k); if(!b)return; if(n>0){b.textContent=n>99?"99+":n;b.classList.add("on")}else b.classList.remove("on")}
+function bump(k){ if(k==="line"){state.lineUnread++; $("#line-unread").style.display="inline-flex"; $("#line-unread").textContent=state.lineUnread; if(!$("#v-line").classList.contains("on")) setBadge("line",state.lineUnread);}
+if(k==="x"){state.xMen++; $("#x-men-n").textContent="("+state.xMen+")"; const tb=$("#x-men-empty"); if(tb) tb.style.display="none"; if(!$("#v-x").classList.contains("on")) setBadge("x",state.xMen);}
+if(k==="ig"){ if(!$("#v-ig").classList.contains("on")) setBadge("ig",1);}
+if(k==="news"){state.news++; if(!$("#v-news").classList.contains("on")) setBadge("news",state.news);}}
+function clearBadge(k){setBadge(k,0); if(k==="line"){state.lineUnread=0;$("#line-unread").style.display="none"} if(k==="news"){state.news=0}}
+/* push */
+let pushCb=null;
+function push(app,color,icon,title,body,cb){ $("#push-app").textContent=app; const ic=$("#push-ic"); ic.style.background=color; ic.textContent=icon; $("#push-title").textContent=title; $("#push-body").textContent=body; pushCb=cb||null; $("#push").classList.add("in"); clearTimeout(push._t); push._t=setTimeout(()=>$("#push").classList.remove("in"),7000);}
+$("#push").addEventListener("click",()=>{ $("#push").classList.remove("in"); if(pushCb) pushCb();});
+/* ============ story start ============ */
+later(()=>{ if(state.started) return;
+push("ニュース速報","#e60012","N","人気アイドルに手つなぎデート報道","週刊誌が今夜配信。お相手は“一般女性”——タップで記事へ",()=>{show("news"); startScandal();});
+},3000);
+function fmt(n){return n.toLocaleString("ja-JP")}
+function animateCount(el,from,to,dur,format){const t0=performance.now();function step(t){const p=Math.min(1,(t-t0)/dur);const e=1-Math.pow(1-p,3);const v=Math.round(from+(to-from)*e);el.textContent=format?format(v):fmt(v);if(p<1)requestAnimationFrame(step)}requestAnimationFrame(step)}
+function setHeat(v){state.heat=Math.min(100,v);$("#w-meter").style.width=state.heat+"%"}
+function startScandal(){ if(state.started) return; state.started=true;
+$("#w-title").textContent="🔥 バレた。スマホが止まらない";
+$("#w-main").textContent="ひろと熱愛報道——お相手、“なお”って特定され始めてる";
+$("#news-calm") && $("#news-calm").remove();
+addNewsHero(); addArticleDefault(); bump("news");
+setHeat(35);
+animateCount($("#ig-fol-n"),342,52814,26000); animateCount($("#w-ig"),342,52814,26000);
+animateCount($("#x-fol-n"),189,38427,26000); animateCount($("#w-x"),189,38427,26000);
+animateCount($("#his-fol-n"),1284000,1213000,26000,v=>(v/10000).toFixed(1)+"万");
+buildTrends(); buildTimeline(); toast("🔥 <b>炎上度上昇中</b>：トレンド1位を獲得");
+floodComments(); floodMentions(); floodDms();
+later(()=>push("X","#000","𝕏","トレンド1位 #大翔熱愛","「裏切られた」「幸せなら応援」賛否が真っ二つ",()=>show("x")),6000);
+later(()=>push("Instagram","linear-gradient(45deg,#fa7e1e,#d62976,#962fbf)","📷","フォロワーが+10,000人突破","コメントとDMリクエストが殺到している",()=>show("ig")),12000);
+later(()=>{lineSequence1()},16000);
+later(()=>{addNewsRow("assets/crown-full.jpg","事務所がコメント発表「プライベートは本人に任せております」","芸能デスク ・ たった今",()=>openStatement()); setHeat(62); push("ニュース速報","#e60012","N","事務所コメント発表","「プライベートは本人に任せております」——火に油？",()=>show("news"));},34000);
+later(()=>{addNewsRow("assets/insta-post.jpg","「冬終わらんといて」投稿が“匂わせ”と炎上　過去投稿の掘り起こし相次ぐ","週刊デジタル ・ たった今",null); setHeat(78);},52000);
+}
+/* ============ NEWS ============ */
+function addNewsHero(){const d=document.createElement("div");d.className="news-hero";d.innerHTML=`<img src="assets/stage.jpg" alt=""><div class="in"><span class="tag">速報</span><h3>人気アイドル・井汲大翔、一般女性と“手つなぎデート”撮 —— 週刊誌が決定的写真を配信</h3><p>昨夜、都内カフェから出てきた二人は人目を気にしながらも手を繋ぎ…。お相手女性のSNSも特定が進んでいる模様。</p></div>`;d.style.cursor="pointer";d.addEventListener("click",openArticle);$("#news-list").prepend(d)}
+function newsBack(){ $("#news-article").style.display="none"; $("#news-list").style.display="block"; $("#news-scroll").scrollTop=0}
+function openArticle(){ $("#news-list").style.display="none"; const a=$("#news-article"); a.style.display="block"; a.innerHTML=`<div class="article"><button class="btn-main" style="background:#f2f2f7;width:auto;padding:7px 14px;margin:0 0 12px" onclick="newsBack()">‹ 一覧に戻る</button><h2>人気アイドル、一般女性と手つなぎデート　「お揃いネックレス」も</h2><div class="m">週刊デジタル ・ 20:49配信</div><p>人気上昇中のアイドル・井汲大翔（24）が、一般女性と都内のカフェでデートする様子をキャッチした。店を出た二人は、周囲を気にしながらも自然に手をつなぎ、同じ方向の駅へ消えたという。</p><div class="box">目撃者「帽子もマスクもしてたけど、背格好と声でバレバレでした。女性のほうがちょっと緊張してて、彼がずっと笑わせてたのが印象的でした」</div><p>ネットでは早くもお相手のSNS特定が進み、本人のInstagramには数時間で数万件のフォローとコメントが殺到。昨日の投稿「カフェでゆっくりできた日」が“匂わせ”だったのではないかと掘り起こされている。</p><p>所属事務所は取材に対し「担当者が不在のため、確認中」と回答している。</p></div>`; $("#news-scroll").scrollTop=0}
+function addArticleDefault(){}
+function openStatement(){ $("#news-list").style.display="none"; const a=$("#news-article"); a.style.display="block"; a.innerHTML=`<div class="article"><button class="btn-main" style="background:#f2f2f7;width:auto;padding:7px 14px;margin:0 0 12px" onclick="newsBack()">‹ 一覧に戻る</button><h2>事務所がコメント発表「プライベートは本人に任せております」</h2><div class="m">芸能デスク ・ たった今</div><p>所属事務所は報道について、次のようにコメントした。</p><div class="box">「一部報道について、プライベートな事柄は本人に任せております。今後の活動に変更はありません」</div><p>交際を否定しないコメントに、SNSでは「認めたってこと？」「活動続けるのは安心」と賛否が割れている。本人の口から何が語られるのか、注目が集まる。</p></div>`; $("#news-scroll").scrollTop=0}
+function addNewsRow(img,h,m,cb){const d=document.createElement("div");d.className="newsrow";d.innerHTML=`<img src="${img}" alt=""><span><span class="h">${h}</span><br><span class="m">${m}</span></span>`; if(cb){d.style.cursor="pointer";d.addEventListener("click",cb)} $("#news-list").prepend(d); bump("news")}
+/* ============ X ============ */
+const X_POSTS=[
+{n:"ニュース速報 @NewsFlash",h:"@news_flash_jp ☑",t:"人気アイドル・井汲大翔に熱愛報道。週刊誌が一般女性との手つなぎデート写真を配信。事務所は「確認中」",m:["💬 8,412","🔁 32,105","❤️ 41,208"]},
+{n:"芸能ウォッチャー",h:"@geino_watch",t:"大翔の熱愛、お相手のインスタもう特定されてるの早すぎる…。昨日のカフェ投稿が伏線だった説。",m:["💬 1,204","🔁 9,870","❤️ 12,400"]},
+{n:"ロットダン💙",h:"@rottdan_love",t:"正直ショックはある。でもステージでずっと頑張ってきた大翔が、プライベートで笑える相手がいるなら…複雑やけど応援したい",m:["💬 903","🔁 4,102","❤️ 18,930"]},
+{n:"ゆん",h:"@yun_o0",t:"裏切られた気持ち。ファンミのあの笑顔はなんだったの？　返金してほしいくらいモヤる",m:["💬 2,311","🔁 1,540","❤️ 3,208"]},
+{n:"特定班",h:"@tokutei_work",t:"①カフェの内装が本人の昨日の投稿と一致 ②ネックレスがお揃いっぽい ③「冬終わらんといてほしい」←これ匂わせだった？",m:["💬 5,671","🔁 21,340","❤️ 9,876"]},
+{n:"さくらの推し活",h:"@sakura_act",t:"24歳の大人に恋愛するなは無理があると思う。叩く方向じゃなくて、本人コメント待とうよ",m:["💬 432","🔁 3,987","❤️ 22,150"]},
+{n:"まとめ速報",h:"@matome_soku",t:"事務所コメント「プライベートは本人に任せております」＝事実上認めたと話題に #大翔熱愛",m:["💬 3,020","🔁 18,442","❤️ 7,650"]},
+];
+function avaTxt(name){let h=0;for(const c of name)h=(h*31+c.charCodeAt(0))%360;return `<span class="ava-txt" style="background:hsl(${h},55%,55%)">${name.trim()[0]||"？"}</span>`}
+function postEl(p,hot){const d=document.createElement("div");d.className="post";d.innerHTML=`${avaTxt(p.n)}<span style="min-width:0"><span class="nm">${p.n}</span> <span class="hd">${p.h} ・ 今</span><div class="tx">${p.t}</div><div class="mt"><span class="${hot?'hot':''}">${p.m[0]}</span><span>${p.m[1]}</span><span>${p.m[2]}</span></div></span>`;return d}
+function buildTimeline(){const tl=$("#x-pane-tl"); X_POSTS.forEach((p,i)=>later(()=>{tl.prepend(postEl(p,i===0));},i*2600));
+const mine=document.createElement("div"); $("#x-me-posts").appendChild(postEl({n:"なお",h:"@nao_0324",t:"（このアカウント、今めちゃくちゃ見られてる…）",m:["💬 0","🔁 0","❤️ 0"]},false));}
+const TRENDS=[["エンターテイメント ・ トレンド","#大翔熱愛","128,409 件のポスト"],["日本のトレンド","#手つなぎデート","84,210 件のポスト"],["日本のトレンド","事務所コメント","61,003 件のポスト"],["エンターテイメント ・ トレンド","匂わせ","44,918 件のポスト"],["日本のトレンド","ロットダン","29,377 件のポスト"]];
+function buildTrends(){const w=$("#x-pane-trend"); w.innerHTML=""; TRENDS.forEach((t,i)=>{const d=document.createElement("div");d.className="trend";d.innerHTML=`<div class="cat">${i+1} ・ ${t[0]}</div><div class="kw">${t[1]}</div><div class="cnt">${t[2]}</div>`;w.appendChild(d)})}
+$$("[data-xtab]").forEach(b=>b.addEventListener("click",()=>{$$("[data-xtab]").forEach(x=>x.classList.remove("act"));b.classList.add("act");["tl","trend","mention","me"].forEach(k=>$("#x-pane-"+k).style.display=k===b.dataset.xtab?"block":"none")}));
+const MENTIONS=[
+["ゆん@yun_o0","@nao_0324 あんたが大翔奪ったの？　説明して"],
+["応援垢@m_support","@nao_0324 叩かれてるけど負けないで。幸せならそれでいい"],
+["特定班@tokutei_work","@nao_0324 そのネックレス、彼のとお揃いだよね？"],
+["通りすがり@pass_by","@nao_0324 フォローした。更新楽しみにしてます（野次馬）"],
+["ロットダン💙@rottdan_love","@nao_0324 大翔のこと、どうか大事にしてあげて"],
+["アンチ予備軍@anti_yobi","@nao_0324 匂わせだけは許せない。昨日の投稿なに？"],
+["なおの友達@yui_s","@nao_0324 えっっっ、なお！？　LINE見て！？"],
+["まとめ垢@matome_jp","@nao_0324 コメント欄が地獄と天国の半々になってる"],
+];
+function floodMentions(){const list=$("#x-men-list"); MENTIONS.forEach((m,i)=>later(()=>{const d=document.createElement("div");d.className="post";d.innerHTML=`${avaTxt(m[0])}<span style="min-width:0"><span class="nm">${m[0].split("@")[0]}</span> <span class="hd">@${m[0].split("@")[1]||""} ・ 今</span><div class="tx">${m[1]}</div><div class="mt"><span>💬</span><span>🔁</span><span>❤️</span></div></span>`;list.prepend(d);bump("x");},5000+i*7000))}
+/* ============ Instagram floods ============ */
+const IG_CMTS=[
+["yun_o0","あんたなの？　大翔の相手って"],["rottdan_a","複雑だけど…大翔をよろしくお願いします"],["tokutei_jp","このカフェ、昨日の彼の投稿と同じ店だよね"],["m_support","炎上してるけど応援してます！"],["pass_fan","フォロワー3万超えおめでとう（違う）"],["hiro_wife（自称）","返して…とは言わない。幸せにして"],["yui_s","なお！？　これなおのアカウントだよね！？"],["geino_otaku","匂わせじゃなくて偶然だと思いたい"],["sakura_act","コメント欄荒れてるけど、あなたの日常はあなたのものだよ"],["anti_01","説明がほしい。ファンは泣いてるよ"]
+];
+function floodComments(){IG_CMTS.forEach((c,i)=>later(()=>{const d=document.createElement("div");d.className="cmt";d.innerHTML=`<b>${c[0]}</b>${c[1]}<span class="tm">今</span>`;$("#ig-cmts").appendChild(d);state.igCmt++;$("#ig-cmt-n").textContent=state.igCmt;$("#ig-bell").textContent="•";bump("ig");const h=document.createElement("div");h.className="cmt";if(i%3===0){h.innerHTML=`<b>${c[0]}</b>例の投稿、掘り返されてるよ…`;$("#his-cmts").appendChild(h)}},4000+i*6500))}
+const DMS=[
+["yun_o0","話聞かせて？　本当なの？"],["geino_scoop","週刊デジタルです。コメントいただけませんか"],["m_support","味方もいるからね"],["tokutei_jp","ネックレスのブランド教えて"],["yui_s","なお電話出て！！"],["hiro_fan_88","大翔の好きなところ教えてください"]
+];
+function floodDms(){DMS.forEach((m,i)=>later(()=>{ $("#ig-dm-empty")&&$("#ig-dm-empty").remove(); const d=document.createElement("div");d.className="dmrow";d.innerHTML=`<img class="avatar" src="assets/nao.jpg" width="42" height="42" alt=""><span style="min-width:0"><span class="nm">${m[0]}</span><br><span class="tx">${m[1]}</span></span><span style="margin-left:auto;font-size:11px;color:#8e8e93">今</span>`;$("#ig-dms").appendChild(d);state.igDm++;$("#ig-dm-n").textContent=state.igDm;bump("ig");},9000+i*9000))}
+/* ============ LINE ============ */
+function openChat(){ $("#line-list").style.display="none"; $("#line-head-list").style.display="none"; const c=$("#line-chat"); c.style.display="flex"; clearBadge("line"); $("#chat").scrollTop=$("#chat").scrollHeight}
+function closeChat(){ $("#line-chat").style.display="none"; $("#line-list").style.display="block"; $("#line-head-list").style.display="flex"; show("line")}
+$("#talk-hiroto").addEventListener("click",openChat);
+$("#line-back").addEventListener("click",closeChat);
+function himMsg(text,delay){ return new Promise(res=>{ later(()=>{ $("#typing").classList.add("on"); $("#chat").scrollTop=$("#chat").scrollHeight; later(()=>{ $("#typing").classList.remove("on"); const d=document.createElement("div"); d.className="msg him"; d.innerHTML=`<img class="avatar" src="assets/selfie.jpg" width="34" height="34" alt=""><span class="bub"></span><span class="meta">今</span>`; d.querySelector(".bub").textContent=text; $("#chat").appendChild(d); $("#line-preview").textContent=text; $("#chat").scrollTop=$("#chat").scrollHeight; bump("line"); res();},1100);},delay||400);})}
+function meMsg(text){const d=document.createElement("div");d.className="msg me";d.innerHTML=`<span class="bub"></span><span class="meta">既読<br>今</span>`;d.querySelector(".bub").textContent=text;$("#chat").appendChild(d);$("#chat").scrollTop=$("#chat").scrollHeight}
+function askChoices(q,opts){const w=$("#choices");w.innerHTML=`<div class="q">${q}</div>`;opts.forEach(o=>{const b=document.createElement("button");b.textContent=o.label;b.addEventListener("click",()=>{w.classList.remove("on");meMsg(o.label);o.fn()});w.appendChild(b)});w.classList.add("on");$("#chat").scrollTop=$("#chat").scrollHeight}
+async function lineSequence1(){
+push("LINE","#06c755","💬","ひろと","「なお」——タップでトークを開く",()=>{show("line");openChat()});
+await himMsg("なお"); await himMsg("ニュース、見た？"); await himMsg("ごめん…俺のせいで"); await himMsg("俺は平気やから"); await himMsg("なおだけが心配やねん");
+askChoices("なおの返信を選んで",[
+{label:"私も大丈夫だよ",fn:async()=>{state.choice1="strong";await himMsg("ほんま？");await himMsg("無理してへん？");await himMsg("…なお、強いな");lineSequence2();}},
+{label:"ちょっと怖い…",fn:async()=>{state.choice1="scared";await himMsg("ごめんな");await himMsg("そんな思いさせたくなかった");await himMsg("絶対、守るから");lineSequence2();}},
+{label:"声、聞きたい",fn:async()=>{state.choice1="call";await himMsg("俺も");await himMsg("今かける");later(startCall,1200);}},
+]);
+}
+async function lineSequence2(){ if(state._seq2) return; state._seq2=true;
+await himMsg("マネージャーと今話した"); await himMsg("事務所、コメント出すって"); await himMsg("「任せてる」ってやつ"); await himMsg("否定はせん、って俺が言った"); await himMsg("なおと別れる気、ないから");
+askChoices("これから、どうする？",[
+{label:"堂々と付き合おう",fn:()=>ending("open")},
+{label:"発表までは静かに待とう",fn:()=>ending("wait")},
+{label:"少しだけ距離を置こう",fn:()=>ending("away")},
+]);
+}
+function startCall(){ show("call"); state.callSec=0; $("#call-time").textContent="00:00";
+const lines=["「…なおの声、聞きたかってん」","「大丈夫。俺、逃げへんから」","「ファンのことも大事やけど」","「なおのことも、同じくらい大事やねん」","「今日はもう、寝られへんかもな 笑」","「明日も電話していい？」"];
+let i=0; $("#call-sub").textContent=lines[0];
+state.callTimer=setInterval(()=>{state.callSec++;$("#call-time").textContent=String(Math.floor(state.callSec/60)).padStart(2,"0")+":"+String(state.callSec%60).padStart(2,"0")},1000);
+const iv=setInterval(()=>{i++; if(i<lines.length){$("#call-sub").textContent=lines[i]} else {clearInterval(iv)}},4200); timers.push(iv);
+}
+$("#call-end").addEventListener("click",async()=>{ clearInterval(state.callTimer); show("line"); openChat(); await himMsg("電話、ありがとう"); await himMsg("声聞けて、ちょっと落ち着いた"); lineSequence2();});
+async function ending(kind){ if(state.ended) return; state.ended=true;
+const box={open:{h:"エンディング：堂々と",t:"翌日、ひろとは自分の言葉でファンへ短く報告した。「大事な人がいます」——炎上は続いたけど、応援の声も日に日に増えていった。なおのフォロワーは今も増えている。でも一番大事な通知は、いつもLINEのひとつだけ。",news:"本人が交際を認めるコメント　「大事な人がいます」"},
+wait:{h:"エンディング：静かに待つ",t:"二人は表向き静かに過ごすことにした。コメント欄は少しずつ落ち着いて、ひと月後——ひろとの投稿に、小さくコーヒーの絵文字が増えた。知ってる人だけが、知っている。",news:"熱愛報道は沈静化へ　二人は静観の構え"},
+away:{h:"エンディング：距離を置く",t:"少しだけ距離を置いた二人。それでも三日目の夜、LINEが光る。「カフェオレ、冷蔵庫に入れっぱなしや」——離れるって、たぶんこういうのじゃない。物語はまだ途中。",news:"続報なし　二人の行方は——"}}[kind];
+await himMsg(kind==="open"?"わかった。俺も、そのつもりやった":kind==="wait"?"うん。なおがそう言うなら、それでいこ":"…わかった。でも、連絡だけはしてもいい？");
+await himMsg("今日はありがとうな");
+const main=$("#v-home"); setHeat(kind==="open"?88:kind==="wait"?45:60);
+addNewsRow("assets/stage.jpg",box.news,"続報 ・ たった今",null);
+push("ニュース速報","#e60012","N",box.news,"タップで結末を確認",()=>{ show("home"); showEnding(box);});
+later(()=>showEnding(box),6000);
+}
+function showEnding(box){ if($("#endcard")) return; const d=document.createElement("div"); d.className="endcard"; d.id="endcard"; d.innerHTML=`<h3>${box.h}</h3><p>${box.t}</p><button class="btn-main" style="background:#111;color:#fff" onclick="location.reload()">🔁 最初からもう一度</button>`; $("#news-scroll").prepend(d); show("news");}
+</script>
+</body>
+</html>
