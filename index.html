@@ -724,7 +724,7 @@ input,textarea{font-size:16px!important}
 <div class="setrow"><span>📞 通話した回数</span><span style="color:#8e8e93;font-size:12.5px" id="set-calls">0回</span></div>
 <button class="btn-main" style="background:#ff3b30;color:#fff;width:100%;margin:6px 0 12px" onclick="location.reload()">🔁 物語を最初からやり直す</button>
 <div style="font-size:13px;font-weight:800;margin:2px 2px 8px">📞 通話履歴</div><div id="set-calllog" style="background:#fff;border-radius:12px;padding:6px 14px;margin-bottom:6px"><div style="font-size:12.5px;color:#8e8e93;padding:8px 0">まだ通話はない</div></div><button id="calllog-clear" style="background:none;border:none;color:#8e8e93;font-size:12px;cursor:pointer;font-family:inherit;padding:2px 2px 12px">通話履歴を消す</button>
-<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v52</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
+<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v53</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
 </div>
 </section>
 
@@ -967,7 +967,8 @@ function startCall(customLines){ show("call"); state.callSec=0; $("#call-time").
 const lines=customLines||["「…なおの声、聞きたかってん」","「大丈夫。俺、逃げへんから」","「ファンのことも大事やけど」","「なおのことも、同じくらい大事やねん」","「今日はもう、寝られへんかもな 笑」","「明日も電話していい？」"];
 let i=0; $("#call-sub").textContent=lines[0];
 state.callTimer=setInterval(()=>{state.callSec++;$("#call-time").textContent=String(Math.floor(state.callSec/60)).padStart(2,"0")+":"+String(state.callSec%60).padStart(2,"0")},1000);
-if(customLines){ const iv=setInterval(()=>{i++; if(i<lines.length){$("#call-sub").textContent=lines[i]} else {clearInterval(iv)}},4200); timers.push(iv); }
+if(customLines){ const playN=n=>{ if(state.caller!=="manager") return; if(state._mgrAud){ try{state._mgrAud.pause()}catch(e){} } state._mgrAud=new Audio("assets/mgr-"+n+".mp3"); const pr=state._mgrAud.play(); if(pr&&pr.catch) pr.catch(()=>{}); }; playN(1);
+ const iv=setInterval(()=>{i++; if(i<lines.length){$("#call-sub").textContent=lines[i]; playN(i+1);} else {clearInterval(iv)}},4200); timers.push(iv); }
 else { startCallVoice(); }
 }
 $("#call-end").addEventListener("click",async()=>{ if(state._answered){ logCall("📞 "+(state._callWho||"ひろと")+" ・ 通話 "+Math.floor(state.callSec/60)+":"+String(state.callSec%60).padStart(2,"0")+" ・ "+nowTime()); state._answered=false; } clearInterval(state.callTimer); stopCallVoice(); ringStop(); if(state.caller==="manager"){ state.caller="hiroto"; show("line"); openChat(); await himMsg("マネージャーと話した？"); await himMsg("ごめんな、心配かけて"); await himMsg("俺は大丈夫やから"); return; } show("line"); openChat(); await himMsg("電話、ありがとう"); await himMsg("声聞けて、ちょっと落ち着いた"); lineSequence2();});
@@ -1456,6 +1457,8 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
   if(grid){ [["assets/nao-hl-11.jpg","クリスマスのお菓子🎄"],["assets/nao-hl-12.jpg","手作りワンタン🥟"],["assets/nao-hl-14.jpg","蒸籠蒸し"],["assets/nao-hl-15.jpg","ポトフ🍲"]].forEach(([img,cap])=>{ const f=document.createElement("figure"); f.dataset.cat="post"; f.innerHTML=`<img src="${img}" alt=""><figcaption>${cap}</figcaption>`; grid.appendChild(f); }); }
   Object.assign(PHOTO_DATES,{"nao-hl-11.jpg":"カフェ ・ クリスマス","nao-hl-12.jpg":"ごはん ・ 手作り","nao-hl-14.jpg":"ごはん ・ 蒸籠","nao-hl-15.jpg":"ごはん ・ ポトフ"});
 })();
+/* ===== v53: manager call gets a real (preset) voice, synced to subtitles ===== */
+(function(){ const _scv=stopCallVoice; stopCallVoice=function(){ _scv(); if(state._mgrAud){ try{state._mgrAud.pause()}catch(e){} state._mgrAud=null; } }; })();
 /* ===== v41: individual friend chats (yui / misaki / rina) ===== */
 const FCHATS={
  yui:{name:"ゆい",ini:"ゆ",color:"#e879a0",sub:"幹事担当🍻",log:[["f","次の飲みの店、候補3つ送るね！"],["f","なおの分も予約しとく？"]],calm:["まかせて！　幹事やるから","それいいね〜","今度サウナも行こ","なおの推し活の話、もっと聞かせて"],scandalLog:["なお、ニュース見た…あれ、なおのことだよね？","心配で電話しようか迷った","私たちは味方だからね"],scandal:["大丈夫、そばにいるよ","無理しないでね","いつでも電話して"]},
