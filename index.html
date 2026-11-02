@@ -738,7 +738,7 @@ input,textarea{font-size:16px!important}
 <div class="setrow"><span>📞 通話した回数</span><span style="color:#8e8e93;font-size:12.5px" id="set-calls">0回</span></div>
 <button class="btn-main" style="background:#ff3b30;color:#fff;width:100%;margin:6px 0 12px" onclick="location.reload()">🔁 物語を最初からやり直す</button>
 <div style="font-size:13px;font-weight:800;margin:2px 2px 8px">📞 通話履歴</div><div id="set-calllog" style="background:#fff;border-radius:12px;padding:6px 14px;margin-bottom:6px"><div style="font-size:12.5px;color:#8e8e93;padding:8px 0">まだ通話はない</div></div><button id="calllog-clear" style="background:none;border:none;color:#8e8e93;font-size:12px;cursor:pointer;font-family:inherit;padding:2px 2px 12px">通話履歴を消す</button>
-<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v180</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
+<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v181</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
 </div>
 </section>
 
@@ -3870,9 +3870,9 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
 (function(){
  const view=document.querySelector("#v-x"); if(!view) return;
  const bar=view.querySelector(".appbar"); if(!bar) return;
- const btn=document.createElement("button"); btn.type="button"; btn.textContent="✉️ DM";
- btn.style.cssText="margin-left:auto;background:#e8f5fe;border:1px solid #bfe3fb;color:#0f6fb2;border-radius:999px;padding:5px 12px;font-size:13px;font-weight:800;cursor:pointer;position:relative";
- bar.appendChild(btn);
+ const btn=document.createElement("button"); btn.type="button"; btn.textContent="✉️";
+ btn.style.cssText="position:absolute;top:64px;right:106px;width:40px;height:40px;border-radius:50%;background:#fff;border:none;box-shadow:0 1px 6px rgba(0,0,0,.18);font-size:17px;cursor:pointer;z-index:30";
+ view.appendChild(btn);
  const panel=document.createElement("div"); panel.id="xdm-panel";
  panel.style.cssText="position:absolute;inset:0;z-index:78;background:#fff;display:none;flex-direction:column;color:#111";
  view.appendChild(panel);
@@ -4036,7 +4036,7 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
   dot.style.cssText="display:none;width:8px;height:8px;border-radius:50%;background:#06c755;margin-left:6px;vertical-align:middle";
   dot.title="オンライン"; hr.appendChild(dot);
   setInterval(()=>{ dot.style.display=(!state.started&&(state._vmCalm||state._vmA2))?"inline-block":"none"; },1500); }
- const xbtn=[...document.querySelectorAll("#v-x .appbar button")].find(b=>b.textContent.includes("✉️"));
+ const xbtn=[...document.querySelectorAll("#v-x button")].find(b=>b.textContent.includes("✉️"));
  if(xbtn){ const bd=document.createElement("span");
   bd.style.cssText="display:none;position:absolute;top:2px;right:0;background:#e0245e;color:#fff;font-size:9.5px;font-weight:800;border-radius:999px;padding:1px 5px";
   bd.textContent="!"; xbtn.appendChild(bd);
@@ -4224,6 +4224,22 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
   state._yutaNight=today;
   SEQ.forEach((t,i)=>setTimeout(()=>bub(t),1400+i*2100));
  },1500);
+})();
+/* ===== v181: every X post shows a view count, like the real thing ===== */
+(function(){
+ const view=document.querySelector("#v-x"); if(!view) return;
+ const fmt=n=>n>=10000?(n/10000).toFixed(1).replace(/\.0$/,"")+"万":n>=1000?(n/1000).toFixed(1).replace(/\.0$/,"")+"K":String(n);
+ const parse=t=>{ const m=(t||"").match(/([\d.]+)(K|万)?/); if(!m) return 0; let v=parseFloat(m[1]); if(m[2]==="K") v*=1000; if(m[2]==="万") v*=10000; return Math.round(v); };
+ const add=post=>{ if(post.dataset.vwAll) return; post.dataset.vwAll="1";
+  const mt=post.querySelector(".mt"); if(!mt||mt.querySelector(".vw-n")) return;
+  let likes=0; mt.querySelectorAll("span,button").forEach(s=>{ if(s.textContent.includes("❤️")) likes=parse(s.textContent.replace("❤️","")); });
+  const s=document.createElement("span"); s.className="vw-n";
+  s.textContent="👁 "+fmt(likes*38+Math.floor(Math.random()*900)+120);
+  s.style.cssText="color:#71767b;margin-left:2px";
+  mt.appendChild(s); };
+ const scan=()=>view.querySelectorAll(".post").forEach(add);
+ new MutationObserver(scan).observe(view,{childList:true,subtree:true});
+ scan();
 })();
 /* ===== v41: individual friend chats (yui / misaki / rina) ===== */
 const FCHATS={
