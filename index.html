@@ -619,7 +619,7 @@ button,input,textarea{touch-action:manipulation}
 <div class="setrow"><span>📖 物語の進み具合</span><span style="color:#8e8e93;font-size:12.5px" id="set-progress">第1話</span></div>
 <button class="btn-main" style="background:#ff3b30;color:#fff;width:100%;margin:6px 0 12px" onclick="location.reload()">🔁 物語を最初からやり直す</button>
 <div style="font-size:13px;font-weight:800;margin:2px 2px 8px">📞 通話履歴</div><div id="set-calllog" style="background:#fff;border-radius:12px;padding:6px 14px;margin-bottom:12px"><div style="font-size:12.5px;color:#8e8e93;padding:8px 0">まだ通話はない</div></div>
-<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v14</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
+<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v15</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
 </div>
 </section>
 
@@ -945,11 +945,24 @@ const X_SEARCH_POSTS=[
  {n:"芸能ウォッチャー",h:"@geino_watch",t:"お相手の特定が進んでるけど、一般の方なので行き過ぎた詮索は控えめに…という声も増えてきた",m:["💬 864","🔁 3,102","❤️ 9,845"]},
  {n:"ファンの声bot",h:"@fan_voice",t:"「ステージの大翔は変わらない」「幸せなら応援する」ポジティブな投稿が増加中",m:["💬 432","🔁 2,208","❤️ 15,320"]},
 ];
+const X_SUGS_PRO=["大翔 ファンミ","大翔 セトリ","大翔 王子様衣装","神戸 グッズ","大翔 追加公演","チムジルバン"];
+const X_PRO_POSTS=[
+ {n:"ファンミレポ垢",h:"@repi_repi",t:"神戸ファンミ、王子様衣装の大翔が近すぎて無事に召された…👑 あの衣装はずるい",m:["💬 96","🔁 1,204","❤️ 8,932"]},
+ {n:"ライブ行きたい",h:"@live_ikitai",t:"ワールドツアー追加公演、当たりますように🙏 チケット争奪戦こわい",m:["💬 41","🔁 302","❤️ 2,148"]},
+ {n:"大翔くん布教bot",h:"@hiroto_fukyo",t:"今日も大翔くんのダンス動画を布教します。キレッキレなのに笑顔が優しいのが沼",m:["💬 58","🔁 764","❤️ 5,377"]}];
+const X_NECK_PRO={n:"ファッション好き",h:"@fash_suki",t:"大翔が最近つけてるネックレス、シンプルでかわいい。どこのブランドだろ？",m:["💬 23","🔁 118","❤️ 964"]};
 function doSearch(q){ q=(q||"").trim()||"大翔"; ["tl","trend","mention","me"].forEach(k=>$("#x-pane-"+k).style.display="none"); $("#x-thread").style.display="none"; const pane=$("#x-pane-search"); pane.style.display="block";
-  const sug=$("#x-sug"); sug.innerHTML=""; X_SUGS.forEach(w=>{ const b=document.createElement("button"); b.textContent="🔍 "+w; b.addEventListener("click",()=>{ $("#x-q").value=w; doSearch(w); }); sug.appendChild(b); });
+  const sug=$("#x-sug"); sug.innerHTML=""; (state.phase==="prologue"?X_SUGS_PRO:X_SUGS).forEach(w=>{ const b=document.createElement("button"); b.textContent="🔍 "+w; b.addEventListener("click",()=>{ $("#x-q").value=w; doSearch(w); }); sug.appendChild(b); });
   const res=$("#x-search-results"); res.innerHTML=""; const h=document.createElement("div"); h.style.cssText="padding:4px 14px 8px;font-weight:800;font-size:14.5px"; h.textContent="「"+q+"」の検索結果"; res.appendChild(h);
-  if(q.includes("ネックレス")) res.appendChild(postEl({n:"特定班",h:"@tokutei_jp",t:"【検証】お揃いネックレス、ブランド特定。彼の10月の投稿と、彼女の投稿に同じものが…",m:["💬 2,314","🔁 18,540","❤️ 9,208"]},false));
-  X_SEARCH_POSTS.forEach(pst=>res.appendChild(postEl(pst,false))); $("#x-scroll").scrollTop=0; }
+  if(state.phase==="prologue"){
+    if(/熱愛|彼女|匂わせ|なお|事務所コメント|熱愛バレた件/.test(q)){ const e=document.createElement("div"); e.style.cssText="padding:22px 16px;color:#536471;font-size:13.5px;line-height:1.8"; e.textContent="「"+q+"」に一致するポストは見つかりませんでした。（…今のところは）"; res.appendChild(e); }
+    else if(q.includes("ネックレス")) res.appendChild(postEl(X_NECK_PRO,false));
+    else X_PRO_POSTS.forEach(pst=>res.appendChild(postEl(pst,false)));
+  } else {
+    if(q.includes("ネックレス")) res.appendChild(postEl({n:"特定班",h:"@tokutei_jp",t:"【検証】お揃いネックレス、ブランド特定。彼の10月の投稿と、彼女の投稿に同じものが…",m:["💬 2,314","🔁 18,540","❤️ 9,208"]},false));
+    X_SEARCH_POSTS.forEach(pst=>res.appendChild(postEl(pst,false)));
+  }
+  $("#x-scroll").scrollTop=0; }
 $("#x-search-btn").addEventListener("click",()=>doSearch($("#x-q").value));
 $("#x-q").addEventListener("keydown",e=>{ if(e.key==="Enter") doSearch($("#x-q").value); });
 /* ===== v5: hiroto profile + call buttons ===== */
@@ -1222,6 +1235,7 @@ function logCall(html){ const box=$("#set-calllog"); if(!box) return; const ph=b
 every(()=>{ const now=Date.now(); $$("#act-list .act-row").forEach(r=>{ if(!r.dataset.t0) return; const tm=r.querySelector(".tm"); if(!tm) return;
   const s=Math.floor((now-+r.dataset.t0)/1000); tm.textContent=s<45?"今":Math.max(1,Math.floor(s/60))+"分前"; }); },20000);
 
+/* ===== v15: prologue-safe X search ===== */
 /* ===== v14: share record ===== */
 function shareRecord(){ const t="『熱愛バレた件』この夜の記録🔥\nInstagram フォロワー 342 → "+$("#w-ig").textContent+"\nX フォロワー 189 → "+$("#w-x").textContent+"\n炎上度ピーク "+(state._heatPeak||state.heat)+"%";
   const done=()=>toast("📤 <b>記録をコピーしました</b>： SNSに貼ってシェアできるよ");
