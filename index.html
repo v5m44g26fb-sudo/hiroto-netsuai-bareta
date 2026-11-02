@@ -738,7 +738,7 @@ input,textarea{font-size:16px!important}
 <div class="setrow"><span>📞 通話した回数</span><span style="color:#8e8e93;font-size:12.5px" id="set-calls">0回</span></div>
 <button class="btn-main" style="background:#ff3b30;color:#fff;width:100%;margin:6px 0 12px" onclick="location.reload()">🔁 物語を最初からやり直す</button>
 <div style="font-size:13px;font-weight:800;margin:2px 2px 8px">📞 通話履歴</div><div id="set-calllog" style="background:#fff;border-radius:12px;padding:6px 14px;margin-bottom:6px"><div style="font-size:12.5px;color:#8e8e93;padding:8px 0">まだ通話はない</div></div><button id="calllog-clear" style="background:none;border:none;color:#8e8e93;font-size:12px;cursor:pointer;font-family:inherit;padding:2px 2px 12px">通話履歴を消す</button>
-<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v138</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
+<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v139</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
 </div>
 </section>
 
@@ -2637,12 +2637,6 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
 /* ===== v112: LINE overhaul - talk search and an editable profile status ===== */
 (function(){
  const list=document.querySelector("#line-list"); if(!list) return;
- const bar=document.createElement("div");
- bar.style.cssText="padding:10px 12px 2px;background:#fff";
- bar.innerHTML='<input id="talk-search" placeholder="🔍 トークを検索" style="width:100%;box-sizing:border-box;border:none;background:#f1f1f4;border-radius:999px;padding:8px 14px;font-size:13.5px;outline:none">';
- list.insertBefore(bar,list.firstChild);
- bar.querySelector("#talk-search").addEventListener("input",e=>{ const q=e.target.value.trim();
-  list.querySelectorAll("button.talkrow").forEach(r=>{ r.style.display=(!q||r.textContent.includes(q))?"":"none"; }); });
  const span=[...list.querySelectorAll("span")].find(s=>s.textContent.includes("金曜は梅田"));
  if(span){ const row=span.closest("div"); row.style.cursor="pointer"; row.title="ステータスを変更";
   row.addEventListener("click",()=>{ if(document.querySelector("#prof-editor")) return;
