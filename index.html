@@ -724,7 +724,7 @@ input,textarea{font-size:16px!important}
 <div class="setrow"><span>📞 通話した回数</span><span style="color:#8e8e93;font-size:12.5px" id="set-calls">0回</span></div>
 <button class="btn-main" style="background:#ff3b30;color:#fff;width:100%;margin:6px 0 12px" onclick="location.reload()">🔁 物語を最初からやり直す</button>
 <div style="font-size:13px;font-weight:800;margin:2px 2px 8px">📞 通話履歴</div><div id="set-calllog" style="background:#fff;border-radius:12px;padding:6px 14px;margin-bottom:6px"><div style="font-size:12.5px;color:#8e8e93;padding:8px 0">まだ通話はない</div></div><button id="calllog-clear" style="background:none;border:none;color:#8e8e93;font-size:12px;cursor:pointer;font-family:inherit;padding:2px 2px 12px">通話履歴を消す</button>
-<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v53</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
+<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v54</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
 </div>
 </section>
 
@@ -1459,6 +1459,24 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
 })();
 /* ===== v53: manager call gets a real (preset) voice, synced to subtitles ===== */
 (function(){ const _scv=stopCallVoice; stopCallVoice=function(){ _scv(); if(state._mgrAud){ try{state._mgrAud.pause()}catch(e){} state._mgrAud=null; } }; })();
+/* ===== v54: three more real posts (May-Jul 2023, incl. his 100K-like post) ===== */
+(function(){
+ const sc=document.querySelector("#v-hisig .scroll"); if(!sc) return;
+ const postOf=img=>{ const i=sc.querySelector('img[src$="'+img+'"]'); return i?i.closest(".scroll > *"):null; };
+ const grid=document.querySelector("#v-hisig .ig-grid");
+ const NEW=[
+  {img:"ig-jul2023.jpg", likes:"55,657", cap:"絶対また会いましょう!!! 꼭 다시 만나요!!!", date:"2023-07-16", cmts:"576", before:"ig-osaka.jpg"},
+  {img:"ig-may25.jpg", likes:"48,237", cap:"🥤", date:"2023-05-25", cmts:"627", before:"ig-hanbok.jpg"},
+  {img:"ig-may15.jpg", likes:"100,431", cap:"6月に会いましょう😊🤩😎", date:"2023-05-15", cmts:"1,606", before:"ig-hanbok.jpg"}
+ ];
+ NEW.forEach(n=>{
+  const d=document.createElement("div"); d.innerHTML=POSTHTML(n); const post=d.firstChild;
+  const anchor=postOf(n.before); if(anchor) sc.insertBefore(post, anchor);
+  if(grid){ const gi=grid.querySelector('img[src$="'+n.before+'"]'); if(gi){ const g=document.createElement("img"); g.src="assets/"+n.img; grid.insertBefore(g, gi); } }
+ });
+ function POSTHTML(n){ const jp=n.date.replace("-","年").replace("-","月")+"日";
+  return '<div class="ig-post" data-date="'+n.date+'" style="border-top:1px solid #eee"><div style="display:flex;align-items:center;gap:8px;padding:10px 12px"><img src="assets/avatar.jpg" style="width:30px;height:30px;border-radius:50%"><b style="font-size:13px">193.hiroto_jixiang</b></div><img src="assets/'+n.img+'" style="width:100%;display:block"><div style="padding:8px 12px;font-size:13px"><b class="like-btn" style="cursor:pointer">いいね！'+n.likes+'件</b><div style="margin-top:2px"><b>193.hiroto_jixiang</b> '+n.cap+'</div><div style="color:#999;font-size:11px;margin-top:2px">'+jp+' · コメント'+n.cmts+'件</div></div></div>'; }
+})();
 /* ===== v41: individual friend chats (yui / misaki / rina) ===== */
 const FCHATS={
  yui:{name:"ゆい",ini:"ゆ",color:"#e879a0",sub:"幹事担当🍻",log:[["f","次の飲みの店、候補3つ送るね！"],["f","なおの分も予約しとく？"]],calm:["まかせて！　幹事やるから","それいいね〜","今度サウナも行こ","なおの推し活の話、もっと聞かせて"],scandalLog:["なお、ニュース見た…あれ、なおのことだよね？","心配で電話しようか迷った","私たちは味方だからね"],scandal:["大丈夫、そばにいるよ","無理しないでね","いつでも電話して"]},
