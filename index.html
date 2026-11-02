@@ -738,7 +738,7 @@ input,textarea{font-size:16px!important}
 <div class="setrow"><span>📞 通話した回数</span><span style="color:#8e8e93;font-size:12.5px" id="set-calls">0回</span></div>
 <button class="btn-main" style="background:#ff3b30;color:#fff;width:100%;margin:6px 0 12px" onclick="location.reload()">🔁 物語を最初からやり直す</button>
 <div style="font-size:13px;font-weight:800;margin:2px 2px 8px">📞 通話履歴</div><div id="set-calllog" style="background:#fff;border-radius:12px;padding:6px 14px;margin-bottom:6px"><div style="font-size:12.5px;color:#8e8e93;padding:8px 0">まだ通話はない</div></div><button id="calllog-clear" style="background:none;border:none;color:#8e8e93;font-size:12px;cursor:pointer;font-family:inherit;padding:2px 2px 12px">通話履歴を消す</button>
-<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v214</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
+<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v215</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
 </div>
 </section>
 
@@ -4649,6 +4649,21 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
  const f=document.createElement("figure");
  f.innerHTML='<img src="assets/nao-wink.jpg" alt=""><figcaption>✨ 今日の自撮り</figcaption>';
  grid.insertBefore(f, grid.firstChild);
+})();
+/* ===== v215: the shared notebook gains two more pages - her new icon, and ordinary mornings ===== */
+(function(){
+ const vline=document.querySelector("#v-line"); if(!vline) return;
+ const EXTRA=[
+  ["なおの新しいアイコン、ウインクはずるい。ずっと見てる",()=>state.chapter>=2],
+  ["普通に連絡できる朝。幸せって、こういうことか",()=>!!state.act2]];
+ const inject=()=>{ const p=document.querySelector("#note-panel"); if(!p||p.querySelector("#note-extra2")) return;
+  const sc=p.querySelector('div[style*="overflow-y"]'); if(!sc) return;
+  const box=document.createElement("div"); box.id="note-extra2";
+  box.innerHTML=EXTRA.map(n=>{ const un=n[1]();
+   return '<div style="background:#fffdf4;border:1px solid #eee3bd;border-radius:11px;padding:11px 13px;margin-bottom:8px;font-size:13.5px;line-height:1.6;'+(un?"":"opacity:.5")+'">'+(un?"✏️ "+n[0]:"🔒 まだ書かれていないページ")+"</div>"; }).join("");
+  const anchor=p.querySelector("#note-extra");
+  if(anchor&&anchor.nextSibling) sc.insertBefore(box, anchor.nextSibling); else sc.insertBefore(box, sc.firstChild); };
+ new MutationObserver(inject).observe(vline,{childList:true,subtree:true});
 })();
 /* ===== v41: individual friend chats (yui / misaki / rina) ===== */
 const FCHATS={
