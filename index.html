@@ -352,6 +352,10 @@ button,input,textarea{touch-action:manipulation}
 .xtabs button{flex:1;background:none;border:none;padding:11px 2px;font-size:13.5px;font-weight:700;color:#536471;cursor:pointer;font-family:inherit;border-bottom:3px solid transparent}
 .xtabs button.act{color:#0f1419;border-bottom-color:#1d9bf0}
 .msg.me .bub.stk{background:transparent;box-shadow:none}
+/* v17: iOS input zoom fix + comment avatars */
+input,textarea{font-size:16px!important}
+.cmt>.ava-txt{width:24px;height:24px;font-size:11px;float:left;margin:1px 7px 3px 0}
+.cmt>.cmt-ava{float:left;margin:1px 7px 3px 0;border-radius:50%}
 </style>
 </head>
 <body>
@@ -619,7 +623,7 @@ button,input,textarea{touch-action:manipulation}
 <div class="setrow"><span>📖 物語の進み具合</span><span style="color:#8e8e93;font-size:12.5px" id="set-progress">第1話</span></div>
 <button class="btn-main" style="background:#ff3b30;color:#fff;width:100%;margin:6px 0 12px" onclick="location.reload()">🔁 物語を最初からやり直す</button>
 <div style="font-size:13px;font-weight:800;margin:2px 2px 8px">📞 通話履歴</div><div id="set-calllog" style="background:#fff;border-radius:12px;padding:6px 14px;margin-bottom:12px"><div style="font-size:12.5px;color:#8e8e93;padding:8px 0">まだ通話はない</div></div>
-<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v16</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
+<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v17</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
 </div>
 </section>
 
@@ -798,7 +802,7 @@ const X_POSTS=[
 {n:"まとめ速報",h:"@matome_soku",t:"事務所コメント「プライベートは本人に任せております」＝事実上認めたと話題に #大翔熱愛",m:["💬 3,020","🔁 18,442","❤️ 7,650"]},
 ];
 function avaTxt(name){let h=0;for(const c of name)h=(h*31+c.charCodeAt(0))%360;return `<span class="ava-txt" style="background:hsl(${h},55%,55%)">${name.trim()[0]||"？"}</span>`}
-function postEl(p,hot){const d=document.createElement("div");d.className="post";d.innerHTML=`${avaTxt(p.n)}<span style="min-width:0"><span class="nm">${p.n}</span> <span class="hd">${p.h} ・ 今</span><div class="tx">${p.t}</div><div class="mt"><span class="${hot?'hot':''}">${p.m[0]}</span><span>${p.m[1]}</span><span class="like-btn">${p.m[2]}</span>${p.imp?`<span>👁 <span id="imp-n">${p.imp}万</span></span>`:""}</div></span>`;return d}
+function postEl(p,hot){const d=document.createElement("div");d.className="post";d.innerHTML=`${avaTxt(p.n)}<span style="min-width:0"><span class="nm">${p.n}</span> <span class="hd">${p.h} ・ ${p.tm||"今"}</span><div class="tx">${p.t}</div><div class="mt"><span class="${hot?'hot':''}">${p.m[0]}</span><span>${p.m[1]}</span><span class="like-btn">${p.m[2]}</span>${p.imp?`<span>👁 <span id="imp-n">${p.imp}万</span></span>`:""}</div></span>`;return d}
 function buildTimeline(){const tl=$("#x-pane-tl"); X_POSTS.forEach((p,i)=>later(()=>{const el=postEl(p,i===0); tl.prepend(el); if(i===0){el.style.cursor="pointer"; el.title="タップでスレッド表示"; el.addEventListener("click",openThread);}},i*2600));
 const mine=document.createElement("div"); $("#x-me-posts").appendChild(postEl({n:"なお",h:"@nao_0324",t:"（このアカウント、今めちゃくちゃ見られてる…）",m:["💬 0","🔁 0","❤️ 0"]},false));}
 const TRENDS=[["エンターテイメント ・ トレンド","#大翔熱愛","128,409 件のポスト"],["日本のトレンド","#手つなぎデート","84,210 件のポスト"],["日本のトレンド","事務所コメント","61,003 件のポスト"],["エンターテイメント ・ トレンド","匂わせ","44,918 件のポスト"],["日本のトレンド","ロットダン","29,377 件のポスト"]];
@@ -941,16 +945,16 @@ $("#pv-next").addEventListener("click",()=>pvShow(pvIdx+1));
 /* ===== v5: X search ===== */
 const X_SUGS=["大翔 熱愛","大翔 彼女","大翔 ネックレス","大翔 一般女性 誰","ひろと なお","大翔 事務所コメント"];
 const X_SEARCH_POSTS=[
- {n:"まとめ速報",h:"@matome_soku",t:"【まとめ】井汲大翔の熱愛報道、事務所コメントまでの流れを時系列で整理。否定なし＝事実上の容認か",m:["💬 1,204","🔁 8,932","❤️ 12,408"]},
- {n:"芸能ウォッチャー",h:"@geino_watch",t:"お相手の特定が進んでるけど、一般の方なので行き過ぎた詮索は控えめに…という声も増えてきた",m:["💬 864","🔁 3,102","❤️ 9,845"]},
- {n:"ファンの声bot",h:"@fan_voice",t:"「ステージの大翔は変わらない」「幸せなら応援する」ポジティブな投稿が増加中",m:["💬 432","🔁 2,208","❤️ 15,320"]},
+ {n:"まとめ速報",h:"@matome_soku",tm:"12分",t:"【まとめ】井汲大翔の熱愛報道、事務所コメントまでの流れを時系列で整理。否定なし＝事実上の容認か",m:["💬 1,204","🔁 8,932","❤️ 12,408"]},
+ {n:"芸能ウォッチャー",h:"@geino_watch",tm:"34分",t:"お相手の特定が進んでるけど、一般の方なので行き過ぎた詮索は控えめに…という声も増えてきた",m:["💬 864","🔁 3,102","❤️ 9,845"]},
+ {n:"ファンの声bot",h:"@fan_voice",tm:"1時間",t:"「ステージの大翔は変わらない」「幸せなら応援する」ポジティブな投稿が増加中",m:["💬 432","🔁 2,208","❤️ 15,320"]},
 ];
 const X_SUGS_PRO=["大翔 ファンミ","大翔 セトリ","大翔 王子様衣装","神戸 グッズ","大翔 追加公演","チムジルバン"];
 const X_PRO_POSTS=[
- {n:"ファンミレポ垢",h:"@repi_repi",t:"神戸ファンミ、王子様衣装の大翔が近すぎて無事に召された…👑 あの衣装はずるい",m:["💬 96","🔁 1,204","❤️ 8,932"]},
- {n:"ライブ行きたい",h:"@live_ikitai",t:"ワールドツアー追加公演、当たりますように🙏 チケット争奪戦こわい",m:["💬 41","🔁 302","❤️ 2,148"]},
- {n:"大翔くん布教bot",h:"@hiroto_fukyo",t:"今日も大翔くんのダンス動画を布教します。キレッキレなのに笑顔が優しいのが沼",m:["💬 58","🔁 764","❤️ 5,377"]}];
-const X_NECK_PRO={n:"ファッション好き",h:"@fash_suki",t:"大翔が最近つけてるネックレス、シンプルでかわいい。どこのブランドだろ？",m:["💬 23","🔁 118","❤️ 964"]};
+ {n:"ファンミレポ垢",h:"@repi_repi",tm:"3時間",t:"神戸ファンミ、王子様衣装の大翔が近すぎて無事に召された…👑 あの衣装はずるい",m:["💬 96","🔁 1,204","❤️ 8,932"]},
+ {n:"ライブ行きたい",h:"@live_ikitai",tm:"5時間",t:"ワールドツアー追加公演、当たりますように🙏 チケット争奪戦こわい",m:["💬 41","🔁 302","❤️ 2,148"]},
+ {n:"大翔くん布教bot",h:"@hiroto_fukyo",tm:"2時間",t:"今日も大翔くんのダンス動画を布教します。キレッキレなのに笑顔が優しいのが沼",m:["💬 58","🔁 764","❤️ 5,377"]}];
+const X_NECK_PRO={n:"ファッション好き",h:"@fash_suki",tm:"4時間",t:"大翔が最近つけてるネックレス、シンプルでかわいい。どこのブランドだろ？",m:["💬 23","🔁 118","❤️ 964"]};
 function doSearch(q){ q=(q||"").trim()||"大翔"; ["tl","trend","mention","me"].forEach(k=>$("#x-pane-"+k).style.display="none"); $("#x-thread").style.display="none"; const pane=$("#x-pane-search"); pane.style.display="block";
   const sug=$("#x-sug"); sug.innerHTML=""; (state.phase==="prologue"?X_SUGS_PRO:X_SUGS).forEach(w=>{ const b=document.createElement("button"); b.textContent="🔍 "+w; b.addEventListener("click",()=>{ $("#x-q").value=w; doSearch(w); }); sug.appendChild(b); });
   const res=$("#x-search-results"); res.innerHTML=""; const h=document.createElement("div"); h.style.cssText="padding:4px 14px 8px;font-weight:800;font-size:14.5px"; h.textContent="「"+q+"」の検索結果"; res.appendChild(h);
@@ -959,7 +963,7 @@ function doSearch(q){ q=(q||"").trim()||"大翔"; ["tl","trend","mention","me"].
     else if(q.includes("ネックレス")) res.appendChild(postEl(X_NECK_PRO,false));
     else X_PRO_POSTS.forEach(pst=>res.appendChild(postEl(pst,false)));
   } else {
-    if(q.includes("ネックレス")) res.appendChild(postEl({n:"特定班",h:"@tokutei_jp",t:"【検証】お揃いネックレス、ブランド特定。彼の10月の投稿と、彼女の投稿に同じものが…",m:["💬 2,314","🔁 18,540","❤️ 9,208"]},false));
+    if(q.includes("ネックレス")) res.appendChild(postEl({n:"特定班",h:"@tokutei_jp",tm:"26分",t:"【検証】お揃いネックレス、ブランド特定。彼の10月の投稿と、彼女の投稿に同じものが…",m:["💬 2,314","🔁 18,540","❤️ 9,208"]},false));
     X_SEARCH_POSTS.forEach(pst=>res.appendChild(postEl(pst,false)));
   }
   $("#x-scroll").scrollTop=0; }
@@ -1236,6 +1240,13 @@ every(()=>{ const now=Date.now(); $$("#act-list .act-row").forEach(r=>{ if(!r.da
   const s=Math.floor((now-+r.dataset.t0)/1000); tm.textContent=s<45?"今":Math.max(1,Math.floor(s/60))+"分前"; }); },20000);
 
 /* ===== v15: prologue-safe X search ===== */
+/* ===== v17: realism (comment avatars) ===== */
+function decorateCmt(c){ if(!c||c.dataset.ava) return; const b=c.querySelector("b"); if(!b) return; c.dataset.ava="1";
+  if(b.textContent.trim()==="nao_0324"){ c.insertAdjacentHTML("afterbegin",'<img class="cmt-ava" src="assets/default-avatar.svg" width="24" height="24" alt="">'); }
+  else c.insertAdjacentHTML("afterbegin",avaTxt(b.textContent)); }
+function decorateCmts(root){ (root||document).querySelectorAll(".cmt").forEach(decorateCmt); }
+decorateCmts(document);
+new MutationObserver(ms=>{ ms.forEach(m=>m.addedNodes.forEach(n=>{ if(n.nodeType!==1) return; if(n.classList&&n.classList.contains("cmt")) decorateCmt(n); if(n.querySelectorAll) decorateCmts(n); })); }).observe(document.body,{childList:true,subtree:true});
 /* ===== v16: season-free caption fix ===== */
 /* ===== v14: share record ===== */
 function shareRecord(){ const t="『熱愛バレた件』この夜の記録🔥\nInstagram フォロワー 342 → "+$("#w-ig").textContent+"\nX フォロワー 189 → "+$("#w-x").textContent+"\n炎上度ピーク "+(state._heatPeak||state.heat)+"%";
