@@ -738,7 +738,7 @@ input,textarea{font-size:16px!important}
 <div class="setrow"><span>📞 通話した回数</span><span style="color:#8e8e93;font-size:12.5px" id="set-calls">0回</span></div>
 <button class="btn-main" style="background:#ff3b30;color:#fff;width:100%;margin:6px 0 12px" onclick="location.reload()">🔁 物語を最初からやり直す</button>
 <div style="font-size:13px;font-weight:800;margin:2px 2px 8px">📞 通話履歴</div><div id="set-calllog" style="background:#fff;border-radius:12px;padding:6px 14px;margin-bottom:6px"><div style="font-size:12.5px;color:#8e8e93;padding:8px 0">まだ通話はない</div></div><button id="calllog-clear" style="background:none;border:none;color:#8e8e93;font-size:12px;cursor:pointer;font-family:inherit;padding:2px 2px 12px">通話履歴を消す</button>
-<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v129</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
+<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v130</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
 </div>
 </section>
 
@@ -3169,12 +3169,9 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
   if(!pick){ pick=ic; ic.classList.add("swap-pick"); if(typeof toast==="function") toast("入れ替える相手を選んでね"); return; }
   if(pick===ic){ pick.classList.remove("swap-pick"); pick=null; return; }
   const parent=pick.parentElement;
-  if(ic.parentElement===parent){ const ph=document.createElement("span"); parent.insertBefore(ph,pick);
-   parent.insertBefore(pick,ic); parent.insertBefore(ic,ph); ph.remove(); }
-  else { const p2=ic.parentElement; const ph=document.createElement("span"); p2.insertBefore(ph,ic);
-   parent.appendChild(ic); p2.insertBefore(pick,ph); ph.remove();
-   /* keep DOM order simple: re-append both to their new parents in place */
-  }
+  if(ic.parentElement!==parent){ if(typeof toast==="function") toast("同じページの中で入れ替えてね"); return; }
+  const ph=document.createElement("span"); parent.insertBefore(ph,pick);
+  parent.insertBefore(pick,ic); parent.insertBefore(ic,ph); ph.remove();
   pick.classList.remove("swap-pick"); pick=null;
   if(typeof toast==="function") toast("入れ替えたよ🧲");
  },true);
@@ -3182,6 +3179,36 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
   row.querySelector("#edit-cur").textContent=on?"オン（編集中）":"オフ";
   if(on){ show("home"); if(typeof toast==="function") toast("アイコンが揺れてる間、2つタップで入れ替え"); }
   if(!on&&pick){ pick.classList.remove("swap-pick"); pick=null; } });
+})();
+/* ===== v130: send him a gift from his LINE profile ===== */
+(function(){
+ const prof=document.querySelector("#hiroto-prof"); if(!prof) return;
+ const row=document.createElement("div");
+ row.style.cssText="display:flex;gap:9px;padding:12px 16px";
+ row.innerHTML='<button id="gift-btn" style="flex:1;background:#06c755;color:#fff;border:none;border-radius:999px;padding:10px;font-size:14px;font-weight:700;cursor:pointer">🎁 ギフトを送る</button>';
+ prof.appendChild(row);
+ const GIFTS=[["🧸","くまのぬいぐるみ"],["🌹","バラの花束"],["🍰","ケーキ"],["☕","カフェギフト"]];
+ row.querySelector("#gift-btn").addEventListener("click",()=>{
+  if(document.querySelector("#gift-panel")) return;
+  const vline=document.querySelector("#v-line"); if(!vline) return;
+  const p=document.createElement("div"); p.id="gift-panel";
+  p.style.cssText="position:absolute;inset:0;z-index:65;background:rgba(0,0,0,.45);display:flex;align-items:flex-end;justify-content:center";
+  p.innerHTML='<div style="background:#fff;width:100%;border-radius:18px 18px 0 0;padding:16px;color:#111"><div style="font-weight:800;font-size:15.5px;margin-bottom:10px">🎁 ひろとへギフト</div>'+
+   '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:9px">'+GIFTS.map(g=>'<button class="gift-pick" data-e="'+g[0]+'" data-n="'+g[1]+'" style="background:#f7f7fa;border:1px solid #eee;border-radius:13px;padding:11px 4px;font-size:25px;cursor:pointer">'+g[0]+'<div style="font-size:10.5px;color:#555;margin-top:3px">'+g[1]+'</div></button>').join("")+'</div>'+
+   '<button id="gift-x" style="width:100%;margin-top:12px;background:#fff;border:1px solid #ddd;border-radius:999px;padding:9px;cursor:pointer">やめる</button></div>';
+  vline.appendChild(p);
+  p.querySelector("#gift-x").addEventListener("click",()=>p.remove());
+  p.addEventListener("click",e=>{ if(e.target===p) p.remove(); });
+  p.querySelectorAll(".gift-pick").forEach(b=>b.addEventListener("click",()=>{ const e2=b.dataset.e, n=b.dataset.n; p.remove();
+   show("line"); openChat();
+   const d=document.createElement("div"); d.className="msg me";
+   d.innerHTML='<span class="bub" style="background:#fff3f6;border:1px solid #ffd3e0;text-align:center"><span style="font-size:38px;display:block">'+e2+'</span><span style="font-size:12px;color:#c2437a">🎁 '+n+'を送りました</span></span><span class="meta">既読<br>'+nowTime()+'</span>';
+   const chat=document.querySelector("#chat"); chat.appendChild(d); chat.scrollTop=chat.scrollHeight;
+   const R={"🧸":"…なにこれ、かわいい","🌹":"バラ…俺に？　ありがとう","🍰":"ケーキ！　甘いの好きやで","☕":"カフェギフト…気が利くな"};
+   setTimeout(()=>himMsg(R[e2]||"ありがとう"),1500);
+   setTimeout(()=>himMsg("お返し、考えとく"),3400);
+  }));
+ });
 })();
 /* ===== v41: individual friend chats (yui / misaki / rina) ===== */
 const FCHATS={
