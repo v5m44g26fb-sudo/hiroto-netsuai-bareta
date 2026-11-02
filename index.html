@@ -738,7 +738,7 @@ input,textarea{font-size:16px!important}
 <div class="setrow"><span>📞 通話した回数</span><span style="color:#8e8e93;font-size:12.5px" id="set-calls">0回</span></div>
 <button class="btn-main" style="background:#ff3b30;color:#fff;width:100%;margin:6px 0 12px" onclick="location.reload()">🔁 物語を最初からやり直す</button>
 <div style="font-size:13px;font-weight:800;margin:2px 2px 8px">📞 通話履歴</div><div id="set-calllog" style="background:#fff;border-radius:12px;padding:6px 14px;margin-bottom:6px"><div style="font-size:12.5px;color:#8e8e93;padding:8px 0">まだ通話はない</div></div><button id="calllog-clear" style="background:none;border:none;color:#8e8e93;font-size:12px;cursor:pointer;font-family:inherit;padding:2px 2px 12px">通話履歴を消す</button>
-<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v198</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
+<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v199</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
 </div>
 </section>
 
@@ -4470,6 +4470,37 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
   if(n>state._v198c){ state._v198c=n;
    if(Math.random()<0.5) setTimeout(()=>{ try{ himMsg(POOL[Math.floor(Math.random()*POOL.length)]); }catch(e){} },24000); }
  },2000);
+})();
+/* ===== v199: SCENARIO EXPANSION - interlude chapters slot into the main story ===== */
+(function(){
+ if(!state._chWrapped){ state._chWrapped=true; state._inter=state._inter||{}; state._interDone={};
+  const orig=chapter;
+  chapter=function(n){ const f=state._inter&&state._inter[n];
+   if(f&&state.phase==="prologue"&&!state._interDone[n]){ state._interDone[n]=true; f(state._token,orig); return; }
+   return orig(n); }; }
+ const myAlive=t=>state._token===t&&state.phase==="prologue";
+ state._inter[5]=async(t,orig)=>{ 
+  chapterCard("幕間","ライブの日","10月26日（日） —— 初めてのライブ参戦。<br>LINEを開いてね");
+  setChapterWidget("幕間『ライブの日』","客席のどこかに、なおがいる。");
+  const ld=document.querySelector("#lock-date"); if(ld) ld.textContent="10月26日 日曜日";
+  addDayChip("10月26日（日）");
+  await himMsg("今日、来てくれるんやろ？",1200); if(!myAlive(t))return;
+  await himMsg("リハから、緊張してる"); if(!myAlive(t))return;
+  await himPhoto("assets/stage.jpg"); if(!myAlive(t))return;
+  await himMsg("楽屋なう。……なおがおると思うと、がんばれる"); if(!myAlive(t))return;
+  const end=async()=>{ if(!myAlive(t))return;
+   addDayChip("10月26日（日）夜");
+   await himMsg("終わった……！"); if(!myAlive(t))return;
+   await himMsg("なお、見つけたで"); if(!myAlive(t))return;
+   await himMsg("……たぶん、あれ、なおやんな"); if(!myAlive(t))return;
+   await himVoice("assets/fv-3.mp3","0:03"); if(!myAlive(t))return;
+   await himMsg("今日はありがとう"); if(!myAlive(t))return;
+   await himMsg("次は、もっと近くで見てほしいな");
+   later(()=>orig(5),2200); };
+  askChoices("なおの返信を選んで",[
+   {label:"客席から見てるよ",fn:async()=>{ if(!myAlive(t))return; await himMsg("ほんま？"); if(!myAlive(t))return; await himMsg("探すからな、絶対"); end(); }},
+   {label:"楽しみにしてる！",fn:async()=>{ if(!myAlive(t))return; await himMsg("うん"); if(!myAlive(t))return; await himMsg("見ててな、今日の俺"); end(); }}]);
+ };
 })();
 /* ===== v41: individual friend chats (yui / misaki / rina) ===== */
 const FCHATS={
