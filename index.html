@@ -723,7 +723,7 @@ input,textarea{font-size:16px!important}
 <div class="setrow"><span>📞 通話した回数</span><span style="color:#8e8e93;font-size:12.5px" id="set-calls">0回</span></div>
 <button class="btn-main" style="background:#ff3b30;color:#fff;width:100%;margin:6px 0 12px" onclick="location.reload()">🔁 物語を最初からやり直す</button>
 <div style="font-size:13px;font-weight:800;margin:2px 2px 8px">📞 通話履歴</div><div id="set-calllog" style="background:#fff;border-radius:12px;padding:6px 14px;margin-bottom:6px"><div style="font-size:12.5px;color:#8e8e93;padding:8px 0">まだ通話はない</div></div><button id="calllog-clear" style="background:none;border:none;color:#8e8e93;font-size:12px;cursor:pointer;font-family:inherit;padding:2px 2px 12px">通話履歴を消す</button>
-<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v45</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
+<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v46</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
 </div>
 </section>
 
@@ -1399,6 +1399,15 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
     const h=$("#set-heat"); if(h) h.textContent=(state._heatPeak||state.heat||0)+"%"; const c=$("#set-calls"); if(c) c.textContent=(state._callN||0)+"回"; }
   document.addEventListener("click",e=>{ if(e.target.closest('[data-open="settings"]')) setTimeout(refresh,60); },true);
   const sv=$("#v-settings"); if(sv&&window.MutationObserver) new MutationObserver(()=>{ if(sv.classList.contains("on")) refresh(); }).observe(sv,{attributes:true,attributeFilter:["class"]});
+})();
+/* ===== v46: X - delete your own posts from the profile tab ===== */
+(function(){ const box=$("#x-me-posts"); if(!box||!window.MutationObserver) return;
+  function arm(post){ if(post.querySelector(".me-del")) return; const b=document.createElement("button"); b.className="me-del"; b.textContent="✕"; b.title="このポストを削除";
+    b.style.cssText="margin-left:auto;background:none;border:none;color:#8e8e93;font-size:13px;cursor:pointer;padding:2px 4px;align-self:flex-start";
+    b.addEventListener("click",e=>{ e.stopPropagation(); post.remove(); toast("🗑 <b>ポストを削除しました</b>"); });
+    post.appendChild(b); }
+  box.querySelectorAll(".post").forEach(arm);
+  new MutationObserver(ms=>{ ms.forEach(m=>m.addedNodes.forEach(n=>{ if(n.nodeType===1){ if(n.classList.contains("post")) arm(n); n.querySelectorAll&&n.querySelectorAll(".post").forEach(arm); } })); }).observe(box,{childList:true,subtree:true});
 })();
 /* ===== v41: individual friend chats (yui / misaki / rina) ===== */
 const FCHATS={
