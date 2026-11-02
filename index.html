@@ -738,7 +738,7 @@ input,textarea{font-size:16px!important}
 <div class="setrow"><span>📞 通話した回数</span><span style="color:#8e8e93;font-size:12.5px" id="set-calls">0回</span></div>
 <button class="btn-main" style="background:#ff3b30;color:#fff;width:100%;margin:6px 0 12px" onclick="location.reload()">🔁 物語を最初からやり直す</button>
 <div style="font-size:13px;font-weight:800;margin:2px 2px 8px">📞 通話履歴</div><div id="set-calllog" style="background:#fff;border-radius:12px;padding:6px 14px;margin-bottom:6px"><div style="font-size:12.5px;color:#8e8e93;padding:8px 0">まだ通話はない</div></div><button id="calllog-clear" style="background:none;border:none;color:#8e8e93;font-size:12px;cursor:pointer;font-family:inherit;padding:2px 2px 12px">通話履歴を消す</button>
-<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v187</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
+<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v188</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
 </div>
 </section>
 
@@ -4327,6 +4327,24 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
    return '<div style="background:#fffdf4;border:1px solid #eee3bd;border-radius:11px;padding:11px 13px;margin-bottom:8px;font-size:13.5px;line-height:1.6;'+(un?"":"opacity:.5")+'">'+(un?"✏️ "+n[0]:"🔒 まだ書かれていないページ")+"</div>"; }).join("");
   sc.insertBefore(box, sc.firstChild); };
  new MutationObserver(inject).observe(vline,{childList:true,subtree:true});
+})();
+/* ===== v188: friends round three - the Busan shortlist, a cat named Mugi, a lightstick secured ===== */
+(function(){
+ const iv=setInterval(()=>{ let ok=false; try{ ok=(typeof FCHATS!=="undefined"&&!!FCHATS.kazu); }catch(e){}
+  if(!ok) return; clearInterval(iv);
+  try{
+   FCHATS.yui.log.push(["f","釜山のホテル、3つまで絞った！"],["f","西面のやつ、朝食のビュッフェが強いらしい"],["me","いいね、決めよ"],["f","チムジルバンも絶対いくよ。アカスリ予約しよ"]);
+   FCHATS.yui.calm.push("釜山のホテル、絞った3つ送るね","チムジルバンでアカスリしよ〜");
+   FCHATS.misaki.log.push(["f","実家の猫、名前決まったって"],["f","「むぎ」だって。可愛くない？"],["me","むぎ！いい名前"],["f","今度帰ったら写真撮ってくる"]);
+   FCHATS.misaki.calm.push("むぎの写真、今度送るね","猫吸いたい…");
+   FCHATS.rina.log.push(["f","グッズ列、2時間並んだ甲斐あった"],["f","ペンラ買えた！"],["me","おつかれ！"],["f","当日は双眼鏡も持ってく"]);
+   FCHATS.rina.calm.push("ペンラ、無事に買えたよ","当日の双眼鏡、忘れないようにしなきゃ");
+   FCHATS.yuta.log.push(["f","バイト先の先輩、「彼女？」って聞いてきて"],["f","……否定、しきれんかったわ"],["me","ゆうた！？"],["f","にやにやしてただけやで。……たぶん"]);
+   FCHATS.yuta.calm.push("バイト終わった〜、声聞けて嬉しい","なおちゃんの笑った顔、思い出してた");
+   FCHATS.kazu.log.push(["f","昨日見た映画、ラスト20分が凄かった"],["f","考察してたら止まらんくなって、気づいたら朝"],["me","かずらしい笑"],["f","なおも見たら語ろう"]);
+   FCHATS.kazu.calm.push("映画の考察、また語らせて","この前のおすすめ、もう見た？");
+  }catch(e){}
+ },600);
 })();
 /* ===== v41: individual friend chats (yui / misaki / rina) ===== */
 const FCHATS={
