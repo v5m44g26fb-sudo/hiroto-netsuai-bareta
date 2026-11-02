@@ -324,6 +324,12 @@ button,input,textarea{touch-action:manipulation}
 .fav-badge{position:absolute;top:6px;right:6px;color:#ff3040;font-size:15px;text-shadow:0 1px 4px rgba(0,0,0,.45);z-index:2}
 #pv-fav.fav-on{color:#ff3040}
 #mute-btn{margin-top:10px;background:rgba(255,255,255,.16);color:#fff;border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:5px 12px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit}
+
+/* v9 polish */
+.rp-on{color:#00ba7c;font-weight:800}
+.save-btn{cursor:pointer;margin-left:auto}
+.cb.on{outline:2px solid #fff;filter:brightness(1.45)}
+.lock-notif{cursor:pointer}
 </style>
 </head>
 <body>
@@ -555,7 +561,7 @@ button,input,textarea{touch-action:manipulation}
 
 <!-- ===== PHOTOS ===== -->
 <section class="view" id="v-photos">
-<div id="ph-view"><button id="pv-fav" style="position:absolute;top:52px;right:12px;background:rgba(255,255,255,.14);color:#fff;border:none;width:34px;height:34px;border-radius:50%;font-size:15px;cursor:pointer;z-index:2">♡</button><button id="pv-close" style="position:absolute;top:52px;left:12px;background:rgba(255,255,255,.14);color:#fff;border:none;width:34px;height:34px;border-radius:50%;font-size:15px;cursor:pointer;z-index:2">✕</button><button class="pv-nav" id="pv-prev" style="left:8px">‹</button><button class="pv-nav" id="pv-next" style="right:8px">›</button><img class="main" id="pv-img" src="" alt=""><div class="pv-meta"><div class="pv-cap" id="pv-cap"></div><div class="pv-date" id="pv-date"></div></div></div>
+<div id="ph-view"><button id="pv-share" style="position:absolute;top:52px;right:54px;background:rgba(255,255,255,.14);color:#fff;border:none;width:34px;height:34px;border-radius:50%;font-size:15px;cursor:pointer;z-index:2">↗</button><button id="pv-fav" style="position:absolute;top:52px;right:12px;background:rgba(255,255,255,.14);color:#fff;border:none;width:34px;height:34px;border-radius:50%;font-size:15px;cursor:pointer;z-index:2">♡</button><button id="pv-close" style="position:absolute;top:52px;left:12px;background:rgba(255,255,255,.14);color:#fff;border:none;width:34px;height:34px;border-radius:50%;font-size:15px;cursor:pointer;z-index:2">✕</button><button class="pv-nav" id="pv-prev" style="left:8px">‹</button><button class="pv-nav" id="pv-next" style="right:8px">›</button><img class="main" id="pv-img" src="" alt=""><div class="pv-meta"><div class="pv-cap" id="pv-cap"></div><div class="pv-date" id="pv-date"></div></div></div>
 <div class="appbar"><button class="back" data-home>‹</button><span class="t">写真</span><span class="s">ひろと＋思い出</span></div>
 <div class="scroll">
 <div class="album-tabs" id="album-tabs"><button data-album="all" class="act">すべて</button><button data-album="him">彼</button><button data-album="date">デート</button><button data-album="post">投稿</button></div>
@@ -600,9 +606,9 @@ button,input,textarea{touch-action:manipulation}
 <div style="font-size:13px;color:#aeb6c6" id="call-state">通話中… <span id="call-time">00:00</span></div>
 <div class="call-sub" id="call-sub">「…なおの声、聞きたかってん」</div>
 <div class="call-btns">
-<button class="cb" style="background:#3a3f4d">🔇</button>
+<button class="cb" id="call-mute" style="background:#3a3f4d">🔇</button>
 <button class="cb" style="background:#ff3b30" id="call-end">📞</button>
-<button class="cb" style="background:#3a3f4d">🔊</button>
+<button class="cb" id="call-spk" style="background:#3a3f4d">🔊</button>
 </div>
 </div>
 </section>
@@ -1109,6 +1115,24 @@ $("#pv-fav").addEventListener("click",()=>{ const list=pvList(); const f=list[pv
 (function(){ const w=document.querySelector(".widget"); if(!w) return; const b=document.createElement("button"); b.id="mute-btn"; b.textContent="🔊 音あり";
   b.addEventListener("click",()=>{ state.mute=!state.mute; b.textContent=state.mute?"🔇 ミュート中":"🔊 音あり"; if(state.mute) ringStop(); toast(state.mute?"🔇 <b>音をミュートしました</b>":"🔊 <b>音を出す設定にしました</b>"); });
   w.appendChild(b); })();
+
+/* ===== v9: polish pass ===== */
+/* X repost toggle */
+document.addEventListener("click",e=>{ const mt=e.target.closest?e.target.closest(".mt"):null; if(!mt) return; const span=e.target.closest("span"); if(!span||span.classList.contains("like-btn")) return;
+  if(!span.textContent.trim().startsWith("🔁")) return; const on=span.classList.toggle("rp-on"); const m=span.textContent.match(/([\d,]+)/);
+  if(m){ let n=parseInt(m[1].replace(/,/g,"")); n+=on?1:-1; span.textContent=span.textContent.replace(m[1],n.toLocaleString("ja-JP")); } pop(); });
+/* IG save (bookmark) */
+$$(".acts").forEach(a=>{ if(a.querySelector(".save-btn")) return; const s=document.createElement("span"); s.className="save-btn"; s.textContent="🔖"; s.title="保存する"; a.appendChild(s); });
+document.addEventListener("click",e=>{ const s=e.target.closest?e.target.closest(".save-btn"):null; if(!s) return; const on=s.classList.toggle("save-on"); s.textContent=on?"📌":"🔖"; toast(on?"🔖 <b>保存しました</b>":"保存を取り消しました"); });
+/* lock screen notifications open their app */
+$$(".lock-notif").forEach((n,i)=>{ n.addEventListener("click",ev=>{ ev.stopPropagation(); unlock(); setTimeout(()=>{ if(i===0){ show("line"); openGroup(); } else { show("hisig"); } },380); }); });
+/* photo share */
+$("#pv-share").addEventListener("click",()=>{ toast("🔗 <b>共有リンクをコピーしました</b>（物語の中だけ）"); pop(); });
+/* call mute / speaker */
+(function(){ const mb=$("#call-mute"), sb=$("#call-spk");
+  if(mb) mb.addEventListener("click",()=>{ const on=mb.classList.toggle("on"); toast(on?"🔇 <b>ミュート中</b>： こっちの声は届いてない設定":"🎙️ <b>ミュート解除</b>"); });
+  if(sb) sb.addEventListener("click",()=>{ const on=sb.classList.toggle("on"); [_cv1,_cv2].forEach(a=>{ if(a) a.volume=on?1:0.45; }); toast(on?"🔊 <b>スピーカーON</b>":"🔉 <b>スピーカーOFF</b>（耳元モード）"); });
+})();
 </script>
 </body>
 </html>
