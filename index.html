@@ -703,6 +703,7 @@ input,textarea{font-size:16px!important}
 <div style="color:#a8a8b3;font-size:12px;margin-top:6px">本人の実際のTikTokより ・ 人気順</div>
 </div>
 <div class="tt-card"><video src="assets/tt-shinee.mp4" controls playsinline preload="metadata"></video><div class="tt-cap"><b>@193hiroto</b> 누나 너무 예뻐!😘 #shinee</div><div class="tt-likes">❤️ 140.5K</div></div>
+<div class="tt-card"><video src="assets/tt-ng.mp4" controls playsinline preload="metadata"></video><div class="tt-cap"><b>@193hiroto</b> これNGバージョンな🙅‍♀️</div><div class="tt-likes">❤️ 79.2K</div></div>
 <div class="tt-card"><video src="assets/tt-steady.mp4" controls playsinline preload="metadata"></video><div class="tt-cap"><b>@193hiroto</b> #nctwish #steady 最後はミスした😛</div><div class="tt-likes">❤️ 44K</div></div>
 <div class="tt-card"><video src="assets/tt-seventeen.mp4" controls playsinline preload="metadata"></video><div class="tt-cap"><b>@193hiroto</b> 練習生の時にいっぱい聞いた曲!!😎 #seventeen #dance</div><div class="tt-likes">❤️ 33.1K</div></div>
 <div class="tt-card"><video src="assets/tt-treasure.mp4" controls playsinline preload="metadata"></video><div class="tt-cap"><b>@193hiroto</b> #TREASURE #YELLOWchallenge 人が多くて恥ずかしかった🫣</div><div class="tt-likes">❤️ 23K</div></div>
@@ -723,7 +724,7 @@ input,textarea{font-size:16px!important}
 <div class="setrow"><span>📞 通話した回数</span><span style="color:#8e8e93;font-size:12.5px" id="set-calls">0回</span></div>
 <button class="btn-main" style="background:#ff3b30;color:#fff;width:100%;margin:6px 0 12px" onclick="location.reload()">🔁 物語を最初からやり直す</button>
 <div style="font-size:13px;font-weight:800;margin:2px 2px 8px">📞 通話履歴</div><div id="set-calllog" style="background:#fff;border-radius:12px;padding:6px 14px;margin-bottom:6px"><div style="font-size:12.5px;color:#8e8e93;padding:8px 0">まだ通話はない</div></div><button id="calllog-clear" style="background:none;border:none;color:#8e8e93;font-size:12px;cursor:pointer;font-family:inherit;padding:2px 2px 12px">通話履歴を消す</button>
-<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v51</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
+<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v52</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
 </div>
 </section>
 
@@ -1386,7 +1387,7 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
 })();
 /* ===== v44: photos - his TikTok videos join the album (tap to watch) ===== */
 (function(){ const grid=$("#ph-grid"); if(!grid) return;
-  const VIDS=[["tt-poster-shinee.jpg","SHINee「누나 너무 예뻐」🎵",0],["tt-poster-steady.jpg","NCT WISH「Steady」🎵",1],["tt-poster-seventeen.jpg","SEVENTEEN練習曲🎵",2],["tt-poster-treasure.jpg","TREASUREチャレンジ🎵",3]];
+  const VIDS=[["tt-poster-shinee.jpg","SHINee「누나 너무 예뻐」🎵",0],["tt-poster-ng.jpg","NGバージョン🙅‍♀️",1],["tt-poster-steady.jpg","NCT WISH「Steady」🎵",2],["tt-poster-seventeen.jpg","SEVENTEEN練習曲🎵",3],["tt-poster-treasure.jpg","TREASUREチャレンジ🎵",4]];
   VIDS.forEach(([img,cap,idx])=>{ const f=document.createElement("figure"); f.dataset.cat="video"; f.dataset.vidx=idx;
     f.innerHTML=`<img src="assets/${img}" alt=""><span style="position:absolute;top:6px;right:6px;background:rgba(0,0,0,.55);color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:11px">▶</span><figcaption>${cap}</figcaption>`;
     grid.appendChild(f); });
