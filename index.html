@@ -426,7 +426,7 @@ input,textarea{font-size:16px!important}
         <div class="lock-date" id="lock-date">11月2日 月曜日</div>
         <div class="lock-time" id="lock-time">20:49</div>
         <div class="lock-notifs">
-          <div class="lock-notif"><span class="p-ic" style="background:#f59e0b">🍻</span><span><b>いつメン🍻</b> ・ 今日<br>ゆい：明日の飲み会、たのしみ〜！</span></div>
+          <div class="lock-notif"><span class="p-ic" style="background:#f59e0b">🍻</span><span><b>いつメン🍻</b> ・ 今日<br>ゆい：今日の飲み会、たのしみ〜！</span></div>
           <div class="lock-notif"><span class="p-ic" style="background:linear-gradient(45deg,#fa7e1e,#d62976,#962fbf)">📷</span><span><b>Instagram</b> ・ 1日前<br>193.hiroto_jixiang が投稿しました「このまま時間が止まればいいのに🙃」</span></div>
         </div>
         <div class="lock-hint">👆 タップしてロック解除</div>
@@ -738,7 +738,7 @@ input,textarea{font-size:16px!important}
 <div class="setrow"><span>📞 通話した回数</span><span style="color:#8e8e93;font-size:12.5px" id="set-calls">0回</span></div>
 <button class="btn-main" style="background:#ff3b30;color:#fff;width:100%;margin:6px 0 12px" onclick="location.reload()">🔁 物語を最初からやり直す</button>
 <div style="font-size:13px;font-weight:800;margin:2px 2px 8px">📞 通話履歴</div><div id="set-calllog" style="background:#fff;border-radius:12px;padding:6px 14px;margin-bottom:6px"><div style="font-size:12.5px;color:#8e8e93;padding:8px 0">まだ通話はない</div></div><button id="calllog-clear" style="background:none;border:none;color:#8e8e93;font-size:12px;cursor:pointer;font-family:inherit;padding:2px 2px 12px">通話履歴を消す</button>
-<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v301</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
+<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v302</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
 </div>
 </section>
 
@@ -5193,62 +5193,11 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
  };
 
  state._inter[1]=async(t,orig)=>{
-  chapterCard("プロローグ","出会いの前日","9月26日（金） —— 出会いなんて、ないない言ってた頃。<br>LINEを開いてね");
-  setChapterWidget("プロローグ『出会いの前日』","LINEの『いつメン』を開いてね");
-  if(!await waitVisible("#group-chat",t)) return;
-  const gtx=prep("#gchat");
-  const day=[
-   ["ゆい","明日の服、決めた？",2000],
-   ["りな","わたし新作のリップ買った",1700],
-   ["みさき","集合は19時、駅前。遅刻厳禁ね",1900],
-   ["ゆい","なお、明日はちょっと本気モードで来て",2000]];
-  for(const [n,m,d] of day){ await wait(d); if(!alive(t))return;
-   try{ gMsg(n,m); moveTop(gtx); }catch(e){} }
-  const girlsNight=[
-   ["ゆい","最近まじで出会いない〜〜",1500],
-   ["りな","わかる。アプリもなんか違うし",1600],
-   ["みさき","明日の飲み会、メンバー誰なの？",1700],
-   ["ゆい","いつメン＋友達の友達。その中に『いくみん』って子おるらしい",2100],
-   ["ゆい","知らん。歌やってる子って聞いたけど、ほんまかも分からん",2000],
-   ["りな","まあ明日、見たら分かるか",1600]];
-  for(const [n,m,d] of girlsNight){ await wait(d); if(!alive(t))return;
-   try{ gMsg(n,m); moveTop(gtx); }catch(e){} }
-  setChapterWidget("プロローグ『出会いの前日』","LINEの『飲み会グループ』を開いてね");
-  if(!await waitVisible("#party-chat",t)) return;
-  const ptx=prep("#pchat");
-  const night=[
-   ["かず","男子側、明日は俺ら＋井汲で確定やで",1900],
-   ["ゆうた","女の子側は？",1200],
-   ["かず","いつメンと、なおって子",1400],
-   ["ゆうた","井汲、明日ほんまに来るん？",1600],
-   ["かず","来るって。さっきまで連絡してた",1500],
-   ["ゆうた","あいつ、飲み会とか珍しいな",1500],
-   ["かず","たまには息抜きさせてやれ",1500],
-   ["ひろと","明日はよろしくお願いします",2100],
-   ["ゆうた","本人、登場した",1200],
-   ["ゆうた","井汲、女の子おるけど大丈夫なん？",1700],
-   ["ひろと","なにがやねん笑",1500],
-   ["かず","照れてる、絶対",1300],
-   ["ひろと","……楽しみにしてます",1900],
-   ["ゆい","お〜、楽しみにしてるって！",1600]];
-  for(const [n,m,d] of night){ await wait(d); if(!alive(t))return;
-   try{ pMsg(n,m,nowTime()); moveTop(ptx); }catch(e){} }
-  setChapterWidget("プロローグ『出会いの前日』","夜更け —— ゆいからの、ひとこと");
-  await wait(2000); if(!alive(t))return;
-  try{ fPush("yui","明日、なにか起きる気がする。……知らんけどね"); }catch(e){}
-  try{ push("LINE","#06c755","💬","ゆい","明日、なにか起きる気がする。……知らんけどね",()=>show("line")); }catch(e){}
-  await wait(2400); if(!alive(t))return;
-  try{ pMsg("ひろと","じゃあ、明日",nowTime()); moveTop(ptx); }catch(e){}
-  setChapterWidget("プロローグ『出会いの前日』","準備ができたら、ホームのボタンから当日へ");
-  const home=document.querySelector("#v-home"); if(!home){ orig(1); return; }
-  const pill=document.createElement("button");
-  pill.id="party-go-pill";
-  pill.textContent="▶ 9月27日（土）合コン当日へ進む";
-  pill.style.cssText="position:absolute;left:50%;transform:translateX(-50%);bottom:118px;z-index:60;background:linear-gradient(90deg,#ff7a59,#ff4d7e);color:#fff;border:none;border-radius:999px;padding:14px 22px;font-size:14.5px;font-weight:800;box-shadow:0 8px 24px rgba(255,77,126,.45);white-space:nowrap";
-  home.appendChild(pill);
-  pill.addEventListener("click",async()=>{ pill.remove(); if(!alive(t))return;
-   await partyScene(t); if(alive(t)){ try{ orig(1); }catch(e){}
-    setTimeout(()=>{ try{ if(alive(t)&&(state.chapter||0)<1) orig(1); }catch(e){} },2600); } });
+  setChapterWidget("第1話『出会い』","9月27日（土） —— 合コンの夜が始まる");
+  await wait(1800); if(!alive(t)) return;
+  await partyScene(t); if(!alive(t)) return;
+  try{ orig(1); }catch(e){}
+  setTimeout(()=>{ try{ if(alive(t)&&(state.chapter||0)<1) orig(1); }catch(e){} },2600);
  };
 })();
 /* ===== v233: the karaoke scene waits for her tap too - a gate card with start and skip ===== */
@@ -5340,7 +5289,7 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
 /* ===== v237: the lock screen date joins the prologue timeline ===== */
 (function(){
  const d=document.querySelector("#lock-date");
- if(d&&state.chapter<1) d.textContent="9月26日 金曜日";
+ if(d&&state.chapter<1) d.textContent="9月27日 土曜日";
 })();
 /* ===== v238: X search answers the actual topic - chimjilbang and cafe queries get their own posts ===== */
 (function(){
@@ -6388,10 +6337,10 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
  const pPv=document.querySelector("#p-preview"), gPv=document.querySelector("#g-preview");
  const orig={ ptm:pTm?pTm.textContent:"", gtm:gTm?gTm.textContent:"",
   ppv:pPv?pPv.textContent:"", gpv:gPv?gPv.textContent:"" };
- const SAFE_P="かず：明日よろしく〜！", SAFE_G="ゆい：明日の飲み会、たのしみ〜！";
+ const SAFE_P="かず：今日よろしく〜！", SAFE_G="ゆい：今日の飲み会、たのしみ〜！";
  const upd=()=>{ partP();
   const pro=state.phase==="prologue";
-  const show27=!pro||state.chapter>=2;
+  const show27=!pro||state.chapter>=1;
   const show28=!pro||state.chapter>=2;
   document.querySelectorAll("#pchat [data-v277g]").forEach(el=>{
    el.style.display=((el.dataset.v277g==="27"?show27:show28))?"":"none"; });
