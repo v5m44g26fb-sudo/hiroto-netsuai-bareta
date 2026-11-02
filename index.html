@@ -738,7 +738,7 @@ input,textarea{font-size:16px!important}
 <div class="setrow"><span>📞 通話した回数</span><span style="color:#8e8e93;font-size:12.5px" id="set-calls">0回</span></div>
 <button class="btn-main" style="background:#ff3b30;color:#fff;width:100%;margin:6px 0 12px" onclick="location.reload()">🔁 物語を最初からやり直す</button>
 <div style="font-size:13px;font-weight:800;margin:2px 2px 8px">📞 通話履歴</div><div id="set-calllog" style="background:#fff;border-radius:12px;padding:6px 14px;margin-bottom:6px"><div style="font-size:12.5px;color:#8e8e93;padding:8px 0">まだ通話はない</div></div><button id="calllog-clear" style="background:none;border:none;color:#8e8e93;font-size:12px;cursor:pointer;font-family:inherit;padding:2px 2px 12px">通話履歴を消す</button>
-<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v93</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
+<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v94</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
 </div>
 </section>
 
@@ -2345,6 +2345,29 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
     ()=>pMsg("ゆうた","……なおちゃん、心配やねん",nowTime()),
     ()=>pMsg("りな","私らにできること、ある？",nowTime()) ]); }
  },1000);
+})();
+/* ===== v94: LINE app chrome - my profile row, header actions, bottom tabs ===== */
+(function(){
+ const list=document.querySelector("#line-list"); if(!list) return;
+ const firstRow=list.querySelector(".talkrow");
+ const prof=document.createElement("div");
+ prof.style.cssText="display:flex;align-items:center;gap:11px;padding:12px 16px 10px;border-bottom:8px solid #f2f2f7";
+ prof.innerHTML='<img class="avatar" src="assets/nao-avatar.jpg" width="46" height="46" alt="">'+
+  '<span style="min-width:0"><span style="font-weight:800;font-size:15px">なお</span><br>'+
+  '<span style="font-size:12px;color:#8e8e93">🍻 金曜は梅田！　楽しみ〜</span></span>'+
+  '<span style="margin-left:auto;font-size:18px">🎵</span>';
+ if(firstRow) list.insertBefore(prof,firstRow); else list.appendChild(prof);
+ const head=document.querySelector("#line-head-list");
+ if(head&&!head.querySelector(".lh-acts")){ const a=document.createElement("span"); a.className="lh-acts";
+  a.style.cssText="margin-left:auto;font-size:17px;display:flex;gap:15px"; a.textContent="👥＋ 💬＋";
+  head.appendChild(a); }
+ const tabs=document.createElement("div");
+ tabs.style.cssText="display:flex;border-top:1px solid #e5e5ea;background:#fff;padding:7px 0 10px;margin-top:4px;position:sticky;bottom:0";
+ tabs.innerHTML=[["🏠","ホーム",0],["💬","トーク",1],["🗞","ニュース",0],["🎁","ポイント",0],["⚙️","その他",0]].map(([e,t,on])=>
+  '<span class="ltab" data-on="'+on+'" style="flex:1;text-align:center;font-size:10px;color:'+(on?"#111":"#8e8e93")+'">'+
+  '<span style="font-size:19px;display:block;'+(on?"":"filter:grayscale(1);opacity:.55")+'">'+e+'</span>'+t+'</span>').join("");
+ list.appendChild(tabs);
+ tabs.querySelectorAll(".ltab").forEach(t=>t.addEventListener("click",()=>{ if(t.dataset.on!=="1"&&typeof toast==="function") toast("（このタブは飾りです）"); }));
 })();
 /* ===== v41: individual friend chats (yui / misaki / rina) ===== */
 const FCHATS={
