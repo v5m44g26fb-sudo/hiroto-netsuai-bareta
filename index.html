@@ -738,7 +738,7 @@ input,textarea{font-size:16px!important}
 <div class="setrow"><span>📞 通話した回数</span><span style="color:#8e8e93;font-size:12.5px" id="set-calls">0回</span></div>
 <button class="btn-main" style="background:#ff3b30;color:#fff;width:100%;margin:6px 0 12px" onclick="location.reload()">🔁 物語を最初からやり直す</button>
 <div style="font-size:13px;font-weight:800;margin:2px 2px 8px">📞 通話履歴</div><div id="set-calllog" style="background:#fff;border-radius:12px;padding:6px 14px;margin-bottom:6px"><div style="font-size:12.5px;color:#8e8e93;padding:8px 0">まだ通話はない</div></div><button id="calllog-clear" style="background:none;border:none;color:#8e8e93;font-size:12px;cursor:pointer;font-family:inherit;padding:2px 2px 12px">通話履歴を消す</button>
-<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v140</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
+<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v141</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
 </div>
 </section>
 
@@ -3442,6 +3442,43 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
   app.style.display="flex"; home2(); },true);
  app.querySelector("#sf-x").addEventListener("click",()=>app.style.display="none");
  app.querySelector("#sf-q").addEventListener("keydown",e=>{ if(e.key==="Enter"){ const q=e.target.value.trim(); if(q) results(q); } });
+})();
+/* ===== v141: the dock music icon becomes a working player for his videos ===== */
+(function(){
+ const home=document.querySelector("#v-home"); if(!home) return;
+ const btn=[...home.querySelectorAll(".dock .appicon")].find(b=>b.textContent.includes("🎵")); if(!btn) return;
+ const TRACKS=[
+  ["assets/tt-shinee.mp4","assets/tt-poster-shinee.jpg","ダンスカバー (SHINee)"],
+  ["assets/tt-seventeen.mp4","assets/tt-poster-seventeen.jpg","ダンスカバー (SEVENTEEN)"],
+  ["assets/tt-steady.mp4","assets/tt-poster-steady.jpg","Steady"],
+  ["assets/tt-treasure.mp4","assets/tt-poster-treasure.jpg","ダンスカバー (TREASURE)"],
+  ["assets/tt-ng.mp4","assets/tt-poster-ng.jpg","NG集 (bonus track)"]];
+ const app=document.createElement("div"); app.id="music-app";
+ app.style.cssText="position:absolute;inset:0;z-index:75;background:#111;display:none;flex-direction:column;color:#fff";
+ app.innerHTML='<div style="padding:54px 14px 8px;display:flex;align-items:center"><b style="font-size:16.5px">🎵 彼のプレイリスト</b><button id="mu-x" style="margin-left:auto;border:none;background:none;color:#fff;font-size:19px;cursor:pointer">✕</button></div>'+
+  '<video id="mu-vid" playsinline style="width:100%;aspect-ratio:16/9;background:#000" poster="'+TRACKS[0][1]+'" src="'+TRACKS[0][0]+'"></video>'+
+  '<div style="padding:12px 16px 0"><div id="mu-title" style="font-weight:800;font-size:15.5px">'+TRACKS[0][2]+'</div><div style="color:#aaa;font-size:12px">HIROTO ・ @193hiroto</div>'+
+  '<input id="mu-prog" type="range" min="0" max="100" value="0" style="width:100%;margin-top:10px;accent-color:#fe2c55">'+
+  '<div style="display:flex;justify-content:center;gap:30px;align-items:center;margin-top:6px"><button id="mu-prev" style="background:none;border:none;color:#fff;font-size:22px;cursor:pointer">⏮</button><button id="mu-play" style="background:#fe2c55;border:none;color:#fff;width:56px;height:56px;border-radius:50%;font-size:22px;cursor:pointer">▶</button><button id="mu-next" style="background:none;border:none;color:#fff;font-size:22px;cursor:pointer">⏭</button></div></div>'+
+  '<div style="flex:1;overflow-y:auto;padding:10px 16px">'+TRACKS.map((t,i)=>'<div class="mu-row" data-i="'+i+'" style="display:flex;gap:11px;align-items:center;padding:8px 2px;border-bottom:1px solid #26262c;cursor:pointer"><img src="'+t[1]+'" style="width:46px;height:46px;object-fit:cover;border-radius:8px" alt=""><span style="font-size:13.5px">'+t[2]+'</span>'+(i===0?'<span class="mu-eq" style="margin-left:auto;color:#fe2c55">♪</span>':'')+'</div>').join("")+'</div>';
+ home.appendChild(app);
+ const vid=app.querySelector("#mu-vid"); let cur=0;
+ const load=i=>{ cur=(i+TRACKS.length)%TRACKS.length; vid.src=TRACKS[cur][0]; vid.poster=TRACKS[cur][1];
+  app.querySelector("#mu-title").textContent=TRACKS[cur][2];
+  app.querySelectorAll(".mu-eq").forEach(e=>e.remove());
+  const row=app.querySelectorAll(".mu-row")[cur]; if(row){ const s=document.createElement("span"); s.className="mu-eq"; s.style.cssText="margin-left:auto;color:#fe2c55"; s.textContent="♪"; row.appendChild(s); } };
+ const play=()=>{ vid.play().catch(()=>{}); app.querySelector("#mu-play").textContent="⏸"; };
+ const pause=()=>{ vid.pause(); app.querySelector("#mu-play").textContent="▶"; };
+ app.querySelector("#mu-play").addEventListener("click",()=>vid.paused?play():pause());
+ app.querySelector("#mu-next").addEventListener("click",()=>{ load(cur+1); play(); });
+ app.querySelector("#mu-prev").addEventListener("click",()=>{ load(cur-1); play(); });
+ app.querySelectorAll(".mu-row").forEach(r=>r.addEventListener("click",()=>{ load(+r.dataset.i); play(); }));
+ vid.addEventListener("ended",()=>{ load(cur+1); play(); });
+ vid.addEventListener("timeupdate",()=>{ if(vid.duration) app.querySelector("#mu-prog").value=Math.round(vid.currentTime/vid.duration*100); });
+ app.querySelector("#mu-prog").addEventListener("input",e=>{ if(vid.duration) vid.currentTime=vid.duration*e.target.value/100; });
+ app.querySelector("#mu-x").addEventListener("click",()=>{ pause(); app.style.display="none"; });
+ btn.addEventListener("click",e=>{ e.stopPropagation(); e.stopImmediatePropagation(); e.preventDefault();
+  app.style.display="flex"; },true);
 })();
 /* ===== v41: individual friend chats (yui / misaki / rina) ===== */
 const FCHATS={
