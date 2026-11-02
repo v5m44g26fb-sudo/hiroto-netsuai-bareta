@@ -531,7 +531,7 @@ input,textarea{font-size:16px!important}
 <div class="ig-prof">
 <img class="avatar" src="assets/ig-avatar.jpg" width="76" height="76" alt="">
 <div class="ig-stats">
-<div><div class="n">94</div><div class="l">投稿</div></div>
+<div><div class="n">95</div><div class="l">投稿</div></div>
 <div><div class="n" id="his-fol-n">8.1万</div><div class="l">フォロワー</div></div>
 <div><div class="n">12</div><div class="l">フォロー中</div></div>
 </div>
@@ -540,7 +540,7 @@ input,textarea{font-size:16px!important}
         <div class="stories"><button id="story-btn"><span class="ring"><img src="assets/ig-avatar.jpg" alt=""></span>ひろと</button></div>
         <div id="his-statement"></div>
 <div class="ig-grid">
-<img src="assets/ig-necklace.jpg" alt=""><img src="assets/ig-hbd.jpg" alt=""><img src="assets/ig-child.jpg" alt=""><img src="assets/ig-sunset.jpg" alt=""><img src="assets/ig-singapore.jpg" alt=""><img src="assets/ig-busan.jpg" alt=""><img src="assets/ig-uniform.jpg" alt=""><img src="assets/ig-memories.jpg" alt="">
+<img src="assets/ig-necklace.jpg" alt=""><img src="assets/ig-hbd.jpg" alt=""><img src="assets/ig-child.jpg" alt=""><img src="assets/ig-sunset.jpg" alt=""><img src="assets/ig-singapore.jpg" alt=""><img src="assets/ig-busan.jpg" alt=""><img src="assets/ig-uniform.jpg" alt=""><img src="assets/ig-memories.jpg" alt=""><img src="assets/ig-hanbok.jpg" alt="">
 <img src="assets/stage.jpg" alt=""><img src="assets/crown.jpg" alt=""><img src="assets/selfie.jpg" alt="">
 <img src="assets/crown-full.jpg" alt=""><img src="assets/insta-post.jpg" alt=""><img src="assets/roses.jpg" alt="">
 <img src="assets/studio.jpg" alt=""><img src="assets/glasses.jpg" alt=""><img src="assets/cafe3.jpg" alt="">
@@ -670,7 +670,7 @@ input,textarea{font-size:16px!important}
 <div class="setrow"><span>📖 物語の進み具合</span><span style="color:#8e8e93;font-size:12.5px" id="set-progress">第1話</span></div>
 <button class="btn-main" style="background:#ff3b30;color:#fff;width:100%;margin:6px 0 12px" onclick="location.reload()">🔁 物語を最初からやり直す</button>
 <div style="font-size:13px;font-weight:800;margin:2px 2px 8px">📞 通話履歴</div><div id="set-calllog" style="background:#fff;border-radius:12px;padding:6px 14px;margin-bottom:6px"><div style="font-size:12.5px;color:#8e8e93;padding:8px 0">まだ通話はない</div></div><button id="calllog-clear" style="background:none;border:none;color:#8e8e93;font-size:12px;cursor:pointer;font-family:inherit;padding:2px 2px 12px">通話履歴を消す</button>
-<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v34</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
+<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v35</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
 </div>
 </section>
 
@@ -757,8 +757,8 @@ function chapter(n){ if(state.phase!=="prologue") return; state.chapter=n; const
 async function ch1(t){ setChapterWidget("第1話『出会い』","9月27日、飲み会の夜に。"); chapterCard("第1話","出会い","9月27日（土）夜 —— 共通の友達の飲み会。<br>LINEを開いてね"); 
   await himMsg("今日はありがとうな",900); if(!alive(t))return; await himMsg("ひろとです"); if(!alive(t))return; await himMsg("なおと喋れて、楽しかった"); if(!alive(t))return; await himMsg("またごはん、行こな");
   if(!alive(t))return; askChoices("なおの返信を選んで",[
-    {label:"行きたい！",fn:async()=>{ if(!alive(t))return; await himMsg("ほんま？"); if(!alive(t))return; await himMsg("じゃ、来週あけといてな"); later(()=>chapter(2),2000); }},
-    {label:"また今度ね（様子見）",fn:async()=>{ if(!alive(t))return; await himMsg("おっけー"); if(!alive(t))return; await himMsg("急かさんから、気が向いたらで"); later(()=>chapter(2),2000); }},
+    {label:"行きたい！",fn:async()=>{ if(!alive(t))return; await himMsg("ほんま？"); if(!alive(t))return; await himMsg("じゃ、来週あけといてな"); later(async()=>{ addDayChip("9月28日（日）"); await himVoice("assets/vm-dayafter.mp3","0:02"); later(()=>chapter(2),1600); },2000); }},
+    {label:"また今度ね（様子見）",fn:async()=>{ if(!alive(t))return; await himMsg("おっけー"); if(!alive(t))return; await himMsg("急かさんから、気が向いたらで"); later(async()=>{ addDayChip("9月28日（日）"); await himVoice("assets/vm-dayafter.mp3","0:02"); later(()=>chapter(2),1600); },2000); }},
   ]); }
 async function ch2(t){ addDayChip("10月4日（土）"); setChapterWidget("第2話『初デート』","カフェで待ち合わせ。"); chapterCard("第2話","初デート","10月4日（土） —— 初めての、二人きり。<br>LINEを開いてね");
   await himMsg("今日、楽しみにしてた",700); if(!alive(t))return; await himMsg("カフェオレの美味い店、見つけてん");
@@ -784,7 +784,7 @@ async function ch4(t){ addDayChip("10月18日（土）"); setChapterWidget("第4
     {label:"バレたらどうするの…？",fn:async()=>{ if(!alive(t))return; await himMsg("大丈夫"); await himMsg("その時はその時や"); later(()=>chapter(5),2000); }},
   ]); }
 async function ch5(t){ addDayChip("11月1日（土）"); setChapterWidget("第5話『何気ない日常』","これがずっと続けばいいのに。"); chapterCard("第5話","何気ない日常","11月1日（土） —— いつものカフェ、いつもの二人。<br>LINEを開いてね");
-  await himMsg("今日のカフェ、当たりやったな",700); if(!alive(t))return; await himMsg("麺、なおのやつも美味そうやった");
+  await himVoice("assets/vm-morning.mp3","0:02"); if(!alive(t))return; await himMsg("今日のカフェ、当たりやったな"); if(!alive(t))return; await himMsg("麺、なおのやつも美味そうやった");
   later(()=>{ addPhoto("assets/night.jpg","夜の散歩"); },5000);
   later(()=>toast("📷 ひろとが投稿したよ「このまま時間が止まればいいのに🙃」（彼の垢）"),4000);
   if(!alive(t))return; askChoices("なおの返信を選んで",[
@@ -891,7 +891,7 @@ function meMsg(text){ pop();const d=document.createElement("div");d.className="m
 function askChoices(q,opts){const w=$("#choices");w.innerHTML=`<div class="q">${q}</div>`;opts.forEach(o=>{const b=document.createElement("button");b.textContent=o.label;b.addEventListener("click",()=>{ if(w.dataset.done) return; w.dataset.done="1"; $$("#choices button").forEach(x=>x.disabled=true); w.classList.remove("on"); meMsg(o.label); o.fn(); setTimeout(()=>{delete w.dataset.done},600); });w.appendChild(b)});w.classList.add("on");$("#chat").scrollTop=$("#chat").scrollHeight}
 async function lineSequence1(){
 push("LINE","#06c755","💬","ひろと","「なお」——タップでトークを開く",()=>{show("line");openChat()});
-await himMsg("なお"); await himMsg("ニュース、見た？"); await himMsg("ごめん…俺のせいで"); await himMsg("俺は平気やから"); await himMsg("なおだけが心配やねん"); await himVoice("assets/voice-msg-scandal.mp3","0:06");
+await himMsg("なお"); await himMsg("ニュース、見た？"); await himMsg("ごめん…俺のせいで"); await himMsg("俺は平気やから"); await himMsg("なおだけが心配やねん"); await himVoice("assets/voice-msg-scandal.mp3","0:06"); await himVoice("assets/vm-scandal2.mp3","0:04");
 askChoices("なおの返信を選んで",[
 {label:"私も大丈夫だよ",fn:async()=>{state.choice1="strong";await himMsg("ほんま？");await himMsg("無理してへん？");await himMsg("…なお、強いな");lineSequence2();}},
 {label:"ちょっと怖い…",fn:async()=>{state.choice1="scared";await himMsg("ごめんな");await himMsg("そんな思いさせたくなかった");await himMsg("絶対、守るから");lineSequence2();}},
@@ -1182,7 +1182,7 @@ async function startAct2(kind){ if(state._act2) return; state._act2=true; state.
   $("#his-statement").appendChild(st);
   push("Instagram","linear-gradient(45deg,#fa7e1e,#d62976,#962fbf)","📷","ひろとが新しい投稿","「いつも応援してくださっている皆さまへ」——タップで読む",()=>show("hisig"));
   animateCount($("#ig-fol-n"),52814,58920,12000); animateCount($("#w-ig"),52814,58920,12000);
-  later(async()=>{ show("line"); openChat(); await himMsg("おはよ",600); await himMsg(kind==="open"?"投稿、出したで":kind==="wait"?"投稿、見た？":"投稿だけ、先に出した"); await himMsg("なおは、ちゃんと寝れた？"); toast("💬 ここからはLINEで<b>自由に送れる</b>よ。下の入力欄からどうぞ"); },5000);
+  later(async()=>{ show("line"); openChat(); await himMsg("おはよ",600); await himMsg(kind==="open"?"投稿、出したで":kind==="wait"?"投稿、見た？":"投稿だけ、先に出した"); await himMsg("なおは、ちゃんと寝れた？"); await himVoice("assets/vm-nextmorning.mp3","0:04"); toast("💬 ここからはLINEで<b>自由に送れる</b>よ。下の入力欄からどうぞ"); },5000);
   later(()=>{ const d=document.createElement("div"); d.className="endcard"; d.id="endcard2"; d.innerHTML=`<h3>🌅 翌朝 —— fin</h3><p>炎上は、少しずつ日常に変わっていく。トレンドから名前が消えても、LINEのいちばん上は変わらないまま。続きは、なおの言葉で。</p><button class="btn-main" style="background:#111;color:#fff" onclick="location.reload()">🔁 最初からもう一度</button>`; $("#news-scroll").prepend(d); push("ニュース速報","#e60012","N","続報：応援の声が広がる","「本人の言葉」にファンの反応は——タップで結末へ",()=>show("news")); },14000);
 }
 function showEnding(box){ if($("#endcard")) return; const d=document.createElement("div"); d.className="endcard"; d.id="endcard"; d.innerHTML=`<h3>${box.h}</h3><p>${box.t}</p><p class="endstats">📊 この夜の記録<br>Instagram フォロワー 342 → ${$("#w-ig").textContent} ／ X フォロワー 189 → ${$("#w-x").textContent}<br>炎上度ピーク ${state._heatPeak||state.heat}% ・ 電池は ${$("#batt-n").textContent}% まで減った</p><button class="btn-main" style="background:#1d9bf0;color:#fff" onclick="shareRecord()">📤 この夜の記録をシェア</button><button class="btn-main" style="background:#06c755;color:#fff" onclick="startAct2(state.ending||'wait')">🌅 翌朝を見る</button><button class="btn-main" style="background:#111;color:#fff" onclick="location.reload()">🔁 最初からもう一度</button>`; $("#news-scroll").prepend(d); show("news");}
@@ -1405,6 +1405,12 @@ function attachRxn(bub,emoji){ if(!bub) return; let r=bub.querySelector(".rxn");
   d.innerHTML=`<div class="ph"><img class="avatar" src="assets/ig-avatar.jpg" width="30" height="30" alt=""> 193.hiroto_jixiang <span class="verified">☑</span><span style="margin-left:auto;color:#8e8e93">…</span></div><img class="pimg" src="assets/ig-singapore.jpg" alt="本人の実際の投稿"><div class="acts"><span class="like-btn">❤️</span><span>💬 80</span><span>✈</span><span class="save-btn">🔖</span></div><div class="cap">いいね！：4,191件<br><b>193.hiroto_jixiang</b> レッドカーペット!! inシンガポール🇸🇬<br><span style="color:#8e8e93;font-size:12px">2025年11月16日 ・ 実際の投稿より</span></div><div class="cmt"><b>weibo_fan</b>WEIBO GALA受賞おめでとう🏆</div><div class="cmt"><b>sg_hrt</b>青スーツ似合いすぎ</div>`;
   const statPost=sc.querySelector('.ig-post img.pimg[src$="insta-post.jpg"]'); const statEl=statPost?statPost.closest(".ig-post"):null;
   if(statEl) sc.insertBefore(d, statEl); else sc.appendChild(d);
+})();
+/* ===== v35: 2023 hanbok post (feed tail) ===== */
+(function(){ const sc=$("#v-hisig .scroll"); if(!sc) return;
+  const d=document.createElement("div"); d.className="ig-post";
+  d.innerHTML=`<div class="ph"><img class="avatar" src="assets/ig-avatar.jpg" width="30" height="30" alt=""> 193.hiroto_jixiang <span class="verified">☑</span><span style="margin-left:auto;color:#8e8e93">…</span></div><img class="pimg" src="assets/ig-hanbok.jpg" alt="本人の実際の投稿"><div class="acts"><span class="like-btn">❤️</span><span>💬 1,203</span><span>✈</span><span class="save-btn">🔖</span></div><div class="cap">いいね！：70,816件<br><b>193.hiroto_jixiang</b> 첫 한복😎<br><span style="color:#8e8e93;font-size:12px">2023年4月28日 ・ 実際の投稿より</span></div><div class="cmt"><b>pon_cha</b>한복似合いすぎ…</div><div class="cmt"><b>hrt_0823</b>この頃から完成してる</div>`;
+  sc.appendChild(d);
 })();
 /* ===== v25: nao highlights (real, from her Instagram) ===== */
 const HL_SETS={
