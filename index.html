@@ -243,7 +243,7 @@ transform:translateY(-190%);transition:transform.55s cubic-bezier(.2,.9,.25,1);c
 .msg .bub.photo{padding:5px;background:#fff}
 .msg .bub.photo img{width:185px;border-radius:12px;display:block}
 .msg .bub.stamp{background:transparent;font-size:43px;padding:2px 4px}
-.gname{font-size:10.5px;color:rgba(255,255,255,.95);text-shadow:0 1px 2px rgba(0,0,0,.3);margin-bottom:2px}
+.gname{font-size:10.5px;color:#2e4a66;font-weight:700;margin-bottom:2px}
 .ycmt{border-top:1px solid #e5e5ea;padding:11px 0}
 .ycmt .yh{display:flex;gap:8px;align-items:center;font-size:12.5px;color:#3a3a3c}
 .ycmt .yt{font-size:14px;line-height:1.7;margin-top:4px}
@@ -455,8 +455,6 @@ transform:translateY(-190%);transition:transform.55s cubic-bezier(.2,.9,.25,1);c
 <div class="choices" id="choices"></div>
 <div class="line-input"><span style="font-size:19px">＋</span><input id="line-text" placeholder="メッセージを入力（自由に送れる）" autocomplete="off"><button class="sendbtn" id="line-send">送信</button></div>
 </div>
-</section>
-
 <div id="group-chat" style="display:none;flex:1;flex-direction:column;min-height:0">
         <div class="line-head" style="padding-top:56px"><button class="back" id="group-back" style="border:none;background:none;font-size:19px;cursor:pointer">‹</button><span><span class="t" style="font-size:15.5px;font-weight:800;display:block">いつメン🍻</span><span class="s" style="font-size:10.5px;color:#8e8e93">ゆい ・ みさき ・ りな</span></span></div>
         <div class="chat-scroll" id="gchat">
@@ -465,7 +463,9 @@ transform:translateY(-190%);transition:transform.55s cubic-bezier(.2,.9,.25,1);c
         </div>
         <div class="line-input"><span style="font-size:19px">＋</span><input id="g-text" placeholder="メッセージを入力" autocomplete="off"><button class="sendbtn" id="g-send">送信</button></div>
       </div>
-    <!-- ===== NEWS ===== -->
+</section>
+
+<!-- ===== NEWS ===== -->
 <section class="view" id="v-news">
 <div class="appbar"><button class="back" data-home>‹</button><span class="t">ニュース</span><span class="s" id="news-note">11月2日(月) 夜</span></div>
 <div class="scroll" id="news-scroll">
@@ -542,7 +542,7 @@ function every(fn,ms){timers.push(setInterval(fn,ms))}
 function tickClock(){const d=new Date();$("#clock").textContent=String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0")}
 tickClock(); setInterval(tickClock,20000);
 /* navigation */
-function show(id){$$(".view").forEach(v=>v.classList.remove("on"));$("#v-"+id).classList.add("on");
+function show(id){ const _g=$("#group-chat"); if(_g){ _g.style.display="none"; if(id==="line"){ $("#line-list").style.display="block"; $("#line-head-list").style.display="flex"; $("#line-chat").style.display="none"; } }$$(".view").forEach(v=>v.classList.remove("on"));$("#v-"+id).classList.add("on");
 if(id==="line"){clearBadge("line")} if(id==="x"){clearBadge("x")} if(id==="ig"){clearBadge("ig")} if(id==="news"){clearBadge("news")}
 window.scrollTo({top:0});
 }
@@ -788,7 +788,7 @@ $("#talk-group").addEventListener("click",openGroup);
 $("#group-back").addEventListener("click",closeGroup);
 const FRIENDS={ゆい:["#e879a0","ゆ"],みさき:["#7a9cc6","み"],りな:["#8fbf7a","り"]};
 function gMsg(name,text){ const f=FRIENDS[name]; const d=document.createElement("div"); d.className="msg him"; d.innerHTML=`<span class="ava-txt" style="background:${f[0]};width:34px;height:34px;font-size:14px">${f[1]}</span><span><div class="gname">${name}</div><span class="bub"></span></span><span class="meta">${nowTime()}</span>`; d.querySelector(".bub").textContent=text; $("#gchat").appendChild(d); $("#g-preview").textContent=name+"："+text; $("#gchat").scrollTop=$("#gchat").scrollHeight;
-  if($("#group-chat").style.display==="none" && $("#v-line").classList.contains("on")===false || $("#group-chat").style.display==="none"){ state.gUnread=(state.gUnread||0)+1; const u=$("#g-unread"); u.style.display="inline-flex"; u.textContent=state.gUnread; bump("line"); } }
+  if($("#group-chat").style.display==="none"){ state.gUnread=(state.gUnread||0)+1; const u=$("#g-unread"); u.style.display="inline-flex"; u.textContent=state.gUnread; bump("line"); } }
 function gMe(text){ const d=document.createElement("div"); d.className="msg me"; d.innerHTML=`<span class="bub"></span><span class="meta">既読<br>${nowTime()}</span>`; d.querySelector(".bub").textContent=text; $("#gchat").appendChild(d); $("#gchat").scrollTop=$("#gchat").scrollHeight }
 const FRIEND_REPLIES=["え、落ち着いて聞くよ","大丈夫なの！？","電話する？","とりあえず深呼吸！","あんたは悪くないからね"];
 function sendGroup(){ const inp=$("#g-text"); const v=inp.value.trim(); if(!v) return; inp.value=""; gMe(v); setTimeout(()=>gMsg(pick(Object.keys(FRIENDS)),pick(FRIEND_REPLIES)),1400); }
