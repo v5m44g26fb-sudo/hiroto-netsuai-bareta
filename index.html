@@ -738,7 +738,7 @@ input,textarea{font-size:16px!important}
 <div class="setrow"><span>📞 通話した回数</span><span style="color:#8e8e93;font-size:12.5px" id="set-calls">0回</span></div>
 <button class="btn-main" style="background:#ff3b30;color:#fff;width:100%;margin:6px 0 12px" onclick="location.reload()">🔁 物語を最初からやり直す</button>
 <div style="font-size:13px;font-weight:800;margin:2px 2px 8px">📞 通話履歴</div><div id="set-calllog" style="background:#fff;border-radius:12px;padding:6px 14px;margin-bottom:6px"><div style="font-size:12.5px;color:#8e8e93;padding:8px 0">まだ通話はない</div></div><button id="calllog-clear" style="background:none;border:none;color:#8e8e93;font-size:12px;cursor:pointer;font-family:inherit;padding:2px 2px 12px">通話履歴を消す</button>
-<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v290</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
+<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v291</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
 </div>
 </section>
 
@@ -1195,13 +1195,13 @@ const REPLY_RULES=[
 const REPLY_FREE=["うん","聞いてるで","なおの言葉、すきやねん","😎","ほんまに？","それでそれで？"];
 const REPLY_CALM=["うんうん","カフェオレ飲みたいなぁ","なおは今日なにしてたん？","😎笑笑"];
 let replyIdx=0;
-function himReply(text){ if(state.act2&&!state._vmA2){ state._vmA2=true; (async()=>{ await himVoice("assets/vm-act2free.mp3","0:06"); })(); return; }
-  if(!state.started&&state.phase==="prologue"&&state.chapter>=6&&!state._vmCalm){ state._vmCalm=true; (async()=>{ await himVoice("assets/vm-calmfree.mp3","0:04"); })(); return; }
-  if((state._vmCalm||state._vmA2)&&!state._vm2){ state._vm2=true; (async()=>{ await himVoice("assets/vm-free2.mp3","0:04"); })(); return; }
+function himReply(text,cb){ const _hdone=()=>{ if(typeof cb==="function") cb(); }; if(state.act2&&!state._vmA2){ state._vmA2=true; (async()=>{ await himVoice("assets/vm-act2free.mp3","0:06"); _hdone(); })(); return; }
+  if(!state.started&&state.phase==="prologue"&&state.chapter>=6&&!state._vmCalm){ state._vmCalm=true; (async()=>{ await himVoice("assets/vm-calmfree.mp3","0:04"); _hdone(); })(); return; }
+  if((state._vmCalm||state._vmA2)&&!state._vm2){ state._vm2=true; (async()=>{ await himVoice("assets/vm-free2.mp3","0:04"); _hdone(); })(); return; }
   const rules=state.started?REPLY_RULES:[]; let out=null;
   for(const [re,arr] of rules){ if(re.test(text)){ out=arr; break } }
   if(!out) out=[pick(state.started?REPLY_FREE:REPLY_CALM)];
-  (async()=>{ for(const t of out){ await himMsg(t,300) } })();
+  (async()=>{ for(const t of out){ await himMsg(t,300) } _hdone(); })();
 }
 function sendLine(){ const inp=$("#line-text"); const v=inp.value.trim(); if(!v) return; inp.value=""; meMsg(v); clearTimeout(state._replyT); state._replyT=setTimeout(()=>himReply(v),1100); }
 $("#line-send").addEventListener("click",sendLine);
@@ -6529,8 +6529,8 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
  const iv=setInterval(()=>{ if(typeof himReply!=="function"||state._v285h){ if(state._v285h) clearInterval(iv); return; }
   state._v285h=true; clearInterval(iv);
   const _hr=himReply;
-  himReply=function(txt){ if((state.act2||state.ended)&&/クリスマス/.test(txt||"")&&Math.random()<0.75)
-   return "クリスマスな。……ゆっくり過ごしたいって、思ってる。なおと。";
+  himReply=function(txt){ if((state.act2||state.ended)&&/クリスマス/.test(txt||"")&&Math.random()<0.75){
+   try{ himMsg("クリスマスな。……ゆっくり過ごしたいって、思ってる。なおと。",300); }catch(e){} return; }
   return _hr.apply(this,arguments); }; },700);
 })();
 /* ===== v290: three new voices join free chat - goodnight, your voice calms me, and save Christmas for me ===== */
