@@ -142,7 +142,7 @@ transform:translateY(-190%);transition:transform.55s cubic-bezier(.2,.9,.25,1);c
 #v-line{background:#8ba6c9}
 .line-head{padding:56px 14px 10px;background:#fff;border-bottom:1px solid #e5e5ea;flex:none;display:flex;gap:10px;align-items:center}
 .line-list{background:#fff;flex:1;overflow-y:auto}
-.talkrow{display:flex;gap:11px;padding:12px 14px;align-items:center;cursor:pointer;border-bottom:1px solid #f2f2f7;width:100%;background:#fff;border-left:none;border-right:none;border-top:none;font-family:inherit;text-align:left}
+.talkrow{display:flex;gap:11px;padding:12px 14px;align-items:center;cursor:pointer;border-bottom:1px solid #f2f2f7;width:100%;background:#fff;color:#111;border-left:none;border-right:none;border-top:none;font-family:inherit;text-align:left}
 .talkrow .nm{font-size:15px;font-weight:700;display:flex;gap:7px;align-items:center}
 .talkrow .pv{font-size:12.5px;color:var(--sub);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:230px}
 .talkrow .tm{margin-left:auto;font-size:11px;color:var(--sub);text-align:right;flex:none}
@@ -480,7 +480,7 @@ input,textarea{font-size:16px!important}
 <div class="ig-post">
 <div class="ph"><img class="avatar" src="assets/default-avatar.svg" width="30" height="30" alt=""> nao_0324</div>
 <img class="pimg" src="assets/cafe.jpg" alt="なおの最新投稿（匂わせ疑惑で掘られた麺の写真）">
-<div class="acts"><span class="like-btn">❤️</span><span>💬</span><span>✈️</span><span style="margin-left:auto">🔖</span></div>
+<div class="acts"><span class="like-btn">❤️</span><span>💬</span><span>✈️</span><span class="save-btn">🔖</span></div>
 <div class="cap"><b>nao_0324</b> お昼の麺が美味しすぎた日🍜 <span style="color:#8e8e93">いいね！<span id="nao-like-n">48</span>件</span></div>
 <div id="ig-cmts">
 <div class="cmt"><b>yui_s</b>かわいい〜！<span class="tm">2時間前</span></div>
@@ -519,7 +519,7 @@ input,textarea{font-size:16px!important}
 <div class="ig-post" style="margin-top:4px">
 <div class="ph"><img class="avatar" src="assets/ig-avatar.jpg" width="30" height="30" alt=""> 193.hiroto_jixiang <span class="verified">☑</span><span style="margin-left:auto;color:#8e8e93">…</span></div>
 <img class="pimg" src="assets/insta-post.jpg" alt="ひろとの投稿スクリーンショット">
-<div class="acts"><span class="like-btn">❤️</span><span>💬 43</span><span>🔁 50</span><span style="margin-left:auto">🔖</span></div>
+<div class="acts"><span class="like-btn">❤️</span><span>💬 43</span><span>🔁 50</span><span class="save-btn">🔖</span></div>
 <div class="cap">いいね！：<b>__m2326</b>、他<br><b>193.hiroto_jixiang</b> このまま時間が止まればいいのに🙃<br><span style="color:#8e8e93;font-size:12px">1日前</span></div>
 <div id="his-cmts">
 <div class="cmt"><b>rottdan_a</b>この写真すき！</div>
@@ -529,7 +529,7 @@ input,textarea{font-size:16px!important}
         <div class="ig-post">
           <div class="ph"><img class="avatar" src="assets/ig-avatar.jpg" width="30" height="30" alt=""> 193.hiroto_jixiang <span class="verified">☑</span></div>
           <img class="pimg" src="assets/ig-food.jpg" alt="本人の実際の投稿">
-          <div class="acts"><span class="like-btn">❤️</span><span>💬 61</span><span>🔁</span><span style="margin-left:auto">🔖</span></div>
+          <div class="acts"><span class="like-btn">❤️</span><span>💬 61</span><span>🔁</span><span class="save-btn">🔖</span></div>
           <div class="cap">いいね！：3,499件<br><b>193.hiroto_jixiang</b> 食べまくってる🍚 いつもコーラ ご飯も お肉も🍖<br><span style="color:#8e8e93;font-size:12px">実際の投稿より</span></div>
 </div>
 </div>
@@ -634,7 +634,7 @@ input,textarea{font-size:16px!important}
 <div class="setrow"><span>📖 物語の進み具合</span><span style="color:#8e8e93;font-size:12.5px" id="set-progress">第1話</span></div>
 <button class="btn-main" style="background:#ff3b30;color:#fff;width:100%;margin:6px 0 12px" onclick="location.reload()">🔁 物語を最初からやり直す</button>
 <div style="font-size:13px;font-weight:800;margin:2px 2px 8px">📞 通話履歴</div><div id="set-calllog" style="background:#fff;border-radius:12px;padding:6px 14px;margin-bottom:12px"><div style="font-size:12.5px;color:#8e8e93;padding:8px 0">まだ通話はない</div></div>
-<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v19</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
+<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v20</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
 </div>
 </section>
 
@@ -668,7 +668,7 @@ input,textarea{font-size:16px!important}
 <div class="homebar" id="homebar"></div>
 </div>
 </div>
-<p class="foot">遊び方：ロック解除で物語スタート。第1話『出会い』から、初デート・告白・付き合い始めを経て、炎上編へ。LINEで返信を選んで進めてね（ウィジェットのボタンで炎上編へスキップもできる）。最初からやり直すときは再読み込み。</p>
+
 
 <script>
 "use strict";
@@ -1164,7 +1164,7 @@ $("#pv-fav").addEventListener("click",()=>{ const list=pvList(); const f=list[pv
   const plus=row.querySelector("span"); plus.style.cursor="pointer"; plus.title="スタンプ"; plus.addEventListener("click",()=>{ panel.style.display=panel.style.display==="none"?"flex":"none"; });
 })();
 /* LINE talk search */
-(function(){ const list=$("#line-list"); if(!list) return; const wrap=document.createElement("div"); wrap.style.cssText="padding:8px 12px 2px"; wrap.id="line-search-wrap"; const inp=document.createElement("input"); inp.id="line-search"; inp.placeholder="🔍 トークを検索"; inp.autocomplete="off"; wrap.appendChild(inp); list.parentElement.insertBefore(wrap,list);
+(function(){ const list=$("#line-list"); if(!list) return; const wrap=document.createElement("div"); wrap.style.cssText="padding:8px 12px 6px;background:#fff"; wrap.id="line-search-wrap"; const inp=document.createElement("input"); inp.id="line-search"; inp.placeholder="🔍 トークを検索"; inp.autocomplete="off"; wrap.appendChild(inp); list.parentElement.insertBefore(wrap,list);
   inp.addEventListener("input",()=>{ const q=inp.value.trim(); $$("#line-list .talkrow").forEach(r=>{ r.style.display=(!q||r.textContent.includes(q))?"":"none"; }); });
 })();
 /* X thread reply */
@@ -1251,6 +1251,7 @@ every(()=>{ const now=Date.now(); $$("#act-list .act-row").forEach(r=>{ if(!r.da
   const s=Math.floor((now-+r.dataset.t0)/1000); tm.textContent=s<45?"今":Math.max(1,Math.floor(s/60))+"分前"; }); },20000);
 
 /* ===== v15: prologue-safe X search ===== */
+/* ===== v20: bookmark dedupe + footer removal + line list fixes ===== */
 /* ===== v19: 9/27 party group (backstory) ===== */
 const PPL={ゆい:["#e879a0","ゆ"],みさき:["#7a9cc6","み"],りな:["#8fbf7a","り"],ゆうた:["#34d399","ゆ"],かず:["#f87171","か"]};
 function pMsg(name,text,time){ const d=document.createElement("div"); d.className="msg him";
