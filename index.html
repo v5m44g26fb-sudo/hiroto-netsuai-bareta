@@ -597,7 +597,7 @@ input,textarea{font-size:16px!important}
 </button>
 <button class="talkrow" id="talk-group">
 <span class="ava-txt" style="background:#f59e0b;width:48px;height:48px;font-size:21px">🍻</span>
-<span style="min-width:0"><span class="nm">いつメン🍻 <span class="ubadge" id="g-unread" style="display:none"></span></span><br><span class="pv" id="g-preview">次の飲みいつにする？</span></span>
+<span style="min-width:0"><span class="nm">いつメン🍻 <span class="ubadge" id="g-unread" style="display:none"></span></span><br><span class="pv" id="g-preview">ゆい：金曜に聞くからね、覚悟してて笑</span></span>
 <span class="tm">月曜</span>
 </button>
 <button class="talkrow" id="talk-party">
@@ -618,8 +618,22 @@ input,textarea{font-size:16px!important}
 <div id="group-chat" style="display:none;flex:1;flex-direction:column;min-height:0">
         <div class="line-head" style="padding-top:56px"><button class="back" id="group-back" style="border:none;background:none;font-size:19px;cursor:pointer">‹</button><span><span class="t" style="font-size:15.5px;font-weight:800;display:block">いつメン🍻</span><span class="s" style="font-size:10.5px;color:#8e8e93">ゆい ・ みさき ・ りな</span></span></div>
         <div class="chat-scroll" id="gchat">
-          <div class="daychip">月曜日</div>
+          <div class="daychip">日曜日</div>
           <div class="msg him"><span class="ava-txt" style="background:#e879a0;width:34px;height:34px;font-size:14px">ゆ</span><span><div class="gname">ゆい</div><span class="bub">次の飲みいつにする？</span></span></div>
+          <div class="msg him"><span class="ava-txt" style="background:#8fbf7a;width:34px;height:34px;font-size:14px">り</span><span><div class="gname">りな</div><span class="bub">私いつでも！！</span></span></div>
+          <div class="msg him"><span class="ava-txt" style="background:#7a9cc6;width:34px;height:34px;font-size:14px">み</span><span><div class="gname">みさき</div><span class="bub">なおの予定次第じゃない？</span></span></div>
+          <div class="msg me"><span class="bub">来週の金曜なら空いてる！</span><span class="meta">既読 3<br>21:04</span></div>
+          <div class="msg him"><span class="ava-txt" style="background:#e879a0;width:34px;height:34px;font-size:14px">ゆ</span><span><div class="gname">ゆい</div><span class="bub">じゃあ金曜19時、梅田のあの店とっとくね🍻</span></span></div>
+          <div class="msg him"><span class="ava-txt" style="background:#e879a0;width:34px;height:34px;font-size:14px">ゆ</span><span><div class="gname">ゆい</div><span class="bub" style="background:#fff8e1">📝 ノートを作成しました<br>「金曜19時〜 梅田・海鮮の店🐟 予約：ゆい」</span></span></div>
+          <div class="msg him"><span class="ava-txt" style="background:#7a9cc6;width:34px;height:34px;font-size:14px">み</span><span><div class="gname">みさき</div><span class="bub" style="padding:5px"><img src="assets/nao-hl-20.jpg" style="width:150px;border-radius:8px;display:block" alt=""></span></span></div>
+          <div class="msg him"><span class="ava-txt" style="background:#7a9cc6;width:34px;height:34px;font-size:14px">み</span><span><div class="gname">みさき</div><span class="bub">この前のチキン、また食べたい</span></span></div>
+          <div class="msg him"><span class="ava-txt" style="background:#8fbf7a;width:34px;height:34px;font-size:14px">り</span><span><div class="gname">りな</div><span class="bub" style="font-size:30px;background:none;box-shadow:none;padding:0">🍻</span></span></div>
+          <div class="daychip">月曜日</div>
+          <div class="msg him"><span class="ava-txt" style="background:#7a9cc6;width:34px;height:34px;font-size:14px">み</span><span><div class="gname">みさき</div><span class="bub">そういえば、なお</span></span></div>
+          <div class="msg him"><span class="ava-txt" style="background:#7a9cc6;width:34px;height:34px;font-size:14px">み</span><span><div class="gname">みさき</div><span class="bub">例の彼とは、どうなってるの？</span></span></div>
+          <div class="msg him"><span class="ava-txt" style="background:#8fbf7a;width:34px;height:34px;font-size:14px">り</span><span><div class="gname">りな</div><span class="bub">気になる！！　詳しく！！</span></span></div>
+          <div class="msg me"><span class="bub">また今度話す！笑</span><span class="meta">既読 3<br>21:12</span></div>
+          <div class="msg him"><span class="ava-txt" style="background:#e879a0;width:34px;height:34px;font-size:14px">ゆ</span><span><div class="gname">ゆい</div><span class="bub">金曜に聞くからね、覚悟してて笑</span></span></div>
         </div>
         <div class="line-input"><span style="font-size:19px">＋</span><input id="g-text" placeholder="メッセージを入力" autocomplete="off"><button class="sendbtn" id="g-send">送信</button></div>
       </div>
@@ -724,7 +738,7 @@ input,textarea{font-size:16px!important}
 <div class="setrow"><span>📞 通話した回数</span><span style="color:#8e8e93;font-size:12.5px" id="set-calls">0回</span></div>
 <button class="btn-main" style="background:#ff3b30;color:#fff;width:100%;margin:6px 0 12px" onclick="location.reload()">🔁 物語を最初からやり直す</button>
 <div style="font-size:13px;font-weight:800;margin:2px 2px 8px">📞 通話履歴</div><div id="set-calllog" style="background:#fff;border-radius:12px;padding:6px 14px;margin-bottom:6px"><div style="font-size:12.5px;color:#8e8e93;padding:8px 0">まだ通話はない</div></div><button id="calllog-clear" style="background:none;border:none;color:#8e8e93;font-size:12px;cursor:pointer;font-family:inherit;padding:2px 2px 12px">通話履歴を消す</button>
-<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v91</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
+<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v92</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
 </div>
 </section>
 
