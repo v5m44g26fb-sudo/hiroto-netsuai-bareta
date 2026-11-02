@@ -229,6 +229,27 @@ transform:translateY(-190%);transition:transform.55s cubic-bezier(.2,.9,.25,1);c
 .ig-post .acts .like-btn.liked{color:#ff3040 !important}
 .ringpulse{animation:ringp 1.1s infinite}
 @keyframes ringp{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
+.act-panel{display:none;background:#fff;border-bottom:1px solid #e5e5ea;padding:10px 0 4px}
+.act-panel.on{display:block}
+.act-row{display:flex;gap:10px;align-items:center;padding:8px 14px;font-size:13px;line-height:1.5;animation:fadeup .35s ease}
+.act-row img.thumb{width:40px;height:40px;object-fit:cover;border-radius:7px;flex:none}
+.act-row .fb{margin-left:auto;flex:none;background:#0095f6;color:#fff;border:none;border-radius:9px;padding:6px 11px;font-size:12px;font-weight:700;font-family:inherit}
+.act-row .tm{color:#8e8e93;font-size:11px}
+#nao-story-view{position:absolute;inset:0;background:#000;z-index:205;display:none;flex-direction:column}
+#nao-story-view.on{display:flex}
+#nao-story-view .sbar{height:3.5px;background:rgba(255,255,255,.35);border-radius:2px;margin:58px 12px 0;overflow:hidden}
+#nao-story-view .sbar i{display:block;height:100%;width:0;background:#fff}
+#nao-story-view.on .sbar i{animation:sprog 5s linear forwards}
+.msg .bub.photo{padding:5px;background:#fff}
+.msg .bub.photo img{width:185px;border-radius:12px;display:block}
+.msg .bub.stamp{background:transparent;font-size:43px;padding:2px 4px}
+.gname{font-size:10.5px;color:rgba(255,255,255,.95);text-shadow:0 1px 2px rgba(0,0,0,.3);margin-bottom:2px}
+.ycmt{border-top:1px solid #e5e5ea;padding:11px 0}
+.ycmt .yh{display:flex;gap:8px;align-items:center;font-size:12.5px;color:#3a3a3c}
+.ycmt .yt{font-size:14px;line-height:1.7;margin-top:4px}
+.ycmt .yb{font-size:12px;color:#536471;margin-top:5px;display:flex;gap:16px}
+.ycmt .yb .like-btn{color:#0f6fd6}
+.thread-head{position:sticky;top:0;background:#fff;padding:8px 4px;font-weight:800;font-size:15px;border-bottom:1px solid #eff3f4;z-index:2}
 .foot{font-size:11px;color:#8b93a5;padding:0 16px 18px;text-align:center;line-height:1.7;max-width:560px}
 </style>
 </head>
@@ -242,7 +263,7 @@ transform:translateY(-190%);transition:transform.55s cubic-bezier(.2,.9,.25,1);c
 <div class="phone" id="phone">
 <div class="screen">
 <div class="island"></div>
-<div class="statusbar"><span id="clock">20:49</span><span class="sicons"><svg width="17" height="11" viewBox="0 0 17 11" fill="#fff"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="4.5" y="5" width="3" height="6" rx="1"/><rect x="9" y="2.5" width="3" height="8.5" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1" opacity=".4"/></svg><svg width="16" height="11" viewBox="0 0 16 12" fill="#fff"><path d="M8 9.6a1.9 1.9 0 1 1 0 3.8 1.9 1.9 0 0 1 0-3.8zM8 5.4c1.7 0 3.3.67 4.5 1.87l-1.77 1.77A3.9 3.9 0 0 0 8 8.28c-1.03 0-2 .27-2.73.76L3.5 7.27A6.36 6.36 0 0 1 8 5.4zM8 1c2.97 0 5.77 1.16 7.87 3.26L14.1 6.03A8.5 8.5 0 0 0 8 3.5c-2.27 0-4.4.88-6.1 2.53L.13 4.26A11.1 11.1 0 0 1 8 1z" transform="scale(1,-1) translate(0,-12)"/></svg><span class="batt">43<span class="box"><span class="fill"></span></span></span></span></div>
+<div class="statusbar"><span id="clock">20:49</span><span class="sicons"><svg width="17" height="11" viewBox="0 0 17 11" fill="#fff"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="4.5" y="5" width="3" height="6" rx="1"/><rect x="9" y="2.5" width="3" height="8.5" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1" opacity=".4"/></svg><svg width="16" height="11" viewBox="0 0 16 12" fill="#fff"><path d="M8 9.6a1.9 1.9 0 1 1 0 3.8 1.9 1.9 0 0 1 0-3.8zM8 5.4c1.7 0 3.3.67 4.5 1.87l-1.77 1.77A3.9 3.9 0 0 0 8 8.28c-1.03 0-2 .27-2.73.76L3.5 7.27A6.36 6.36 0 0 1 8 5.4zM8 1c2.97 0 5.77 1.16 7.87 3.26L14.1 6.03A8.5 8.5 0 0 0 8 3.5c-2.27 0-4.4.88-6.1 2.53L.13 4.26A11.1 11.1 0 0 1 8 1z" transform="scale(1,-1) translate(0,-12)"/></svg><span class="batt"><span id="batt-n">43</span><span class="box"><span class="fill"></span></span></span></span></div>
 
 <!-- push banner -->
 <button class="push" id="push" aria-live="polite">
@@ -314,7 +335,8 @@ transform:translateY(-190%);transition:transform.55s cubic-bezier(.2,.9,.25,1);c
 <div id="x-pane-tl"></div>
 <div id="x-pane-trend" style="display:none"></div>
 <div id="x-pane-mention" style="display:none"><div style="padding:26px 18px;color:#536471;font-size:13.5px" id="x-men-empty">まだメンションはない。…今のところは。</div><div id="x-men-list"></div></div>
-<div id="x-pane-me" style="display:none">
+<div id="x-thread" style="display:none"><div class="thread-head"><button id="thread-back" style="background:none;border:none;font-size:17px;cursor:pointer">‹</button> ポスト</div><div id="thread-main"></div><div style="padding:9px 14px;font-weight:800;font-size:13.5px;border-bottom:1px solid #eff3f4">返信</div><div id="thread-replies"></div></div>
+        <div id="x-pane-me" style="display:none">
 <div class="x-profile">
 <img class="avatar" src="assets/default-avatar.svg" width="56" height="56" alt="">
 <div style="font-size:17px;font-weight:800;margin-top:7px">なお</div>
@@ -329,8 +351,12 @@ transform:translateY(-190%);transition:transform.55s cubic-bezier(.2,.9,.25,1);c
 
 <!-- ===== Instagram (nao) ===== -->
 <section class="view" id="v-ig">
-<div class="ig-head"><button class="back" data-home style="border:none;background:none;font-size:19px;cursor:pointer">‹</button><span class="t">nao_0324</span><span style="margin-left:auto;font-size:19px">🔔<span id="ig-bell"></span></span></div>
+<div class="ig-head"><button class="back" data-home style="border:none;background:none;font-size:19px;cursor:pointer">‹</button><span class="t">nao_0324</span><button id="ig-bell-btn" style="margin-left:auto;font-size:19px;background:none;border:none;cursor:pointer">🔔<span id="ig-bell"></span></button></div>
 <div class="scroll" id="ig-scroll">
+        <div class="act-panel" id="ig-activity"><div style="padding:2px 14px 6px;font-weight:800;font-size:14.5px">お知らせ</div><div id="act-list">
+          <div class="act-row"><img class="avatar" src="assets/default-avatar.svg" width="40" height="40" alt=""><span><b>yui_s</b>さんがあなたの投稿にいいねしました <span class="tm">2時間前</span></span><img class="thumb" src="assets/cafe.jpg" alt=""></div>
+          <div class="act-row"><img class="avatar" src="assets/default-avatar.svg" width="40" height="40" alt=""><span><b>sauna_m</b>さんがあなたをフォローし始めました <span class="tm">昨日</span></span><button class="fb">フォローバック</button></div>
+        </div></div>
 <div class="ig-prof">
 <img class="avatar" src="assets/default-avatar.svg" width="76" height="76" alt="">
 <div class="ig-stats">
@@ -340,12 +366,13 @@ transform:translateY(-190%);transition:transform.55s cubic-bezier(.2,.9,.25,1);c
 </div>
 </div>
 <div class="ig-bio">なお｜大阪<br>サウナとエビと推し活の記録🦐<br><span style="color:#00376b">#日常</span></div>
-<div style="padding:0 14px 10px"><span class="chip">最新投稿へのコメント <b id="ig-cmt-n">3</b>件</span> <span class="chip">DMリクエスト <b id="ig-dm-n">0</b>件</span></div>
+<div class="stories"><button id="nao-story-btn"><span class="ring"><img src="assets/default-avatar.svg" alt=""></span>ストーリー</button></div>
+        <div style="padding:0 14px 10px"><span class="chip">最新投稿へのコメント <b id="ig-cmt-n">3</b>件</span> <span class="chip">DMリクエスト <b id="ig-dm-n">0</b>件</span></div>
 <div class="ig-post">
 <div class="ph"><img class="avatar" src="assets/default-avatar.svg" width="30" height="30" alt=""> nao_0324</div>
-<img class="pimg" src="assets/selfie.jpg" alt="なおの最新投稿…ではなく匂わせ疑惑で掘られた写真" style="object-position:top">
+<img class="pimg" src="assets/cafe.jpg" alt="なおの最新投稿（匂わせ疑惑で掘られた麺の写真）">
 <div class="acts"><span class="like-btn">❤️</span><span>💬</span><span>✈️</span><span style="margin-left:auto">🔖</span></div>
-<div class="cap"><b>nao_0324</b> カフェでゆっくりできた日☕️</div>
+<div class="cap"><b>nao_0324</b> お昼の麺が美味しすぎた日🍜 <span style="color:#8e8e93">いいね！<span id="nao-like-n">48</span>件</span></div>
 <div id="ig-cmts">
 <div class="cmt"><b>yui_s</b>かわいい〜！<span class="tm">2時間前</span></div>
 <div class="cmt"><b>sauna_m</b>今度サウナも行こ<span class="tm">1時間前</span></div>
@@ -357,7 +384,8 @@ transform:translateY(-190%);transition:transform.55s cubic-bezier(.2,.9,.25,1);c
 </div>
 </section>
 
-<!-- ===== Instagram (hiroto) ===== -->
+<div id="nao-story-view"><div class="sbar"><i></i></div><button id="nao-story-close" style="position:absolute;top:66px;right:14px;background:rgba(0,0,0,.4);color:#fff;border:none;width:32px;height:32px;border-radius:50%;font-size:15px;cursor:pointer;z-index:2">✕</button><img src="assets/cafe.jpg" alt="" style="flex:1;width:100%;object-fit:cover;min-height:0"><div style="position:absolute;left:0;right:0;bottom:110px;text-align:center;color:#fff;font-size:19px;font-weight:800;text-shadow:0 2px 10px rgba(0,0,0,.8)">お昼の麺🍜</div><div id="nao-story-viewers" style="padding:14px 16px 30px;color:#fff;font-size:12.5px">👁 12人 ・ yui_s、sauna_m 他</div></div>
+    <!-- ===== Instagram (hiroto) ===== -->
 <section class="view" id="v-hisig">
 <div class="ig-head"><button class="back" data-home style="border:none;background:none;font-size:19px;cursor:pointer">‹</button><span class="t">193.hiroto_jixiang <span class="verified">☑</span></span></div>
 <div class="scroll">
@@ -406,9 +434,9 @@ transform:translateY(-190%);transition:transform.55s cubic-bezier(.2,.9,.25,1);c
 <span style="min-width:0"><span class="nm">ひろと <span class="ubadge" id="line-unread" style="display:none"></span></span><br><span class="pv" id="line-preview">昨日はありがとうな😎</span></span>
 <span class="tm">昨日</span>
 </button>
-<button class="talkrow" data-toast="友達グループ：既読が爆速でついてる">
+<button class="talkrow" id="talk-group">
 <span class="ava-txt" style="background:#f59e0b;width:48px;height:48px;font-size:21px">🍻</span>
-<span style="min-width:0"><span class="nm">いつメン🍻</span><br><span class="pv">次の飲みいつにする？</span></span>
+<span style="min-width:0"><span class="nm">いつメン🍻 <span class="ubadge" id="g-unread" style="display:none"></span></span><br><span class="pv" id="g-preview">次の飲みいつにする？</span></span>
 <span class="tm">月曜</span>
 </button>
 </div>
@@ -426,7 +454,15 @@ transform:translateY(-190%);transition:transform.55s cubic-bezier(.2,.9,.25,1);c
 </div>
 </section>
 
-<!-- ===== NEWS ===== -->
+<div id="group-chat" style="display:none;flex:1;flex-direction:column;min-height:0">
+        <div class="line-head" style="padding-top:56px"><button class="back" id="group-back" style="border:none;background:none;font-size:19px;cursor:pointer">‹</button><span><span class="t" style="font-size:15.5px;font-weight:800;display:block">いつメン🍻</span><span class="s" style="font-size:10.5px;color:#8e8e93">ゆい ・ みさき ・ りな</span></span></div>
+        <div class="chat-scroll" id="gchat">
+          <div class="daychip">月曜日</div>
+          <div class="msg him"><span class="ava-txt" style="background:#e879a0;width:34px;height:34px;font-size:14px">ゆ</span><span><div class="gname">ゆい</div><span class="bub">次の飲みいつにする？</span></span></div>
+        </div>
+        <div class="line-input"><span style="font-size:19px">＋</span><input id="g-text" placeholder="メッセージを入力" autocomplete="off"><button class="sendbtn" id="g-send">送信</button></div>
+      </div>
+    <!-- ===== NEWS ===== -->
 <section class="view" id="v-news">
 <div class="appbar"><button class="back" data-home>‹</button><span class="t">ニュース</span><span class="s" id="news-note">11月2日(月) 夜</span></div>
 <div class="scroll" id="news-scroll">
@@ -525,7 +561,8 @@ if(k==="news"){state.news++; if(!$("#v-news").classList.contains("on")) setBadge
 function clearBadge(k){setBadge(k,0); if(k==="line"){state.lineUnread=0;$("#line-unread").style.display="none"} if(k==="news"){state.news=0}}
 /* push */
 let pushCb=null;
-function push(app,color,icon,title,body,cb){ $("#push-app").textContent=app; const ic=$("#push-ic"); ic.style.background=color; ic.textContent=icon; $("#push-title").textContent=title; $("#push-body").textContent=body; pushCb=cb||null; $("#push").classList.add("in"); clearTimeout(push._t); push._t=setTimeout(()=>$("#push").classList.remove("in"),7000);}
+function pop(){ try{ if(navigator.vibrate) navigator.vibrate(25); if(!window._ac) window._ac=new (window.AudioContext||window.webkitAudioContext)(); const ac=window._ac; if(ac.state==="suspended") ac.resume(); const o=ac.createOscillator(),g=ac.createGain(); o.type="sine"; o.frequency.value=920; g.gain.setValueAtTime(0.05,ac.currentTime); g.gain.exponentialRampToValueAtTime(0.001,ac.currentTime+0.16); o.connect(g); g.connect(ac.destination); o.start(); o.stop(ac.currentTime+0.18);}catch(e){} }
+function push(app,color,icon,title,body,cb){ pop(); $("#push-app").textContent=app; const ic=$("#push-ic"); ic.style.background=color; ic.textContent=icon; $("#push-title").textContent=title; $("#push-body").textContent=body; pushCb=cb||null; $("#push").classList.add("in"); clearTimeout(push._t); push._t=setTimeout(()=>$("#push").classList.remove("in"),7000);}
 $("#push").addEventListener("click",()=>{ $("#push").classList.remove("in"); if(pushCb) pushCb();});
 /* ============ story start ============ */
 function scheduleFirstPush(){ if(state._pushScheduled) return; state._pushScheduled=true;
@@ -549,7 +586,11 @@ animateCount($("#ig-fol-n"),342,52814,26000); animateCount($("#w-ig"),342,52814,
 animateCount($("#x-fol-n"),189,38427,26000); animateCount($("#w-x"),189,38427,26000);
 animateCount($("#his-fol-n"),81476,77900,26000,v=>(v/10000).toFixed(1)+"万");
 buildTrends(); buildTimeline(); toast("🔥 <b>炎上度上昇中</b>：トレンド1位を獲得");
-floodComments(); floodMentions(); floodDms(); every(genContent,15000);
+floodComments(); floodMentions(); floodDms(); every(genContent,15000); every(genAct,13000);
+  state._imp=312; every(()=>{ if(state._imp<1480){ state._imp+=Math.floor(Math.random()*26+7); const el=$("#imp-n"); if(el) el.textContent=state._imp.toLocaleString("ja-JP")+"万"; } },3000);
+  state._batt=43; every(()=>{ if(state._batt>36){ state._batt--; $("#batt-n").textContent=state._batt; document.querySelector(".batt .fill").style.width=state._batt+"%"; } },25000);
+  $("#nao-story-viewers").innerHTML="👁 2,314人 ・ <b>193.hiroto_jixiang</b>、yui_s、sauna_m 他 —— 彼、見てる…";
+  later(groupFlood,23000);
 later(()=>push("X","#000","𝕏","トレンド1位 #大翔熱愛","「裏切られた」「幸せなら応援」賛否が真っ二つ",()=>show("x")),6000);
 later(()=>push("Instagram","linear-gradient(45deg,#fa7e1e,#d62976,#962fbf)","📷","フォロワーが+10,000人突破","コメントとDMリクエストが殺到している",()=>show("ig")),12000);
 later(()=>{lineSequence1()},16000);
@@ -559,13 +600,17 @@ later(()=>{addNewsRow("assets/insta-post.jpg","「冬終わらんといて」投
 /* ============ NEWS ============ */
 function addNewsHero(){const d=document.createElement("div");d.className="news-hero";d.innerHTML=`<img src="assets/stage.jpg" alt=""><div class="in"><span class="tag">速報</span><h3>人気アイドル・井汲大翔、一般女性と“手つなぎデート”撮 —— 週刊誌が決定的写真を配信</h3><p>昨夜、都内カフェから出てきた二人は人目を気にしながらも手を繋ぎ…。お相手女性のSNSも特定が進んでいる模様。</p></div>`;d.style.cursor="pointer";d.addEventListener("click",openArticle);$("#news-list").prepend(d)}
 function newsBack(){ $("#news-article").style.display="none"; $("#news-list").style.display="block"; $("#news-scroll").scrollTop=0}
-function openArticle(){ $("#news-list").style.display="none"; const a=$("#news-article"); a.style.display="block"; a.innerHTML=`<div class="article"><button class="btn-main" style="background:#f2f2f7;width:auto;padding:7px 14px;margin:0 0 12px" onclick="newsBack()">‹ 一覧に戻る</button><h2>人気アイドル、一般女性と手つなぎデート　「お揃いネックレス」も</h2><div class="m">週刊デジタル ・ 20:49配信</div><p>人気上昇中のアイドル・井汲大翔（24）が、一般女性と都内のカフェでデートする様子をキャッチした。店を出た二人は、周囲を気にしながらも自然に手をつなぎ、同じ方向の駅へ消えたという。</p><div class="box">目撃者「帽子もマスクもしてたけど、背格好と声でバレバレでした。女性のほうがちょっと緊張してて、彼がずっと笑わせてたのが印象的でした」</div><p>ネットでは早くもお相手のSNS特定が進み、本人のInstagramには数時間で数万件のフォローとコメントが殺到。昨日の投稿「カフェでゆっくりできた日」が“匂わせ”だったのではないかと掘り起こされている。</p><p>所属事務所は取材に対し「担当者が不在のため、確認中」と回答している。</p></div>`; $("#news-scroll").scrollTop=0}
+function openArticle(){ $("#news-list").style.display="none"; const a=$("#news-article"); a.style.display="block"; a.innerHTML=`<div class="article"><button class="btn-main" style="background:#f2f2f7;width:auto;padding:7px 14px;margin:0 0 12px" onclick="newsBack()">‹ 一覧に戻る</button><h2>人気アイドル、一般女性と手つなぎデート　「お揃いネックレス」も</h2><div class="m">週刊デジタル ・ 20:49配信</div><p>人気上昇中のアイドル・井汲大翔（24）が、一般女性と都内のカフェでデートする様子をキャッチした。店を出た二人は、周囲を気にしながらも自然に手をつなぎ、同じ方向の駅へ消えたという。</p><div class="box">目撃者「帽子もマスクもしてたけど、背格好と声でバレバレでした。女性のほうがちょっと緊張してて、彼がずっと笑わせてたのが印象的でした」</div><p>ネットでは早くもお相手のSNS特定が進み、本人のInstagramには数時間で数万件のフォローとコメントが殺到。昨日の投稿「お昼の麺が美味しすぎた日」が“同じ店では”と掘り起こされている。</p><p>所属事務所は取材に対し「担当者が不在のため、確認中」と回答している。</p></div>`; $("#news-scroll").scrollTop=0}
 function addArticleDefault(){}
-function openStatement(){ $("#news-list").style.display="none"; const a=$("#news-article"); a.style.display="block"; a.innerHTML=`<div class="article"><button class="btn-main" style="background:#f2f2f7;width:auto;padding:7px 14px;margin:0 0 12px" onclick="newsBack()">‹ 一覧に戻る</button><h2>事務所がコメント発表「プライベートは本人に任せております」</h2><div class="m">芸能デスク ・ たった今</div><p>所属事務所は報道について、次のようにコメントした。</p><div class="box">「一部報道について、プライベートな事柄は本人に任せております。今後の活動に変更はありません」</div><p>交際を否定しないコメントに、SNSでは「認めたってこと？」「活動続けるのは安心」と賛否が割れている。本人の口から何が語られるのか、注目が集まる。</p></div>`; $("#news-scroll").scrollTop=0}
+function openStatement(){ $("#news-list").style.display="none"; const a=$("#news-article"); a.style.display="block"; a.innerHTML=`<div class="article"><button class="btn-main" style="background:#f2f2f7;width:auto;padding:7px 14px;margin:0 0 12px" onclick="newsBack()">‹ 一覧に戻る</button><h2>事務所がコメント発表「プライベートは本人に任せております」</h2><div class="m">芸能デスク ・ たった今</div><p>所属事務所は報道について、次のようにコメントした。</p><div class="box">「一部報道について、プライベートな事柄は本人に任せております。今後の活動に変更はありません」</div><p>交際を否定しないコメントに、SNSでは「認めたってこと？」「活動続けるのは安心」と賛否が割れている。本人の口から何が語られるのか、注目が集まる。</p><h3 style="margin-top:20px;font-size:15.5px">コメント <span style="color:#8e8e93;font-size:12.5px">12,408件</span></h3>
+<div class="ycmt"><div class="yh"><span class="ava-txt" style="width:26px;height:26px;font-size:11px;background:#7a9cc6">a</span> aaa***さん</div><div class="yt">否定しないってことは認めてるようなもの。活動に変更なしが一番安心した</div><div class="yb"><span class="like-btn">👍 そう思う 4,208</span><span>返信 312件</span></div></div>
+<div class="ycmt"><div class="yh"><span class="ava-txt" style="width:26px;height:26px;font-size:11px;background:#c67a7a">r</span> rot***さん</div><div class="yt">複雑だけど、嘘ついて隠されるよりずっとマシ。堂々としてるのは好感</div><div class="yb"><span class="like-btn">👍 そう思う 3,914</span><span>返信 208件</span></div></div>
+<div class="ycmt"><div class="yh"><span class="ava-txt" style="width:26px;height:26px;font-size:11px;background:#8a8a8a">y</span> yun***さん</div><div class="yt">ファンミで「彼女いない」って言ってたのにな…説明がほしい</div><div class="yb"><span class="like-btn">👍 そう思う 2,577</span><span>返信 489件</span></div></div>
+<div class="ycmt"><div class="yh"><span class="ava-txt" style="width:26px;height:26px;font-size:11px;background:#7ac68d">s</span> sak***さん</div><div class="yt">24歳、大人同士の恋愛。叩くのは違うと思う</div><div class="yb"><span class="like-btn">👍 そう思う 5,102</span><span>返信 156件</span></div></div></div>`; $("#news-scroll").scrollTop=0}
 function addNewsRow(img,h,m,cb){const d=document.createElement("div");d.className="newsrow";d.innerHTML=`<img src="${img}" alt=""><span><span class="h">${h}</span><br><span class="m">${m}</span></span>`; if(cb){d.style.cursor="pointer";d.addEventListener("click",cb)} $("#news-list").prepend(d); bump("news")}
 /* ============ X ============ */
 const X_POSTS=[
-{n:"ニュース速報 @NewsFlash",h:"@news_flash_jp ☑",t:"人気アイドル・井汲大翔に熱愛報道。週刊誌が一般女性との手つなぎデート写真を配信。事務所は「確認中」",m:["💬 8,412","🔁 32,105","❤️ 41,208"]},
+{n:"ニュース速報 @NewsFlash",h:"@news_flash_jp ☑",t:"人気アイドル・井汲大翔に熱愛報道。週刊誌が一般女性との手つなぎデート写真を配信。事務所は「確認中」",m:["💬 8,412","🔁 32,105","❤️ 41,208"],imp:312},
 {n:"芸能ウォッチャー",h:"@geino_watch",t:"大翔の熱愛、お相手のインスタもう特定されてるの早すぎる…。昨日のカフェ投稿が伏線だった説。",m:["💬 1,204","🔁 9,870","❤️ 12,400"]},
 {n:"ロットダン💙",h:"@rottdan_love",t:"正直ショックはある。でもステージでずっと頑張ってきた大翔が、プライベートで笑える相手がいるなら…複雑やけど応援したい",m:["💬 903","🔁 4,102","❤️ 18,930"]},
 {n:"ゆん",h:"@yun_o0",t:"裏切られた気持ち。ファンミのあの笑顔はなんだったの？　返金してほしいくらいモヤる",m:["💬 2,311","🔁 1,540","❤️ 3,208"]},
@@ -574,12 +619,12 @@ const X_POSTS=[
 {n:"まとめ速報",h:"@matome_soku",t:"事務所コメント「プライベートは本人に任せております」＝事実上認めたと話題に #大翔熱愛",m:["💬 3,020","🔁 18,442","❤️ 7,650"]},
 ];
 function avaTxt(name){let h=0;for(const c of name)h=(h*31+c.charCodeAt(0))%360;return `<span class="ava-txt" style="background:hsl(${h},55%,55%)">${name.trim()[0]||"？"}</span>`}
-function postEl(p,hot){const d=document.createElement("div");d.className="post";d.innerHTML=`${avaTxt(p.n)}<span style="min-width:0"><span class="nm">${p.n}</span> <span class="hd">${p.h} ・ 今</span><div class="tx">${p.t}</div><div class="mt"><span class="${hot?'hot':''}">${p.m[0]}</span><span>${p.m[1]}</span><span class="like-btn">${p.m[2]}</span></div></span>`;return d}
-function buildTimeline(){const tl=$("#x-pane-tl"); X_POSTS.forEach((p,i)=>later(()=>{tl.prepend(postEl(p,i===0));},i*2600));
+function postEl(p,hot){const d=document.createElement("div");d.className="post";d.innerHTML=`${avaTxt(p.n)}<span style="min-width:0"><span class="nm">${p.n}</span> <span class="hd">${p.h} ・ 今</span><div class="tx">${p.t}</div><div class="mt"><span class="${hot?'hot':''}">${p.m[0]}</span><span>${p.m[1]}</span><span class="like-btn">${p.m[2]}</span>${p.imp?`<span>👁 <span id="imp-n">${p.imp}万</span></span>`:""}</div></span>`;return d}
+function buildTimeline(){const tl=$("#x-pane-tl"); X_POSTS.forEach((p,i)=>later(()=>{const el=postEl(p,i===0); tl.prepend(el); if(i===0){el.style.cursor="pointer"; el.title="タップでスレッド表示"; el.addEventListener("click",openThread);}},i*2600));
 const mine=document.createElement("div"); $("#x-me-posts").appendChild(postEl({n:"なお",h:"@nao_0324",t:"（このアカウント、今めちゃくちゃ見られてる…）",m:["💬 0","🔁 0","❤️ 0"]},false));}
 const TRENDS=[["エンターテイメント ・ トレンド","#大翔熱愛","128,409 件のポスト"],["日本のトレンド","#手つなぎデート","84,210 件のポスト"],["日本のトレンド","事務所コメント","61,003 件のポスト"],["エンターテイメント ・ トレンド","匂わせ","44,918 件のポスト"],["日本のトレンド","ロットダン","29,377 件のポスト"]];
 function buildTrends(){const w=$("#x-pane-trend"); w.innerHTML=""; TRENDS.forEach((t,i)=>{const d=document.createElement("div");d.className="trend";d.innerHTML=`<div class="cat">${i+1} ・ ${t[0]}</div><div class="kw">${t[1]}</div><div class="cnt">${t[2]}</div>`;w.appendChild(d)})}
-$$("[data-xtab]").forEach(b=>b.addEventListener("click",()=>{$$("[data-xtab]").forEach(x=>x.classList.remove("act"));b.classList.add("act");["tl","trend","mention","me"].forEach(k=>$("#x-pane-"+k).style.display=k===b.dataset.xtab?"block":"none")}));
+$$("[data-xtab]").forEach(b=>b.addEventListener("click",()=>{$$("[data-xtab]").forEach(x=>x.classList.remove("act"));b.classList.add("act");$("#x-thread").style.display="none";["tl","trend","mention","me"].forEach(k=>$("#x-pane-"+k).style.display=k===b.dataset.xtab?"block":"none")}));
 const MENTIONS=[
 ["ゆん@yun_o0","@nao_0324 あんたが大翔奪ったの？　説明して"],
 ["応援垢@m_support","@nao_0324 叩かれてるけど負けないで。幸せならそれでいい"],
@@ -605,8 +650,9 @@ function openChat(){ $("#line-list").style.display="none"; $("#line-head-list").
 function closeChat(){ $("#line-chat").style.display="none"; $("#line-list").style.display="block"; $("#line-head-list").style.display="flex"; show("line")}
 $("#talk-hiroto").addEventListener("click",openChat);
 $("#line-back").addEventListener("click",closeChat);
-function himMsg(text,delay){ return new Promise(res=>{ later(()=>{ $("#typing").classList.add("on"); $("#chat").scrollTop=$("#chat").scrollHeight; later(()=>{ $("#typing").classList.remove("on"); const d=document.createElement("div"); d.className="msg him"; d.innerHTML=`<img class="avatar" src="assets/selfie.jpg" width="34" height="34" alt=""><span class="bub"></span><span class="meta">今</span>`; d.querySelector(".bub").textContent=text; $("#chat").appendChild(d); $("#line-preview").textContent=text; $("#chat").scrollTop=$("#chat").scrollHeight; bump("line"); res();},1100);},delay||400);})}
-function meMsg(text){const d=document.createElement("div");d.className="msg me";d.innerHTML=`<span class="bub"></span><span class="meta">既読<br>今</span>`;d.querySelector(".bub").textContent=text;$("#chat").appendChild(d);$("#chat").scrollTop=$("#chat").scrollHeight}
+function nowTime(){const d=new Date();return String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0")}
+function himMsg(text,delay){ return new Promise(res=>{ later(()=>{ $("#typing").classList.add("on"); $("#chat").scrollTop=$("#chat").scrollHeight; later(()=>{ $("#typing").classList.remove("on"); const d=document.createElement("div"); d.className="msg him"; d.innerHTML=`<img class="avatar" src="assets/selfie.jpg" width="34" height="34" alt=""><span class="bub"></span><span class="meta">${nowTime()}</span>`; d.querySelector(".bub").textContent=text; $("#chat").appendChild(d); $("#line-preview").textContent=text; $("#chat").scrollTop=$("#chat").scrollHeight; bump("line"); res();},1100);},delay||400);})}
+function meMsg(text){const d=document.createElement("div");d.className="msg me";d.innerHTML=`<span class="bub"></span><span class="meta">既読<br>${nowTime()}</span>`;d.querySelector(".bub").textContent=text;$("#chat").appendChild(d);$("#chat").scrollTop=$("#chat").scrollHeight}
 function askChoices(q,opts){const w=$("#choices");w.innerHTML=`<div class="q">${q}</div>`;opts.forEach(o=>{const b=document.createElement("button");b.textContent=o.label;b.addEventListener("click",()=>{w.classList.remove("on");meMsg(o.label);o.fn()});w.appendChild(b)});w.classList.add("on");$("#chat").scrollTop=$("#chat").scrollHeight}
 async function lineSequence1(){
 push("LINE","#06c755","💬","ひろと","「なお」——タップでトークを開く",()=>{show("line");openChat()});
@@ -618,6 +664,7 @@ askChoices("なおの返信を選んで",[
 ]);
 }
 async function lineSequence2(){ if(state._seq2) return; state._seq2=true;
+  await himPhoto("assets/ig-meal.jpg"); await himMsg("これ、なおだけ"); await himStamp("🥺");
 await himMsg("マネージャーと今話した"); await himMsg("事務所、コメント出すって"); await himMsg("「任せてる」ってやつ"); await himMsg("否定はせん、って俺が言った"); await himMsg("なおと別れる気、ないから");
 askChoices("これから、どうする？",[
 {label:"堂々と付き合おう",fn:()=>ending("open")},
@@ -643,6 +690,57 @@ addNewsRow("assets/stage.jpg",box.news,"続報 ・ たった今",null);
 push("ニュース速報","#e60012","N",box.news,"タップで結末を確認",()=>{ show("home"); showEnding(box);});
 later(()=>showEnding(box),6000);
 }
+/* ===== v3: IG activity ===== */
+$("#ig-bell-btn").addEventListener("click",()=>{ $("#ig-activity").classList.toggle("on"); $("#ig-bell").textContent=""; $("#ig-scroll").scrollTop=0; });
+const ACTS=[
+ ["follow","さんがあなたをフォローし始めました"],
+ ["like","さんがあなたの投稿にいいねしました"],
+ ["comment","さんがコメントしました：「え、本当なの？」"],
+ ["follow","さんがあなたをフォローし始めました"],
+ ["comment","さんがコメントしました：「大翔のこと大事にしてね」"],
+ ["like","さんがあなたの投稿にいいねしました"],
+];
+function genAct(){ if(state._actN>=14) return; state._actN=(state._actN||0)+1; const nm=pick(GEN_NAMES); const t=pick(ACTS);
+  const d=document.createElement("div"); d.className="act-row";
+  d.innerHTML=avaTxt(nm)+"<span><b>"+nm+"</b>"+t[1]+' <span class="tm">今</span></span>'+(t[0]==="follow"?'<button class="fb">フォローバック</button>':'<img class="thumb" src="assets/cafe.jpg" alt="">');
+  const list=$("#act-list"); list.insertBefore(d,list.children[2]||null); $("#ig-bell").textContent="•"; bump("ig");
+  const lk=$("#nao-like-n"); if(lk && t[0]==="like") lk.textContent=(parseInt(lk.textContent)+Math.floor(Math.random()*40+3));
+}
+/* ===== v3: nao story ===== */
+let naoStoryTimer=null;
+$("#nao-story-btn").addEventListener("click",()=>{ const v=$("#nao-story-view"); v.classList.remove("on"); void v.offsetWidth; v.classList.add("on"); clearTimeout(naoStoryTimer); naoStoryTimer=setTimeout(()=>v.classList.remove("on"),5000); });
+$("#nao-story-close").addEventListener("click",()=>$("#nao-story-view").classList.remove("on"));
+/* ===== v3: X thread ===== */
+const THREAD_REPLIES=[
+ ["ロットダン💙@rottdan_love","ショックだけど…ステージの大翔は本物だった。それは変わらない"],
+ ["ゆん@yun_o0","ファンミの直後なのがきつい。タイミング…"],
+ ["芸能ウォッチャー@geino_watch","続報待ち。お相手の特定合戦がもう始まってるのが現代"],
+ ["さくらの推し活@sakura_act","叩く前に本人コメント待ちなよ、みんな"],
+ ["まとめ速報@matome_soku","事務所「確認中」→「本人に任せております」に変わったのが答えな気がする"],
+ ["通りすがり@pass_by","手つなぎ写真、彼が笑わせてる感じで微笑ましくはある"],
+];
+function openThread(){ ["tl","trend","mention","me"].forEach(k=>$("#x-pane-"+k).style.display="none"); $("#x-thread").style.display="block"; $("#x-scroll").scrollTop=0;
+  const tm=$("#thread-main"); tm.innerHTML=""; tm.appendChild(postEl(X_POSTS[0],true));
+  const rp=$("#thread-replies"); rp.innerHTML=""; THREAD_REPLIES.forEach((r,i)=>later(()=>{ rp.appendChild(postEl({n:r[0].split("@")[0],h:"@"+(r[0].split("@")[1]||""),t:r[1],m:["💬 "+(Math.floor(Math.random()*300)+12),"🔁 "+(Math.floor(Math.random()*900)+30),"❤️ "+(Math.floor(Math.random()*4000)+120).toLocaleString("ja-JP")]},false)); },600+i*900));
+}
+$("#thread-back").addEventListener("click",()=>{ $("#x-thread").style.display="none"; $("#x-pane-tl").style.display="block"; });
+/* ===== v3: LINE photo + stamp ===== */
+function himPhoto(src){ return new Promise(res=>{ later(()=>{ const d=document.createElement("div"); d.className="msg him"; d.innerHTML=`<img class="avatar" src="assets/selfie.jpg" width="34" height="34" alt=""><span class="bub photo"><img src="${src}" alt=""></span><span class="meta">${nowTime()}</span>`; $("#chat").appendChild(d); $("#chat").scrollTop=$("#chat").scrollHeight; bump("line"); res(); },500); }) }
+function himStamp(emoji){ return new Promise(res=>{ later(()=>{ const d=document.createElement("div"); d.className="msg him"; d.innerHTML=`<img class="avatar" src="assets/selfie.jpg" width="34" height="34" alt=""><span class="bub stamp">${emoji}</span><span class="meta">${nowTime()}</span>`; $("#chat").appendChild(d); $("#chat").scrollTop=$("#chat").scrollHeight; bump("line"); res(); },400); }) }
+/* ===== v3: group chat ===== */
+function openGroup(){ $("#line-list").style.display="none"; $("#line-head-list").style.display="none"; $("#line-chat").style.display="none"; const g=$("#group-chat"); g.style.display="flex"; state.gUnread=0; $("#g-unread").style.display="none"; clearBadge("line"); $("#gchat").scrollTop=$("#gchat").scrollHeight }
+function closeGroup(){ $("#group-chat").style.display="none"; $("#line-list").style.display="block"; $("#line-head-list").style.display="flex"; show("line") }
+$("#talk-group").addEventListener("click",openGroup);
+$("#group-back").addEventListener("click",closeGroup);
+const FRIENDS={ゆい:["#e879a0","ゆ"],みさき:["#7a9cc6","み"],りな:["#8fbf7a","り"]};
+function gMsg(name,text){ const f=FRIENDS[name]; const d=document.createElement("div"); d.className="msg him"; d.innerHTML=`<span class="ava-txt" style="background:${f[0]};width:34px;height:34px;font-size:14px">${f[1]}</span><span><div class="gname">${name}</div><span class="bub"></span></span><span class="meta">${nowTime()}</span>`; d.querySelector(".bub").textContent=text; $("#gchat").appendChild(d); $("#g-preview").textContent=name+"："+text; $("#gchat").scrollTop=$("#gchat").scrollHeight;
+  if($("#group-chat").style.display==="none" && $("#v-line").classList.contains("on")===false || $("#group-chat").style.display==="none"){ state.gUnread=(state.gUnread||0)+1; const u=$("#g-unread"); u.style.display="inline-flex"; u.textContent=state.gUnread; bump("line"); } }
+function gMe(text){ const d=document.createElement("div"); d.className="msg me"; d.innerHTML=`<span class="bub"></span><span class="meta">既読<br>${nowTime()}</span>`; d.querySelector(".bub").textContent=text; $("#gchat").appendChild(d); $("#gchat").scrollTop=$("#gchat").scrollHeight }
+const FRIEND_REPLIES=["え、落ち着いて聞くよ","大丈夫なの！？","電話する？","とりあえず深呼吸！","あんたは悪くないからね"];
+function sendGroup(){ const inp=$("#g-text"); const v=inp.value.trim(); if(!v) return; inp.value=""; gMe(v); setTimeout(()=>gMsg(pick(Object.keys(FRIENDS)),pick(FRIEND_REPLIES)),1400); }
+$("#g-send").addEventListener("click",sendGroup);
+$("#g-text").addEventListener("keydown",e=>{ if(e.key==="Enter") sendGroup(); });
+async function groupFlood(){ const seq=[["ゆい","なお！？"],["ゆい","ニュース見た！？　あれ、なお！？"],["みさき","待って、相手って…なおのこと？"],["りな","インスタのフォロワー増え方が異常なんだけど"],["ゆい","電話出れる？　心配で"],["みさき","叩かれてるけど、私たちは味方だから"]]; for(const [n,t] of seq){ gMsg(n,t); await new Promise(r=>setTimeout(r,2100)); } push("LINE","#06c755","💬","いつメン🍻","「なお！？ ニュース見た！？」——タップでグループへ",()=>{show("line");openGroup()}); }
 /* ===== v2: likes ===== */
 document.addEventListener("click",e=>{const b=e.target.closest(".like-btn"); if(!b) return; const on=b.classList.toggle("liked"); const m=b.textContent.match(/([\d,]+)/); if(m){let n=parseInt(m[1].replace(/,/g,"")); n+=on?1:-1; b.textContent=b.textContent.replace(m[1],n.toLocaleString("ja-JP"));}});
 /* ===== v2: infinite generators ===== */
