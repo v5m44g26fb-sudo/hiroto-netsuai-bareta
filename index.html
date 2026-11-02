@@ -719,7 +719,7 @@ input,textarea{font-size:16px!important}
 <div class="setrow"><span>📖 物語の進み具合</span><span style="color:#8e8e93;font-size:12.5px" id="set-progress">第1話</span></div>
 <button class="btn-main" style="background:#ff3b30;color:#fff;width:100%;margin:6px 0 12px" onclick="location.reload()">🔁 物語を最初からやり直す</button>
 <div style="font-size:13px;font-weight:800;margin:2px 2px 8px">📞 通話履歴</div><div id="set-calllog" style="background:#fff;border-radius:12px;padding:6px 14px;margin-bottom:6px"><div style="font-size:12.5px;color:#8e8e93;padding:8px 0">まだ通話はない</div></div><button id="calllog-clear" style="background:none;border:none;color:#8e8e93;font-size:12px;cursor:pointer;font-family:inherit;padding:2px 2px 12px">通話履歴を消す</button>
-<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v42</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
+<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v44</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
 </div>
 </section>
 
@@ -1367,6 +1367,28 @@ every(()=>{ const now=Date.now(); $$("#act-list .act-row").forEach(r=>{ if(!r.da
 /* ===== v39: pause TikTok videos when leaving the view ===== */
 document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return; if(e.target.closest("[data-open],[data-home],.back")){ $$("#v-tiktok video").forEach(v=>{ try{v.pause()}catch(err){} }); } });
 (function(){ const tv=$("#v-tiktok"); if(!tv||!window.MutationObserver) return; new MutationObserver(()=>{ if(!tv.classList.contains("on")) $$("#v-tiktok video").forEach(v=>{ try{v.pause()}catch(err){} }); }).observe(tv,{attributes:true,attributeFilter:["class"]}); })();
+/* ===== v43: news - tappable calm articles + comments on the scandal article ===== */
+(function(){
+  const CALM_ARTS=[
+   {h:"人気アイドル、ワールドツアーの追加公演を発表　チケット争奪戦へ",m:"エンタメ通信 ・ 18:20配信",img:"assets/stage.jpg",body:`<p>人気アイドル・井汲大翔（24）のワールドツアーに追加公演が発表された。大阪と東京での2公演で、ファンクラブ先行は来週から受け付ける。</p><div class="box">本人コメント「待っててくれてありがとう。絶対に来てよかったって思えるステージにします」</div><p>前回のツアーは全公演が完売。今回もチケットの争奪戦が予想される。</p>`},
+   {h:"ファンミーティングで見せた“王子様衣装”がSNSで話題に",m:"芸能デスク ・ 17:05配信",img:"assets/crown.jpg",body:`<p>週末に開催されたファンミーティングで井汲大翔が披露した白い王子様衣装が、SNSで大きな話題になっている。投稿された写真は数時間で数万件のいいねを集めた。</p><div class="box">ファンの声「似合いすぎて現実味がない」「この衣装で登場した瞬間、会場の空気が変わった」</div><p>ファンミーティングは今後も各地で開催予定だという。</p>`}
+  ];
+  $$("#news-list .newsrow").forEach((r,i)=>{ const A=CALM_ARTS[i]; if(!A) return; r.style.cursor="pointer"; r.addEventListener("click",()=>{ $("#news-list").style.display="none"; const a=$("#news-article"); a.style.display="block"; a.innerHTML=`<div class="article"><button class="btn-main" style="background:#f2f2f7;width:auto;padding:7px 14px;margin:0 0 12px" onclick="newsBack()">‹ 一覧に戻る</button><h2>${A.h}</h2><div class="m">${A.m}</div><img src="${A.img}" alt="" style="width:100%;border-radius:12px;margin:6px 0 12px">${A.body}</div>`; $("#news-scroll").scrollTop=0; }); });
+  const NC=[["手つなぎは決定的すぎる…","3,204"],["24歳、大人同士の恋愛なら良くない？","5,891"],["ネックレスお揃いは、匂わせだったのか","1,102"],["ファンミで見たあの笑顔、彼女に向けられてたのかな","2,468"],["活動は続けてほしい。事務所の対応待ち","4,317"]];
+  const _oa=openArticle; openArticle=function(){ _oa(); const art=$("#news-article .article"); if(art&&!art.querySelector(".nc-wrap")){ const w=document.createElement("div"); w.className="nc-wrap"; w.innerHTML=`<h3 style="margin-top:22px;font-size:15.5px">コメント <span style="color:#8e8e93;font-size:12.5px">8,412件</span></h3>`+NC.map(c=>`<div style="padding:10px 0;border-bottom:1px solid #f2f2f7"><div style="font-size:14px;line-height:1.75">${c[0]}</div><div style="font-size:12.5px;color:#8e8e93;margin-top:3px"><span class="nc-like" style="cursor:pointer">♡ ${c[1]}</span> ・ 返信</div></div>`).join(""); art.appendChild(w); } };
+  document.addEventListener("click",e=>{ const l=e.target.closest(".nc-like"); if(!l) return; const on=l.dataset.on==="1"; const num=parseInt(l.textContent.replace(/[^0-9]/g,""))||0; l.textContent=(on?"♡ ":"❤️ ")+(on?Math.max(0,num-1):num+1).toLocaleString("ja-JP"); l.dataset.on=on?"":"1"; l.style.color=on?"":"#e0245e"; l.style.fontWeight=on?"":"700"; });
+})();
+/* ===== v44: photos - his TikTok videos join the album (tap to watch) ===== */
+(function(){ const grid=$("#ph-grid"); if(!grid) return;
+  const VIDS=[["tt-poster-shinee.jpg","SHINee「누나 너무 예뻐」🎵",0],["tt-poster-steady.jpg","NCT WISH「Steady」🎵",1],["tt-poster-seventeen.jpg","SEVENTEEN練習曲🎵",2],["tt-poster-treasure.jpg","TREASUREチャレンジ🎵",3]];
+  VIDS.forEach(([img,cap,idx])=>{ const f=document.createElement("figure"); f.dataset.cat="video"; f.dataset.vidx=idx;
+    f.innerHTML=`<img src="assets/${img}" alt=""><span style="position:absolute;top:6px;right:6px;background:rgba(0,0,0,.55);color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:11px">▶</span><figcaption>${cap}</figcaption>`;
+    grid.appendChild(f); });
+  const tabs=$("#album-tabs"); const b=document.createElement("button"); b.dataset.album="video"; b.textContent="動画"; tabs.appendChild(b);
+  b.addEventListener("click",()=>{ $$("#album-tabs button").forEach(x=>x.classList.remove("act")); b.classList.add("act"); tagPhotos(); $$("#ph-grid figure").forEach(f=>{ f.style.display=(f.dataset.cat==="video")?"":"none"; }); });
+  grid.addEventListener("click",e=>{ const f=e.target.closest("figure"); if(!f||f.dataset.vidx===undefined) return; e.stopPropagation(); e.preventDefault();
+    show("tiktok"); const cards=$$("#v-tiktok .tt-card"); const card=cards[Number(f.dataset.vidx)]; if(card){ setTimeout(()=>{ card.scrollIntoView({block:"start"}); const v=card.querySelector("video"); if(v){ const pr=v.play(); if(pr&&pr.catch) pr.catch(()=>{}); } },80); } },true);
+})();
 /* ===== v41: individual friend chats (yui / misaki / rina) ===== */
 const FCHATS={
  yui:{name:"ゆい",ini:"ゆ",color:"#e879a0",sub:"幹事担当🍻",log:[["f","次の飲みの店、候補3つ送るね！"],["f","なおの分も予約しとく？"]],calm:["まかせて！　幹事やるから","それいいね〜","今度サウナも行こ","なおの推し活の話、もっと聞かせて"],scandalLog:["なお、ニュース見た…あれ、なおのことだよね？","心配で電話しようか迷った","私たちは味方だからね"],scandal:["大丈夫、そばにいるよ","無理しないでね","いつでも電話して"]},
