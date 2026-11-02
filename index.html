@@ -738,7 +738,7 @@ input,textarea{font-size:16px!important}
 <div class="setrow"><span>📞 通話した回数</span><span style="color:#8e8e93;font-size:12.5px" id="set-calls">0回</span></div>
 <button class="btn-main" style="background:#ff3b30;color:#fff;width:100%;margin:6px 0 12px" onclick="location.reload()">🔁 物語を最初からやり直す</button>
 <div style="font-size:13px;font-weight:800;margin:2px 2px 8px">📞 通話履歴</div><div id="set-calllog" style="background:#fff;border-radius:12px;padding:6px 14px;margin-bottom:6px"><div style="font-size:12.5px;color:#8e8e93;padding:8px 0">まだ通話はない</div></div><button id="calllog-clear" style="background:none;border:none;color:#8e8e93;font-size:12px;cursor:pointer;font-family:inherit;padding:2px 2px 12px">通話履歴を消す</button>
-<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v126</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
+<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v127</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
 </div>
 </section>
 
@@ -3107,6 +3107,24 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
     .map(r=>'<div style="display:flex;font-size:13.5px;padding:5px 0;border-bottom:1px solid #f4f4f6"><span style="width:52px">'+r[0]+'</span><span>'+r[1]+'</span><b style="margin-left:auto">'+r[2]+'</b></div>').join("")+
     '<div style="font-size:12px;color:#888;margin-top:9px">🧳 釜山はだいたい大阪より1〜2°低め。海風対策に薄手の上着を。</div>';
    panel.appendChild(box); }
+ }).observe(panel,{childList:true,subtree:true});
+})();
+/* ===== v127: the clock mini-app gains a live world clock ===== */
+(function(){
+ const panel=document.querySelector("#hp-panel"); if(!panel) return;
+ const ZONES=[["🇯🇵 東京","Asia/Tokyo"],["🇰🇷 ソウル・釜山","Asia/Seoul"],["🇬🇧 ロンドン","Europe/London"],["🇺🇸 ニューヨーク","America/New_York"],["🇺🇸 ロサンゼルス","America/Los_Angeles"]];
+ let iv=null;
+ const fmt=tz=>new Intl.DateTimeFormat("ja-JP",{hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:false,timeZone:tz}).format(new Date());
+ new MutationObserver(()=>{ const head=panel.querySelector(".hp-head b");
+  if(!head||!head.textContent.includes("時計")){ if(!panel.querySelector("#wc-box")&&iv){ clearInterval(iv); iv=null; } return; }
+  if(panel.querySelector("#wc-box")) return;
+  const box=document.createElement("div"); box.id="wc-box";
+  box.style.cssText="margin-top:12px;background:#fff;border-radius:12px;padding:13px 14px";
+  box.innerHTML='<div style="font-weight:800;font-size:14px;margin-bottom:6px">🌍 世界時計</div>'+ZONES.map((z,i)=>'<div style="display:flex;font-size:14px;padding:6px 0;border-bottom:1px solid #f4f4f6"><span>'+z[0]+'</span><b class="wc-t" data-tz="'+z[1]+'" style="margin-left:auto;font-variant-numeric:tabular-nums">--:--:--</b></div>').join("")+
+   '<div style="font-size:12px;color:#888;margin-top:8px">釜山と東京は同じ時刻。時差ぼけの心配なし✈️</div>';
+  panel.appendChild(box);
+  const tick=()=>box.querySelectorAll(".wc-t").forEach(el=>el.textContent=fmt(el.dataset.tz));
+  tick(); clearInterval(iv); iv=setInterval(()=>{ if(panel.style.display==="none"){ clearInterval(iv); iv=null; return; } tick(); },1000);
  }).observe(panel,{childList:true,subtree:true});
 })();
 /* ===== v41: individual friend chats (yui / misaki / rina) ===== */
