@@ -738,7 +738,7 @@ input,textarea{font-size:16px!important}
 <div class="setrow"><span>📞 通話した回数</span><span style="color:#8e8e93;font-size:12.5px" id="set-calls">0回</span></div>
 <button class="btn-main" style="background:#ff3b30;color:#fff;width:100%;margin:6px 0 12px" onclick="location.reload()">🔁 物語を最初からやり直す</button>
 <div style="font-size:13px;font-weight:800;margin:2px 2px 8px">📞 通話履歴</div><div id="set-calllog" style="background:#fff;border-radius:12px;padding:6px 14px;margin-bottom:6px"><div style="font-size:12.5px;color:#8e8e93;padding:8px 0">まだ通話はない</div></div><button id="calllog-clear" style="background:none;border:none;color:#8e8e93;font-size:12px;cursor:pointer;font-family:inherit;padding:2px 2px 12px">通話履歴を消す</button>
-<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v161</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
+<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v162</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
 </div>
 </section>
 
@@ -3899,6 +3899,36 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
   panel.querySelector("#xdm-send").addEventListener("click",send);
   panel.querySelector("#xdm-in").addEventListener("keydown",e=>{ if(e.key==="Enter") send(); }); };
  btn.addEventListener("click",()=>{ panel.style.display="flex"; list(); });
+})();
+/* ===== v162: free-chat realism - quick-reply chips, friends typing, his questions back ===== */
+(function(){
+ /* (a) quick-reply chips in his chat */
+ const lc=document.querySelector("#line-chat");
+ if(lc){ const input=lc.querySelector(".line-input");
+  if(input){ const chips=document.createElement("div"); chips.id="qr-chips";
+   chips.style.cssText="display:none;gap:7px;padding:7px 12px 2px;flex-wrap:wrap;background:#8fb3d9";
+   ["おつかれさま","会いたい","明日ひま？","おやすみ","好き"].forEach(t=>{ const b=document.createElement("button");
+    b.type="button"; b.textContent=t;
+    b.style.cssText="background:#fff;border:none;border-radius:999px;padding:6.5px 13px;font-size:13px;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.15)";
+    b.addEventListener("click",()=>{ const inp=document.querySelector("#line-text"); const snd=document.querySelector("#line-send");
+     if(inp&&snd){ inp.value=t; snd.click(); } });
+    chips.appendChild(b); });
+   input.before(chips);
+   setInterval(()=>{ chips.style.display=(!state.started&&(state._vmCalm||state._vmA2))?"flex":"none"; },1200); } }
+ /* (b) friends show a typing state in the header */
+ const fchat=document.querySelector("#fchat"); const fsub=document.querySelector("#f-sub");
+ if(typeof fSend==="function"&&fchat&&fsub){ const _fs2=fSend; let restore=null;
+  const setSub=()=>{ try{ if(typeof FCHATS!=="undefined"&&typeof fCur!=="undefined"&&FCHATS[fCur]) fsub.textContent=FCHATS[fCur].sub; }catch(e){} };
+  fSend=function(){ _fs2(); fsub.textContent="入力中…";
+   clearTimeout(restore); restore=setTimeout(setSub,9000); };
+  new MutationObserver(ms=>{ ms.forEach(m=>m.addedNodes.forEach(nd=>{ if(nd.nodeType===1&&nd.classList&&nd.classList.contains("msg")&&!nd.classList.contains("me")){ clearTimeout(restore); setSub(); } })); }).observe(fchat,{childList:true}); }
+ /* (c) he asks back */
+ if(typeof himReply==="function"&&!state._v162q){ state._v162q=true; const _hr3=himReply;
+  himReply=async function(t){ const r=await _hr3(t);
+   if((state._vmCalm||state._vmA2)&&!state.started&&Math.random()<0.2){
+    const Q=["なおは今日、なにしてたん？","それで、それで？","……わかるわ、それ","今度、写真送ってや","眠くない？　無理すんなよ"];
+    setTimeout(()=>{ if(!state.started) himMsg(Q[Math.floor(Math.random()*Q.length)]); },3400); }
+   return r; }; }
 })();
 /* ===== v41: individual friend chats (yui / misaki / rina) ===== */
 const FCHATS={
