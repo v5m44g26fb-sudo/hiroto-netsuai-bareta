@@ -738,7 +738,7 @@ input,textarea{font-size:16px!important}
 <div class="setrow"><span>📞 通話した回数</span><span style="color:#8e8e93;font-size:12.5px" id="set-calls">0回</span></div>
 <button class="btn-main" style="background:#ff3b30;color:#fff;width:100%;margin:6px 0 12px" onclick="location.reload()">🔁 物語を最初からやり直す</button>
 <div style="font-size:13px;font-weight:800;margin:2px 2px 8px">📞 通話履歴</div><div id="set-calllog" style="background:#fff;border-radius:12px;padding:6px 14px;margin-bottom:6px"><div style="font-size:12.5px;color:#8e8e93;padding:8px 0">まだ通話はない</div></div><button id="calllog-clear" style="background:none;border:none;color:#8e8e93;font-size:12px;cursor:pointer;font-family:inherit;padding:2px 2px 12px">通話履歴を消す</button>
-<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v284</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
+<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v285</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
 </div>
 </section>
 
@@ -6501,6 +6501,34 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
    const tile=ig.querySelector('#nao-grid [data-pi="'+posts.indexOf(cafe)+'"]');
    if(tile) tile.style.display="none"; }); };
  setInterval(apply,900); apply();
+})();
+/* ===== v285: more life in the quiet corners - friend chat pools, a notebook page for what comes next, and he brings up Christmas ===== */
+(function(){
+ if(state._v285) return; state._v285=true;
+ // friends: more calm-pool lines (registered once FCHATS is ready)
+ const FADD={ yui:["サクヤの新しい写真見た？ 保存した？","次の釜山いつ行くか決めた？ チムジルバンも行こ","この前のアカスリ、まだツルツルなんやけど笑"],
+  misaki:["最近のなお、なんか顔つき変わった気がする","カフェ開拓しよ、今度ついてくわ","推しの供給が多い週って幸せよな"],
+  rina:["紅葉の季節やね、どっか行く？","あの抹茶パフェ、また食べたいって言ってたやつ","ドラマの続き気になりすぎて寝不足…"] };
+ const ftry=setInterval(()=>{ let ok=false;
+  try{ if(typeof FCHATS!=="undefined"){ ok=true;
+   for(const k in FADD){ const f=FCHATS[k]; if(f&&f.calm&&!f._v285){ f._v285=1; FADD[k].forEach(t=>f.calm.push(t)); } } } }catch(e){}
+  if(ok) clearInterval(ftry); },800);
+ // notebook: a page for what comes next - only once the epilogue days arrive
+ const nobs=new MutationObserver(()=>{ const p=document.querySelector("#note-panel");
+  if(!p||p.querySelector("#note-extra7")) return;
+  if(!(state.act2||state.ended)) return;
+  const d=document.createElement("div"); d.id="note-extra7";
+  d.innerHTML='<div style="font-weight:800;margin:14px 0 6px">📅 これからのページ</div>'
+   +'<div style="line-height:1.9;font-size:13.5px">・紅葉、見に行く約束をした<br>・クリスマスは、ゆっくり過ごしたいって言ってくれた<br>・来年のファンミも、絶対行く<br>・「普通に話そな」から、また少しずつ</div>';
+  p.appendChild(d); });
+ nobs.observe(document.body,{childList:true,subtree:true});
+ // free chat: after everything, he is the one who mentions Christmas
+ const iv=setInterval(()=>{ if(typeof himReply!=="function"||state._v285h){ if(state._v285h) clearInterval(iv); return; }
+  state._v285h=true; clearInterval(iv);
+  const _hr=himReply;
+  himReply=function(txt){ if((state.act2||state.ended)&&/クリスマス/.test(txt||"")&&Math.random()<0.75)
+   return "クリスマスな。……ゆっくり過ごしたいって、思ってる。なおと。";
+  return _hr.apply(this,arguments); }; },700);
 })();
 /* ===== v41: individual friend chats (yui / misaki / rina) ===== */
 const FCHATS={
