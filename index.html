@@ -724,7 +724,7 @@ input,textarea{font-size:16px!important}
 <div class="setrow"><span>📞 通話した回数</span><span style="color:#8e8e93;font-size:12.5px" id="set-calls">0回</span></div>
 <button class="btn-main" style="background:#ff3b30;color:#fff;width:100%;margin:6px 0 12px" onclick="location.reload()">🔁 物語を最初からやり直す</button>
 <div style="font-size:13px;font-weight:800;margin:2px 2px 8px">📞 通話履歴</div><div id="set-calllog" style="background:#fff;border-radius:12px;padding:6px 14px;margin-bottom:6px"><div style="font-size:12.5px;color:#8e8e93;padding:8px 0">まだ通話はない</div></div><button id="calllog-clear" style="background:none;border:none;color:#8e8e93;font-size:12px;cursor:pointer;font-family:inherit;padding:2px 2px 12px">通話履歴を消す</button>
-<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v70</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
+<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v71</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
 </div>
 </section>
 
@@ -1731,6 +1731,28 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
   "@keyframes callzoom{from{transform:scale(1)}to{transform:scale(1.13) translateY(-1.5%)}}"+
   "#v-call.video-on #call-act-img{animation:callzoom 16s ease-in-out infinite alternate}";
  document.head.appendChild(css);
+})();
+/* ===== v71: LINE date chips + live list preview ===== */
+(function(){
+ const css=document.createElement("style"); css.textContent=
+  ".date-chip{align-self:center;background:rgba(0,0,0,.22);color:#fff;font-size:11px;font-weight:600;border-radius:11px;padding:3px 12px;margin:8px auto 4px;width:fit-content}";
+ document.head.appendChild(css);
+ const CHD={0:"9月27日（土）",1:"9月27日（土）",2:"10月4日（土）",3:"10月12日（日）",4:"10月18日（土）",5:"11月1日（土）",6:"11月2日（日）"};
+ const key=()=> state.act2?"11月3日（月）":(state.phase==="scandal"?"11月2日（日）":(CHD[state.chapter]||"9月27日（土）"));
+ setInterval(()=>{ const box=document.querySelector("#chat"); if(!box) return;
+  if(getComputedStyle(document.querySelector("#line-chat")).display==="none") return;
+  const k=key(); let chip=box.querySelector(".date-chip");
+  if(!chip){ chip=document.createElement("div"); chip.className="date-chip"; box.prepend(chip); }
+  if(chip.dataset.k!==k){ chip.dataset.k=k; chip.textContent=k; if(chip.parentNode!==box) box.prepend(chip); }
+  if(box.firstElementChild!==chip) box.prepend(chip);
+ },900);
+ const pv=document.querySelector("#line-preview"), tm=document.querySelector("#talk-hiroto .tm"), box=document.querySelector("#chat");
+ if(pv&&box){ new MutationObserver(()=>{ const bs=box.querySelectorAll(".bub"); if(!bs.length) return;
+   const last=bs[bs.length-1]; let t=(last.textContent||"").trim().replace(/\s+/g," ");
+   if(last.querySelector("audio")||last.classList.contains("voice")) t="🎙 ボイスメッセージ";
+   if(last.querySelector("img")) t="📷 写真";
+   if(t){ pv.textContent=t.slice(0,26); if(tm){ const d=new Date(); tm.textContent=String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0"); } }
+  }).observe(box,{childList:true,subtree:true}); }
 })();
 /* ===== v41: individual friend chats (yui / misaki / rina) ===== */
 const FCHATS={
