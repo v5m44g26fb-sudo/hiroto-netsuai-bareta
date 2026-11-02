@@ -724,7 +724,7 @@ input,textarea{font-size:16px!important}
 <div class="setrow"><span>📞 通話した回数</span><span style="color:#8e8e93;font-size:12.5px" id="set-calls">0回</span></div>
 <button class="btn-main" style="background:#ff3b30;color:#fff;width:100%;margin:6px 0 12px" onclick="location.reload()">🔁 物語を最初からやり直す</button>
 <div style="font-size:13px;font-weight:800;margin:2px 2px 8px">📞 通話履歴</div><div id="set-calllog" style="background:#fff;border-radius:12px;padding:6px 14px;margin-bottom:6px"><div style="font-size:12.5px;color:#8e8e93;padding:8px 0">まだ通話はない</div></div><button id="calllog-clear" style="background:none;border:none;color:#8e8e93;font-size:12px;cursor:pointer;font-family:inherit;padding:2px 2px 12px">通話履歴を消す</button>
-<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v71</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
+<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v72</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
 </div>
 </section>
 
@@ -1753,6 +1753,57 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
    if(last.querySelector("img")) t="📷 写真";
    if(t){ pv.textContent=t.slice(0,26); if(tm){ const d=new Date(); tm.textContent=String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0"); } }
   }).observe(box,{childList:true,subtree:true}); }
+})();
+/* ===== v72: X - my posts gather engagement + follower list ===== */
+(function(){
+ const css=document.createElement("style"); css.textContent=
+  "#x-fl-btn{display:block;margin:10px 0 4px;background:#f7f9fa;border:1px solid #e6ecf0;color:#0f1419;font-weight:700;font-size:13px;border-radius:999px;padding:8px 14px;cursor:pointer}"+
+  "#x-fl-panel{position:absolute;inset:0;background:#fff;z-index:230;display:none;flex-direction:column;padding:64px 0 0}"+
+  ".xfl-row{display:flex;align-items:center;gap:10px;padding:11px 16px;border-bottom:1px solid #f2f2f2}"+
+  ".xfl-row .fb{margin-left:auto;border-radius:999px;padding:6px 13px;font-size:12.5px;font-weight:800;cursor:pointer;border:1px solid #0f1419;background:#0f1419;color:#fff}"+
+  ".xfl-row .fb.on{background:#fff;color:#0f1419}";
+ document.head.appendChild(css);
+
+ /* engagement grower for her own posts */
+ const host=document.querySelector("#x-me-posts");
+ if(host){ const grown=new WeakSet();
+  const num=el=>{ const m=(el.textContent||"").match(/([\d,]+)/); return m?parseInt(m[1].replace(/,/g,"")):0; };
+  const grow=post=>{ if(grown.has(post)) return; grown.add(post);
+   const spans=Array.from(post.querySelectorAll("span,button"));
+   const like=spans.find(s=>/^[❤️♡]/.test((s.textContent||"").trim())); if(!like) return;
+   const rep=spans.find(s=>/^💬/.test((s.textContent||"").trim()));
+   let added=0; const cap=()=> state.phase==="scandal"? 1400+Math.random()*1600 : 50+Math.random()*90;
+   const C=cap();
+   const iv=setInterval(()=>{ if(!post.isConnected){ clearInterval(iv); return; }
+    const inc=state.phase==="scandal"? Math.floor(8+Math.random()*70) : Math.floor(1+Math.random()*5);
+    added+=inc; const g=(like.textContent||"").trim().startsWith("♡")?"♡":"❤️";
+    like.textContent=g+" "+(num(like)+inc).toLocaleString("ja-JP");
+    if(rep&&Math.random()<0.22) rep.textContent="💬 "+(num(rep)+1).toLocaleString("ja-JP");
+    if(added>=C) clearInterval(iv);
+   },3200); };
+  new MutationObserver(ms=>ms.forEach(m=>m.addedNodes.forEach(n=>{ if(n.nodeType===1) grow(n); }))).observe(host,{childList:true});
+  host.querySelectorAll(":scope > *").forEach(grow);
+ }
+
+ /* follower list */
+ const pane=document.querySelector("#x-pane-me");
+ if(pane&&!document.querySelector("#x-fl-btn")){ const btn=document.createElement("button"); btn.id="x-fl-btn"; btn.textContent="👥 フォロワーをみる";
+  const posts=document.querySelector("#x-me-posts"); pane.insertBefore(btn,posts);
+  const panel=document.createElement("div"); panel.id="x-fl-panel";
+  panel.innerHTML='<div style="display:flex;align-items:center;gap:12px;padding:0 16px 12px"><button id="x-fl-close" style="border:none;background:none;font-size:20px;cursor:pointer">‹</button><b style="font-size:16px">フォロワー</b></div><div id="x-fl-list" style="overflow-y:auto"></div>';
+  document.querySelector("#v-x").appendChild(panel);
+  const BASE=[["ゆい","@yui_s","🍓","#e879a0"],["みさき","@msa_ki","🌊","#7a9cc6"],["りな","@rina_rin","🎀","#b48ec9"],["サウナ友","@sauna_m","♨️","#7ab648"],["高校の友達","@hs_tomo","📚","#d9a441"]];
+  const FAN=[["大翔ファン","@hiroto_ouen","👑","#e5c158"],["情報垢","@scoop_watch","👀","#888"],["考察班","@kousatsu_jp","🔍","#5aa2d6"]];
+  btn.addEventListener("click",()=>{ const list=panel.querySelector("#x-fl-list");
+   const rows=state.phase==="scandal"? FAN.concat(BASE) : BASE;
+   list.innerHTML=""; rows.forEach(r=>{ const d=document.createElement("div"); d.className="xfl-row";
+    d.innerHTML='<span class="ava-txt" style="background:'+r[3]+';width:42px;height:42px;font-size:18px">'+r[2]+'</span><span><b style="font-size:14px">'+r[0]+'</b><br><span style="color:#536471;font-size:12.5px">'+r[1]+'</span></span>';
+    const fb=document.createElement("button"); fb.className="fb on"; fb.textContent="フォロー中";
+    fb.addEventListener("click",()=>{ const on=fb.classList.toggle("on"); fb.textContent=on?"フォロー中":"フォローする"; });
+    d.appendChild(fb); list.appendChild(d); });
+   panel.style.display="flex"; });
+  panel.querySelector("#x-fl-close").addEventListener("click",()=>{ panel.style.display="none"; });
+ }
 })();
 /* ===== v41: individual friend chats (yui / misaki / rina) ===== */
 const FCHATS={
