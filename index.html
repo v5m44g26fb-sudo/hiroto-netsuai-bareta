@@ -738,7 +738,7 @@ input,textarea{font-size:16px!important}
 <div class="setrow"><span>📞 通話した回数</span><span style="color:#8e8e93;font-size:12.5px" id="set-calls">0回</span></div>
 <button class="btn-main" style="background:#ff3b30;color:#fff;width:100%;margin:6px 0 12px" onclick="location.reload()">🔁 物語を最初からやり直す</button>
 <div style="font-size:13px;font-weight:800;margin:2px 2px 8px">📞 通話履歴</div><div id="set-calllog" style="background:#fff;border-radius:12px;padding:6px 14px;margin-bottom:6px"><div style="font-size:12.5px;color:#8e8e93;padding:8px 0">まだ通話はない</div></div><button id="calllog-clear" style="background:none;border:none;color:#8e8e93;font-size:12px;cursor:pointer;font-family:inherit;padding:2px 2px 12px">通話履歴を消す</button>
-<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v117</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
+<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v118</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
 </div>
 </section>
 
@@ -2817,6 +2817,47 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
     if(Math.random()<0.65) setTimeout(()=>{ if(typeof himVoice==="function") himVoice("assets/vm-calmfree.mp3","0:04"); },3400);
     if(typeof push==="function") push("LINE","#06c755","ひ","ひろと","さっき電話したんやけど",()=>{ show("line"); openChat(); }); },20000); }
  },1000);
+})();
+/* ===== v118: TikTok overhaul - tappable likes and a comment section per video ===== */
+(function(){
+ const PRESETS=[
+  ["振り付け完璧すぎる","この人の踊り、目が離せない","保存した"],
+  ["NG可愛すぎかよ","素の大翔くん最高","何回も見てる"],
+  ["応援してます！","かっこよさが限界突破","おすすめから来た"],
+  ["神動画","推しが尊い","何回も見てる"],
+  ["ダンスのキレがすごい","保存した","おすすめから来た"]];
+ const NAMES=["wish_0271","sakura_act","dance_mania","ouen_dan","maron_fan"];
+ const fmt=n=>n>=1000?(n/1000).toFixed(1).replace(/\.0$/,"")+"K":String(n);
+ const parse=t=>{ const m=(t||"").match(/([\d.]+)(K|万)?/); if(!m) return 0; let v=parseFloat(m[1]); if(m[2]==="K") v*=1000; if(m[2]==="万") v*=10000; return Math.round(v); };
+ const setup=card=>{ if(card.dataset.v118) return; card.dataset.v118="1";
+  const likes=card.querySelector(".tt-likes");
+  if(likes){ likes.style.cursor="pointer"; let n=parse(likes.textContent);
+   likes.addEventListener("click",()=>{ const on=likes.dataset.on==="1"; n+=on?-1:1; likes.dataset.on=on?"":"1";
+    likes.textContent="❤️ "+fmt(n); likes.style.color=on?"":"#fe2c55"; likes.style.transform=on?"":"scale(1.12)";
+    setTimeout(()=>likes.style.transform="",150); }); }
+  const idx=[...document.querySelectorAll(".tt-card")].indexOf(card);
+  const cmts=PRESETS[Math.min(idx,PRESETS.length-1)];
+  const sec=document.createElement("div");
+  sec.style.cssText="padding:2px 14px 14px;background:#111";
+  sec.innerHTML='<button class="tt-cmt-open" style="background:none;border:none;color:#9db3c8;font-size:13px;cursor:pointer;padding:4px 0">💬 コメント '+cmts.length+' 件を見る</button>'+
+   '<div class="tt-cmts" style="display:none">'+
+   cmts.map((c,i)=>'<div style="display:flex;gap:8px;margin-top:9px"><img src="assets/default-avatar.svg" style="width:28px;height:28px;border-radius:50%" alt=""><div style="font-size:13px;line-height:1.5"><b style="color:#fff">'+NAMES[(idx+i)%NAMES.length]+'</b> <span style="color:#ddd">'+c+'</span></div></div>').join("")+
+   '<div class="tt-mine"></div>'+
+   '<div style="display:flex;gap:7px;margin-top:11px"><img src="assets/nao-avatar.jpg" style="width:28px;height:28px;border-radius:50%" alt=""><input class="tt-in" placeholder="コメントを追加…" maxlength="80" style="flex:1;background:#222;border:1px solid #333;border-radius:999px;padding:7px 12px;color:#fff;font-size:13px;outline:none"><button class="tt-send" style="background:#fe2c55;color:#fff;border:none;border-radius:999px;padding:7px 14px;font-size:12.5px;font-weight:700;cursor:pointer">投稿</button></div></div>';
+  card.appendChild(sec);
+  const listEl=sec.querySelector(".tt-cmts");
+  sec.querySelector(".tt-cmt-open").addEventListener("click",e=>{ const open=listEl.style.display!=="none";
+   listEl.style.display=open?"none":"block"; e.target.textContent=open?"💬 コメントを見る":"💬 コメントを閉じる"; });
+  sec.querySelector(".tt-send").addEventListener("click",()=>{ const inp=sec.querySelector(".tt-in"); const v=inp.value.trim(); if(!v) return; inp.value="";
+   const d=document.createElement("div");
+   d.style.cssText="display:flex;gap:8px;margin-top:9px";
+   d.innerHTML='<img src="assets/nao-avatar.jpg" style="width:28px;height:28px;border-radius:50%" alt=""><div style="font-size:13px;line-height:1.5"><b style="color:#fff">nao_0324</b> <span style="color:#ffd94d"></span></div>';
+   d.querySelector("span").textContent=v;
+   sec.querySelector(".tt-mine").appendChild(d);
+   if(typeof toast==="function") toast("コメントを投稿したよ"); });
+ };
+ document.querySelectorAll(".tt-card").forEach(setup);
+ new MutationObserver(()=>document.querySelectorAll(".tt-card").forEach(setup)).observe(document.querySelector("#v-tiktok")||document.body,{childList:true,subtree:true});
 })();
 /* ===== v41: individual friend chats (yui / misaki / rina) ===== */
 const FCHATS={
