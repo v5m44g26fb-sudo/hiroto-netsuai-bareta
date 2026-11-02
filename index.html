@@ -738,7 +738,7 @@ input,textarea{font-size:16px!important}
 <div class="setrow"><span>📞 通話した回数</span><span style="color:#8e8e93;font-size:12.5px" id="set-calls">0回</span></div>
 <button class="btn-main" style="background:#ff3b30;color:#fff;width:100%;margin:6px 0 12px" onclick="location.reload()">🔁 物語を最初からやり直す</button>
 <div style="font-size:13px;font-weight:800;margin:2px 2px 8px">📞 通話履歴</div><div id="set-calllog" style="background:#fff;border-radius:12px;padding:6px 14px;margin-bottom:6px"><div style="font-size:12.5px;color:#8e8e93;padding:8px 0">まだ通話はない</div></div><button id="calllog-clear" style="background:none;border:none;color:#8e8e93;font-size:12px;cursor:pointer;font-family:inherit;padding:2px 2px 12px">通話履歴を消す</button>
-<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v122</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
+<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v123</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
 </div>
 </section>
 
@@ -2966,6 +2966,44 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
   else if(t.includes("その他")) go(()=>{ panel.style.display="none"; show("settings"); });
   else if(t.includes("トーク")) go(()=>{ panel.style.display="none"; });
  });
+})();
+/* ===== v123: a working DM thread with him, inside his Instagram ===== */
+(function(){
+ const v=document.querySelector("#v-hisig"); if(!v) return;
+ const prof=v.querySelector(".ig-prof"); if(!prof) return;
+ const bar=document.createElement("div");
+ bar.style.cssText="display:flex;gap:9px;padding:10px 14px 2px";
+ bar.innerHTML='<button id="his-dm-btn" style="flex:1;background:#0095f6;color:#fff;border:none;border-radius:9px;padding:8px;font-size:13.5px;font-weight:700;cursor:pointer">メッセージを送る</button>';
+ prof.after(bar);
+ const dm=document.createElement("div"); dm.id="his-dm";
+ dm.style.cssText="position:absolute;inset:0;z-index:85;background:#fff;display:none;flex-direction:column;color:#111";
+ dm.innerHTML='<div style="padding:56px 14px 9px;border-bottom:1px solid #eee;display:flex;align-items:center;gap:9px"><button id="hdm-x" style="border:none;background:none;font-size:19px;cursor:pointer">‹</button><img src="assets/line-avatar.jpg" style="width:32px;height:32px;border-radius:50%" alt=""><div><b style="font-size:14px">193.hiroto_jixiang</b><div id="hdm-sub" style="font-size:11px;color:#06c755">オンライン</div></div></div>'+
+  '<div id="hdm-msgs" style="flex:1;overflow-y:auto;padding:12px 14px;display:flex;flex-direction:column;gap:8px"></div>'+
+  '<div style="display:flex;gap:8px;padding:10px 12px;border-top:1px solid #eee"><input id="hdm-in" placeholder="メッセージを送信…" maxlength="100" style="flex:1;border:1px solid #ddd;border-radius:999px;padding:9px 14px;font-size:13.5px;outline:none"><button id="hdm-send" style="background:none;border:none;color:#0095f6;font-weight:800;font-size:14px;cursor:pointer">送信</button></div>';
+ v.appendChild(dm);
+ const box=dm.querySelector("#hdm-msgs");
+ const add=(me,text)=>{ const d=document.createElement("div");
+  d.style.cssText=me?"align-self:flex-end;background:#efefef;color:#111":"align-self:flex-start;background:#fff;border:1px solid #e3e3e8";
+  d.style.maxWidth="75%"; d.style.borderRadius="18px"; d.style.padding="8px 13px"; d.style.fontSize="13.5px"; d.style.lineHeight="1.5";
+  d.textContent=text; box.appendChild(d); box.scrollTop=box.scrollHeight; };
+ const seeded=state._hdmSeed;
+ if(!seeded){ state._hdmSeed=true;
+  if(state.act2){ add(false,"表に出てくれて、ありがとう"); add(false,"もう隠さんでええの、変な感じやな笑"); }
+  else if(state.phase==="scandal"){ add(false,"…DMも、見られてるかもしれん"); add(false,"LINEの方で話そ"); }
+  else { add(false,"投稿見たで"); add(false,"その麺のやつ、うまそうやった"); } }
+ const REPLIES=["ほんまに？","笑","それ、好き","またカフェ行こ","……ありがとう","今、練習終わったとこ"];
+ const SLOW=["（既読がつかない…）","…ごめん、今バタバタしてる","あとでLINEするな"];
+ let ri=0;
+ const send=()=>{ const inp=dm.querySelector("#hdm-in"); const t=inp.value.trim(); if(!t) return; inp.value=""; add(true,t);
+  const sub=dm.querySelector("#hdm-sub");
+  if(state.phase==="scandal"&&!state.act2){ sub.textContent="既読にならない…"; sub.style.color="#999";
+   setTimeout(()=>add(false,SLOW[ri++%SLOW.length]),2600); }
+  else { sub.textContent="入力中…"; sub.style.color="#999";
+   setTimeout(()=>{ add(false,REPLIES[ri++%REPLIES.length]); sub.textContent="オンライン"; sub.style.color="#06c755"; },1700); } };
+ dm.querySelector("#hdm-send").addEventListener("click",send);
+ dm.querySelector("#hdm-in").addEventListener("keydown",e=>{ if(e.key==="Enter") send(); });
+ dm.querySelector("#hdm-x").addEventListener("click",()=>dm.style.display="none");
+ bar.querySelector("#his-dm-btn").addEventListener("click",()=>{ dm.style.display="flex"; box.scrollTop=box.scrollHeight; });
 })();
 /* ===== v41: individual friend chats (yui / misaki / rina) ===== */
 const FCHATS={
