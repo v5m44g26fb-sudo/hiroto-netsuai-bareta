@@ -724,7 +724,7 @@ input,textarea{font-size:16px!important}
 <div class="setrow"><span>📞 通話した回数</span><span style="color:#8e8e93;font-size:12.5px" id="set-calls">0回</span></div>
 <button class="btn-main" style="background:#ff3b30;color:#fff;width:100%;margin:6px 0 12px" onclick="location.reload()">🔁 物語を最初からやり直す</button>
 <div style="font-size:13px;font-weight:800;margin:2px 2px 8px">📞 通話履歴</div><div id="set-calllog" style="background:#fff;border-radius:12px;padding:6px 14px;margin-bottom:6px"><div style="font-size:12.5px;color:#8e8e93;padding:8px 0">まだ通話はない</div></div><button id="calllog-clear" style="background:none;border:none;color:#8e8e93;font-size:12px;cursor:pointer;font-family:inherit;padding:2px 2px 12px">通話履歴を消す</button>
-<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v90</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
+<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v91</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
 </div>
 </section>
 
@@ -2192,7 +2192,7 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
  const css=document.createElement("style"); css.textContent=
   "#v-call.video-on #call-act-img{animation:none!important;border:none!important}";
  document.head.appendChild(css);
- const FR={"ゆい":"assets/fr-yui.jpg","みさき":"assets/fr-misaki.jpg","りな":"assets/fr-rina.jpg"};
+ const FR={"ゆい":"assets/fr-yui.jpg","みさき":"assets/fr-misaki.jpg","りな":"assets/fr-rina.jpg","ゆうた":"assets/fr-yuta.jpg","かず":"assets/fr-kazu.jpg"};
  /* talk list rows */
  [["#talk-yui","ゆい"],["#talk-misaki","みさき"],["#talk-rina","りな"]].forEach(([sel,nm])=>{
   const row=document.querySelector(sel); if(!row) return; const s=row.querySelector(".ava-txt"); if(!s) return;
@@ -2260,6 +2260,52 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
   fSend=function(){ const key=fCur; _fs();
    if(key&&Math.random()<0.25){ const pool=EXTRA[key]||[];
     if(pool.length) setTimeout(()=>{ if(FCHATS[key]) fPush(key,pool[Math.floor(Math.random()*pool.length)]); },5400); } }; }
+})();
+/* ===== v91: icon sweep for pre-rendered history + the two guys join LINE ===== */
+(function(){
+ const FR2={"ゆい":"assets/fr-yui.jpg","みさき":"assets/fr-misaki.jpg","りな":"assets/fr-rina.jpg","ゆうた":"assets/fr-yuta.jpg","かず":"assets/fr-kazu.jpg"};
+ const swapMsg=m=>{ const s=m.querySelector(".ava-txt"); if(!s) return;
+  let nm=""; const g=m.querySelector(".gname"); if(g) nm=g.textContent.trim();
+  if(!nm&&m.closest("#fchat")){ try{ if(typeof fCur!=="undefined"&&fCur&&FCHATS[fCur]) nm=FCHATS[fCur].name; }catch(e){} }
+  if(!FR2[nm]) return;
+  const img=document.createElement("img"); img.className="avatar"; img.src=FR2[nm]; img.width=34; img.height=34; img.alt="";
+  s.replaceWith(img); };
+ const sweep=()=>document.querySelectorAll(".msg.him").forEach(swapMsg);
+ new MutationObserver(ms=>ms.forEach(m=>m.addedNodes.forEach(n=>{ if(n.nodeType!==1) return;
+  if(n.classList&&n.classList.contains("msg")) swapMsg(n);
+  n.querySelectorAll&&n.querySelectorAll(".msg.him").forEach(swapMsg); }))).observe(document.querySelector("#phone"),{childList:true,subtree:true});
+ setTimeout(sweep,300); setTimeout(sweep,1500);
+ /* --- register the guys once the friend-chat system is up --- */
+ const iv=setInterval(()=>{ let ok=false; try{ ok=(typeof FCHATS!=="undefined"&&typeof openFChat==="function"); }catch(e){}
+  if(!ok) return; clearInterval(iv);
+  FCHATS.yuta={name:"ゆうた",ini:"ゆ",color:"#34d399",sub:"9/27 飲み会",
+   log:[["f","9/27楽しかったな〜"],["f","なおちゃん、ひろとくんと仲いいね"]],
+   calm:["今度さ、二人で飲み行かん？","ひろとくんには内緒な笑","なおちゃんの理想のタイプって？","俺、結構本気やで？","返信早いの、俺にだけ？笑"],
+   scandal:["ニュース見たけど大丈夫？","俺やったら、もっと守るのに","ひろとくん、頼りないな","無理してへん？　迎え行こか？"],
+   scandalLog:["ニュース見た","大丈夫なん？","……心配やわ"]};
+  FCHATS.kazu={name:"かず",ini:"か",color:"#f87171",sub:"9/27 飲み会",
+   log:[["f","おつかれ〜"],["f","ゆうたが、なおちゃんのこと聞いてきた笑"]],
+   calm:["それな笑","ゆうた、止めといたほうがいい？","俺は様子見担当やから","次は鍋な、鍋"],
+   scandal:["大丈夫か","ゆうたが心配で暴走しそう","困ったら言えよ"],
+   scandalLog:["ニュース見たわ","無事か"]};
+  const anchor=document.querySelector("#talk-group"); if(!anchor) return;
+  [["yuta","ゆうた","assets/fr-yuta.jpg","9/27楽しかったな〜","9/28"],["kazu","かず","assets/fr-kazu.jpg","おつかれ〜","9/28"]].forEach(([key,nm,img,pv,tm])=>{
+   if(document.querySelector("#talk-"+key)) return;
+   const b=document.createElement("button"); b.className="talkrow"; b.id="talk-"+key;
+   b.innerHTML='<img class="avatar" src="'+img+'" width="48" height="48" alt="">'+
+    '<span style="min-width:0"><span class="nm">'+nm+' <span class="ubadge" id="fu-'+key+'" style="display:none"></span></span><br><span class="pv" id="fv-'+key+'">'+pv+'</span></span>'+
+    '<span class="tm">'+tm+'</span>';
+   b.addEventListener("click",()=>openFChat(key));
+   anchor.parentNode.insertBefore(b,anchor); });
+  /* --- his jealousy: chat with yuta too much and hiroto notices --- */
+  if(typeof fSend==="function"&&!fSend._v91){ const _fs2=fSend; let cnt=0;
+   fSend=function(){ const key=fCur; _fs2();
+    if(key==="yuta"&&state.phase!=="prologue-done"){ cnt++;
+     if(cnt===3&&!state._jealous){ state._jealous=true;
+      setTimeout(()=>{ himMsg("……誰とLINEしとん？"); setTimeout(()=>himMsg("気のせいやったら、ええけど"),1400);
+       if(typeof push==="function") push("LINE","#06c755","ひ","ひろと","……誰とLINEしとん？",()=>{ show("line"); openChat(); }); },6000); } } };
+   fSend._v91=true; }
+ },400);
 })();
 /* ===== v41: individual friend chats (yui / misaki / rina) ===== */
 const FCHATS={
