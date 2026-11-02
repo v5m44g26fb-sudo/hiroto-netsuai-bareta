@@ -738,7 +738,7 @@ input,textarea{font-size:16px!important}
 <div class="setrow"><span>📞 通話した回数</span><span style="color:#8e8e93;font-size:12.5px" id="set-calls">0回</span></div>
 <button class="btn-main" style="background:#ff3b30;color:#fff;width:100%;margin:6px 0 12px" onclick="location.reload()">🔁 物語を最初からやり直す</button>
 <div style="font-size:13px;font-weight:800;margin:2px 2px 8px">📞 通話履歴</div><div id="set-calllog" style="background:#fff;border-radius:12px;padding:6px 14px;margin-bottom:6px"><div style="font-size:12.5px;color:#8e8e93;padding:8px 0">まだ通話はない</div></div><button id="calllog-clear" style="background:none;border:none;color:#8e8e93;font-size:12px;cursor:pointer;font-family:inherit;padding:2px 2px 12px">通話履歴を消す</button>
-<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v291</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
+<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v292</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
 </div>
 </section>
 
@@ -2186,7 +2186,7 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
 (function(){
  if(typeof himReply!=="function") return;
  const _hr=himReply;
- himReply=async function(t){ const r=await _hr(t);
+ himReply=async function(t,cb){ const r=await _hr(t,cb);
   if((state._vmCalm||state._vmA2)&&!state._fuWait&&Math.random()<0.18){ state._fuWait=true;
    const FU=["…なんて","いや、なんでもない","…もうちょっとだけ、話そ","寝る前にもっかい、声聞かせてや"];
    setTimeout(()=>{ state._fuWait=false; himMsg(FU[Math.floor(Math.random()*FU.length)]); },2800); }
@@ -2254,7 +2254,7 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
   if(nm){ const p=document.createElement("span"); p.textContent=" 📌"; p.style.cssText="font-size:11px"; nm.appendChild(p); } }
  /* --- in free chat he sometimes sends a photo, and once in a while recalls a message --- */
  if(typeof himReply==="function"){ const _hr2=himReply;
-  himReply=async function(t){ const r=await _hr2(t);
+  himReply=async function(t,cb){ const r=await _hr2(t,cb);
    if((state._vmCalm||state._vmA2)&&!state._lcBusy){
     const roll=Math.random();
     if(roll<0.07){ state._lcBusy=true;
@@ -3937,7 +3937,7 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
   new MutationObserver(ms=>{ ms.forEach(m=>m.addedNodes.forEach(nd=>{ if(nd.nodeType===1&&nd.classList&&nd.classList.contains("msg")&&!nd.classList.contains("me")){ clearTimeout(restore); setSub(); } })); }).observe(fchat,{childList:true}); }
  /* (c) he asks back */
  if(typeof himReply==="function"&&!state._v162q){ state._v162q=true; const _hr3=himReply;
-  himReply=async function(t){ const r=await _hr3(t);
+  himReply=async function(t,cb){ const r=await _hr3(t,cb);
    if((state._vmCalm||state._vmA2)&&!state.started&&Math.random()<0.2){
     const Q=["なおは今日、なにしてたん？","それで、それで？","……わかるわ、それ","今度、写真送ってや","眠くない？　無理すんなよ"];
     setTimeout(()=>{ if(!state.started) himMsg(Q[Math.floor(Math.random()*Q.length)]); },3400); }
@@ -3956,7 +3956,7 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
    [/ごはん|食べ|おなか|お腹/,["ちゃんと食べた？","なお、少食やから心配やねん"]],
    [/仕事|バイト/,["仕事、おつかれさま"]],
    [/眠い|ねむい/,["眠いなら、寝ていいんやで"]]];
-  himReply=async function(t){ const r=await _hr4(t);
+  himReply=async function(t,cb){ const r=await _hr4(t,cb);
    if((state._vmCalm||state._vmA2)&&!state.started&&typeof t==="string"){
     for(const [re,pool] of RULES){ if(re.test(t)){ if(Math.random()<0.7){
      const line=pool[Math.floor(Math.random()*pool.length)];
@@ -3996,7 +3996,7 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
   [/雪|寒い/,["寒いな、今日。温かくしてな","雪、降りそうやな"]],
   [/誕生日/,["誕生日、覚えてるで。3月24日やろ","誕生日、何が欲しい？"]],
   [/買い物|買った/,["また買い物？　何買ったん","今度、見せてや"]]];
- himReply=async function(t){ const r=await _hr5(t);
+ himReply=async function(t,cb){ const r=await _hr5(t,cb);
   if((state._vmCalm||state._vmA2)&&!state.started&&typeof t==="string"){
    state._mem=state._mem||[];
    TOPICS.forEach(([re,pool],i)=>{ if(re.test(t)&&!state._mem.includes(i)) state._mem.push(i); });
@@ -4019,7 +4019,7 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
  if(typeof himReply!=="function"||state._v165v) return; state._v165v=true;
  const _hr6=himReply;
  const POOL=[["assets/fv-1.mp3","0:02"],["assets/fv-2.mp3","0:03"],["assets/fv-3.mp3","0:03"],["assets/fv-4.mp3","0:02"],["assets/fv-5.mp3","0:02"]];
- himReply=async function(t){ const r=await _hr6(t);
+ himReply=async function(t,cb){ const r=await _hr6(t,cb);
   if((state._vmCalm||state._vmA2)&&!state.started&&typeof himVoice==="function"){
    state._fvTurns=(state._fvTurns||0)+1;
    if(state._fvTurns>=2&&Math.random()<0.18){
@@ -4126,7 +4126,7 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
  if(typeof himReply==="function"&&!state._v170b){ state._v170b=true; const _hr7=himReply;
   const LINES=["いま、レッスンおわったとこ","マネージャーに、また怒られた笑","次のライブ、来てくれる？","ファンの子らの声援、ほんま力になるねん","衣装、決まったで","振り、やっと揃ったわ"];
   const SHOTS=[["assets/stage.jpg","今日のステージ"],["assets/studio.jpg","衣装合わせ、おわった"],["assets/crown.jpg","ファンミ、ありがとう"]];
-  himReply=async function(t){ const r=await _hr7(t);
+  himReply=async function(t,cb){ const r=await _hr7(t,cb);
    if((state._vmCalm||state._vmA2)&&!state.started&&Math.random()<0.15){
     if(Math.random()<0.35&&typeof himPhoto==="function"){ const [s,c]=SHOTS[Math.floor(Math.random()*SHOTS.length)];
      setTimeout(async ()=>{ if(!state.started){ await himPhoto(s); himMsg(c); } },2400);
