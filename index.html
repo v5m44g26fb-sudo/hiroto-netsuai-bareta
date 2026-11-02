@@ -738,7 +738,7 @@ input,textarea{font-size:16px!important}
 <div class="setrow"><span>📞 通話した回数</span><span style="color:#8e8e93;font-size:12.5px" id="set-calls">0回</span></div>
 <button class="btn-main" style="background:#ff3b30;color:#fff;width:100%;margin:6px 0 12px" onclick="location.reload()">🔁 物語を最初からやり直す</button>
 <div style="font-size:13px;font-weight:800;margin:2px 2px 8px">📞 通話履歴</div><div id="set-calllog" style="background:#fff;border-radius:12px;padding:6px 14px;margin-bottom:6px"><div style="font-size:12.5px;color:#8e8e93;padding:8px 0">まだ通話はない</div></div><button id="calllog-clear" style="background:none;border:none;color:#8e8e93;font-size:12px;cursor:pointer;font-family:inherit;padding:2px 2px 12px">通話履歴を消す</button>
-<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v276</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
+<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v277</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
 </div>
 </section>
 
@@ -6346,6 +6346,46 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
  };
  const scan=()=>hv.querySelectorAll(".ig-post").forEach(tidy);
  setInterval(scan,1400); scan();
+})();
+/* ===== v277: the prologue is only the day before - future days stay out of the group chats ===== */
+(function(){
+ if(state._v277) return; state._v277=true;
+ const partP=()=>{ const pc=document.querySelector("#pchat"); if(!pc||pc.dataset.v277) return;
+  const chips=[...pc.querySelectorAll(":scope > .daychip")];
+  const c27=chips.find(c=>c.textContent.includes("9月27日"));
+  const c28=chips.find(c=>c.textContent.includes("9月28日"));
+  if(!c27) return;
+  pc.dataset.v277="1"; let mode=null;
+  [...pc.children].forEach(el=>{ if(el===c27) mode="27"; if(el===c28) mode="28";
+   if(mode) el.dataset.v277g=mode; }); };
+ const partG=()=>{ const gc=document.querySelector("#gchat"); if(!gc||gc.dataset.v277) return;
+  gc.dataset.v277="1";
+  [...gc.children].forEach(el=>{ if(!(el.textContent||"").includes("9月26日")) el.dataset.v277g="seed"; }); };
+ partG();
+ const prow=document.querySelector("#talk-party"), grow2=document.querySelector("#talk-group");
+ const pTm=prow?prow.querySelector(".tm"):null, gTm=grow2?grow2.querySelector(".tm"):null;
+ const pPv=document.querySelector("#p-preview"), gPv=document.querySelector("#g-preview");
+ const orig={ ptm:pTm?pTm.textContent:"", gtm:gTm?gTm.textContent:"",
+  ppv:pPv?pPv.textContent:"", gpv:gPv?gPv.textContent:"" };
+ const SAFE_P="かず：明日よろしく〜！", SAFE_G="ゆい：明日の飲み会、たのしみ〜！";
+ const upd=()=>{ partP();
+  const pro=state.phase==="prologue";
+  const show27=!pro||state.chapter>=1||!!document.querySelector("#gokon-scene");
+  const show28=!pro||state.chapter>=2;
+  document.querySelectorAll("#pchat [data-v277g]").forEach(el=>{
+   el.style.display=((el.dataset.v277g==="27"?show27:show28))?"":"none"; });
+  const showG=!pro||state.chapter>=2;
+  document.querySelectorAll("#gchat [data-v277g]").forEach(el=>{
+   el.style.display=showG?"":"none"; });
+  const ch0=pro&&!(state.chapter>=1);
+  if(pTm) pTm.textContent=ch0?"":orig.ptm;
+  if(gTm) gTm.textContent=ch0?"":orig.gtm;
+  if(pPv){ if(ch0&&pPv.textContent===orig.ppv) pPv.textContent=SAFE_P;
+   else if(!ch0&&pPv.textContent===SAFE_P) pPv.textContent=orig.ppv; }
+  if(gPv){ if(ch0&&gPv.textContent===orig.gpv) gPv.textContent=SAFE_G;
+   else if(!ch0&&gPv.textContent===SAFE_G) gPv.textContent=orig.gpv; }
+ };
+ setInterval(upd,900); upd();
 })();
 /* ===== v41: individual friend chats (yui / misaki / rina) ===== */
 const FCHATS={
