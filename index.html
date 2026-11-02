@@ -738,7 +738,7 @@ input,textarea{font-size:16px!important}
 <div class="setrow"><span>📞 通話した回数</span><span style="color:#8e8e93;font-size:12.5px" id="set-calls">0回</span></div>
 <button class="btn-main" style="background:#ff3b30;color:#fff;width:100%;margin:6px 0 12px" onclick="location.reload()">🔁 物語を最初からやり直す</button>
 <div style="font-size:13px;font-weight:800;margin:2px 2px 8px">📞 通話履歴</div><div id="set-calllog" style="background:#fff;border-radius:12px;padding:6px 14px;margin-bottom:6px"><div style="font-size:12.5px;color:#8e8e93;padding:8px 0">まだ通話はない</div></div><button id="calllog-clear" style="background:none;border:none;color:#8e8e93;font-size:12px;cursor:pointer;font-family:inherit;padding:2px 2px 12px">通話履歴を消す</button>
-<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v130</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
+<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v131</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
 </div>
 </section>
 
@@ -3209,6 +3209,30 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
    setTimeout(()=>himMsg("お返し、考えとく"),3400);
   }));
  });
+})();
+/* ===== v131: X overhaul 3 - your own posts get pin and delete ===== */
+(function(){
+ const mine=document.querySelector("#x-me-posts"); if(!mine) return;
+ const setup=p=>{ if(p.dataset.v131) return; p.dataset.v131="1";
+  const mt=p.querySelector(".mt"); if(!mt) return;
+  const b=document.createElement("span"); b.textContent="⋯"; b.style.cssText="cursor:pointer;font-weight:900;opacity:.6";
+  b.title="ポストのメニュー";
+  mt.appendChild(b);
+  b.addEventListener("click",e=>{ e.stopPropagation();
+   document.querySelectorAll(".post-menu").forEach(m=>m.remove());
+   const m=document.createElement("div"); m.className="post-menu";
+   m.style.cssText="background:#fff;border:1px solid #e6e6ea;border-radius:12px;box-shadow:0 6px 22px rgba(0,0,0,.16);padding:5px;margin-top:5px;font-size:13.5px;color:#111";
+   m.innerHTML='<div class="pm-pin" style="padding:8px 10px;cursor:pointer">📌 プロフィールに固定する</div><div class="pm-del" style="padding:8px 10px;cursor:pointer;color:#e60012">🗑 このポストを削除</div>';
+   p.appendChild(m);
+   m.querySelector(".pm-pin").addEventListener("click",()=>{ mine.querySelectorAll(".pin-label").forEach(x=>x.remove());
+    const lb=document.createElement("div"); lb.className="pin-label"; lb.textContent="📌 固定されたポスト";
+    lb.style.cssText="font-size:11.5px;color:#71767b;padding:2px 0";
+    p.prepend(lb); mine.prepend(p); m.remove(); if(typeof toast==="function") toast("ポストを固定したよ📌"); });
+   m.querySelector(".pm-del").addEventListener("click",()=>{ p.style.opacity=".35"; setTimeout(()=>p.remove(),250); if(typeof toast==="function") toast("ポストを削除したよ"); });
+   setTimeout(()=>document.addEventListener("click",()=>m.remove(),{once:true}),10);
+  }); };
+ mine.querySelectorAll(".post").forEach(setup);
+ new MutationObserver(()=>mine.querySelectorAll(".post").forEach(setup)).observe(mine,{childList:true});
 })();
 /* ===== v41: individual friend chats (yui / misaki / rina) ===== */
 const FCHATS={
