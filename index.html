@@ -241,6 +241,20 @@ transform:translateY(-190%);transition:transform.55s cubic-bezier(.2,.9,.25,1);c
 #nao-story-view .sbar{height:3.5px;background:rgba(255,255,255,.35);border-radius:2px;margin:58px 12px 0;overflow:hidden}
 #nao-story-view .sbar i{display:block;height:100%;width:0;background:#fff}
 #nao-story-view.on .sbar i{animation:sprog 5s linear forwards}
+#hl-view{position:absolute;inset:0;background:#000;z-index:206;display:none;flex-direction:column}
+#hl-view.on{display:flex}
+#hl-view .sbar{display:flex;gap:5px;margin:58px 12px 0}
+#hl-view .sbar i{flex:1;height:3.5px;position:relative;overflow:hidden;background:rgba(255,255,255,.35);border-radius:2px}
+#hl-view .sbar i b{position:absolute;left:0;top:0;bottom:0;width:100%;background:#fff;transform:scaleX(0);transform-origin:left}
+#hl-view .sbar i.done b{transform:scaleX(1)}
+#hl-view .sbar i.act b{animation:sprog2 5s linear forwards}
+#hl-close{position:absolute;top:66px;right:14px;background:rgba(0,0,0,.4);color:#fff;border:none;width:32px;height:32px;border-radius:50%;font-size:15px;cursor:pointer;z-index:2}
+#hl-img{flex:1;width:100%;object-fit:cover;min-height:0}
+#hl-txt{position:absolute;left:0;right:0;bottom:110px;text-align:center;color:#fff;font-size:18px;font-weight:800;line-height:1.8;padding:0 26px;text-shadow:0 2px 10px rgba(0,0,0,.8);white-space:pre-wrap}
+.hl-row{display:flex;gap:16px;padding:2px 16px 12px;overflow-x:auto}
+.hl-btn{background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11px;color:#262626;cursor:pointer;font-family:inherit;flex:none}
+.hl-ring{width:56px;height:56px;border-radius:50%;border:1px solid #dbdbdb;padding:2.5px;display:block}
+.hl-ring img{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block}
 .msg .bub.photo{padding:5px;background:#fff}
 .msg .bub.photo img{width:185px;border-radius:12px;display:block}
 .msg .bub.stamp{background:transparent;font-size:43px;padding:2px 4px}
@@ -468,6 +482,7 @@ input,textarea{font-size:16px!important}
 </div>
 <div class="ig-bio">なお｜大阪<br>サウナとエビと推し活の記録🦐<br><span style="color:#00376b">#日常</span></div>
 <div class="stories"><button id="nao-story-btn"><span class="ring"><img src="assets/default-avatar.svg" alt=""></span>ストーリー</button></div>
+<div class="hl-row"><button class="hl-btn" data-hl="food"><span class="hl-ring"><img src="assets/nao-hl-01.jpg" alt=""></span>ごはん</button><button class="hl-btn" data-hl="trip"><span class="hl-ring"><img src="assets/nao-hl-17.jpg" alt=""></span>おでかけ</button><button class="hl-btn" data-hl="oshi"><span class="hl-ring"><img src="assets/nao-hl-06.jpg" alt=""></span>推し活</button><button class="hl-btn" data-hl="dog"><span class="hl-ring"><img src="assets/nao-hl-09.jpg" alt=""></span>わんこ</button></div>
         <div class="cmt-input" style="margin:0 0 4px"><img class="avatar" src="assets/default-avatar.svg" width="30" height="30" alt=""><input id="nao-cmt-text" placeholder="コメントを追加…（返信もここから）" autocomplete="off"><button id="nao-cmt-send">投稿</button></div>
         <div style="padding:0 14px 10px"><span class="chip">最新投稿へのコメント <b id="ig-cmt-n">3</b>件</span> <span class="chip">DMリクエスト <b id="ig-dm-n">0</b>件</span></div>
 <div class="ig-post">
@@ -488,6 +503,7 @@ input,textarea{font-size:16px!important}
 
 <div id="dm-thread"><div class="line-head" style="padding-top:56px;background:#fff"><button class="back" id="dm-back" style="border:none;background:none;font-size:19px;cursor:pointer">‹</button><img class="avatar" src="assets/default-avatar.svg" width="30" height="30" alt=""><span class="t" style="font-size:15px;font-weight:800">yui_s</span></div><div class="dm-scroll" id="dm-scroll"><div class="dm-bub them">なお！？　ニュース見たんだけど…</div><div class="dm-bub them">あれ、なおだよね？　心配でDMした</div></div><div class="cmt-input"><input id="dm-text" placeholder="メッセージを送信…" autocomplete="off"><button id="dm-send">送信</button></div></div>
     <div id="nao-story-view"><div class="sbar"><i></i></div><button id="nao-story-close" style="position:absolute;top:66px;right:14px;background:rgba(0,0,0,.4);color:#fff;border:none;width:32px;height:32px;border-radius:50%;font-size:15px;cursor:pointer;z-index:2">✕</button><img src="assets/cafe.jpg" alt="" style="flex:1;width:100%;object-fit:cover;min-height:0"><div style="position:absolute;left:0;right:0;bottom:110px;text-align:center;color:#fff;font-size:19px;font-weight:800;text-shadow:0 2px 10px rgba(0,0,0,.8)">お昼の麺🍜</div><div id="nao-story-viewers" style="padding:14px 16px 30px;color:#fff;font-size:12.5px">👁 12人 ・ yui_s、sauna_m 他</div></div>
+<div id="hl-view"><div class="sbar" id="hl-bars"></div><button id="hl-close">✕</button><img id="hl-img" src="" alt=""><div id="hl-txt"></div><div style="padding:14px 16px 30px;color:#fff;font-size:13px;display:flex;gap:9px;align-items:center"><img class="avatar" src="assets/default-avatar.svg" width="30" height="30" alt=""> nao_0324 ・ ハイライト</div></div>
     <!-- ===== Instagram (hiroto) ===== -->
 <section class="view" id="v-hisig">
 <div class="ig-head"><button class="back" data-home style="border:none;background:none;font-size:19px;cursor:pointer">‹</button><span class="t">193.hiroto_jixiang <span class="verified">☑</span></span></div>
@@ -627,7 +643,7 @@ input,textarea{font-size:16px!important}
 <div class="setrow"><span>📖 物語の進み具合</span><span style="color:#8e8e93;font-size:12.5px" id="set-progress">第1話</span></div>
 <button class="btn-main" style="background:#ff3b30;color:#fff;width:100%;margin:6px 0 12px" onclick="location.reload()">🔁 物語を最初からやり直す</button>
 <div style="font-size:13px;font-weight:800;margin:2px 2px 8px">📞 通話履歴</div><div id="set-calllog" style="background:#fff;border-radius:12px;padding:6px 14px;margin-bottom:6px"><div style="font-size:12.5px;color:#8e8e93;padding:8px 0">まだ通話はない</div></div><button id="calllog-clear" style="background:none;border:none;color:#8e8e93;font-size:12px;cursor:pointer;font-family:inherit;padding:2px 2px 12px">通話履歴を消す</button>
-<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v24</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
+<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v25</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
 </div>
 </section>
 
@@ -1251,6 +1267,20 @@ every(()=>{ const now=Date.now(); $$("#act-list .act-row").forEach(r=>{ if(!r.da
   const s=Math.floor((now-+r.dataset.t0)/1000); tm.textContent=s<45?"今":Math.max(1,Math.floor(s/60))+"分前"; }); },20000);
 
 /* ===== v15: prologue-safe X search ===== */
+/* ===== v25: nao highlights (real, from her Instagram) ===== */
+const HL_SETS={
+ food:[["assets/nao-hl-01.jpg","初ねぎし。\n人生で一番美味しい牛タンでした"],["assets/nao-hl-20.jpg","キョチョンチキン🍗"],["assets/nao-hl-12.jpg","ドラマに影響されたにょ"],["assets/nao-hl-14.jpg","毎日蒸籠にしたいなあ"],["assets/nao-hl-15.jpg","ぐつぐつ"],["assets/nao-hl-11.jpg","クリスマスのお菓子🎄"]],
+ trip:[["assets/nao-hl-17.jpg","韓屋の街並み"],["assets/nao-hl-08.jpg","釜山の景色🌊"],["assets/nao-hl-03.jpg","森の小道🌿"]],
+ oshi:[["assets/nao-hl-06.jpg","会社のオンニと遠征行けると思って無かった😭"]],
+ dog:[["assets/nao-hl-09.jpg","サモエド🤍"]]};
+let hlSegs=[],hlIdx=0,hlTimer=null;
+function hlShow(i){ hlIdx=i; const sg=hlSegs[i]; $("#hl-img").src=sg[0]; $("#hl-txt").textContent=sg[1];
+  const bars=$("#hl-bars"); bars.innerHTML=""; hlSegs.forEach((_,j)=>{ const b=document.createElement("i"); if(j<i)b.className="done"; if(j===i)b.className="act"; b.innerHTML="<b></b>"; bars.appendChild(b); });
+  clearTimeout(hlTimer); hlTimer=setTimeout(()=>{ if(hlIdx<hlSegs.length-1) hlShow(hlIdx+1); else $("#hl-view").classList.remove("on"); },5000); }
+$$(".hl-btn").forEach(b=>b.addEventListener("click",()=>{ hlSegs=HL_SETS[b.dataset.hl]||[]; if(!hlSegs.length) return; $("#hl-view").classList.add("on"); hlShow(0); }));
+$("#hl-close").addEventListener("click",e=>{ e.stopPropagation(); clearTimeout(hlTimer); $("#hl-view").classList.remove("on"); });
+$("#hl-view").addEventListener("click",e=>{ if(e.target.id==="hl-close") return; const r=$("#hl-view").getBoundingClientRect(); const right=(e.clientX-r.left)>r.width/2;
+  if(right){ if(hlIdx<hlSegs.length-1) hlShow(hlIdx+1); else { clearTimeout(hlTimer); $("#hl-view").classList.remove("on"); } } else if(hlIdx>0) hlShow(hlIdx-1); });
 /* ===== v24: group name labels slimmer + consecutive-sender merge ===== */
 /* ===== v23: prologue trends + more voices ===== */
 (function(){ const w=$("#x-pane-trend"); if(w&&!w.children.length){
