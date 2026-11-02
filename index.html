@@ -250,6 +250,12 @@ transform:translateY(-190%);transition:transform.55s cubic-bezier(.2,.9,.25,1);c
 .ycmt .yb{font-size:12px;color:#536471;margin-top:5px;display:flex;gap:16px}
 .ycmt .yb .like-btn{color:#0f6fd6}
 .thread-head{position:sticky;top:0;background:#fff;padding:8px 4px;font-weight:800;font-size:15px;border-bottom:1px solid #eff3f4;z-index:2}
+#chapter-card{position:absolute;inset:0;background:rgba(8,9,14,.82);backdrop-filter:blur(6px);z-index:195;display:none;flex-direction:column;align-items:center;justify-content:center;color:#fff;text-align:center;padding:30px}
+#chapter-card.on{display:flex}
+#chapter-card .cc-no{font-size:13px;color:#ffd60a;font-weight:800;letter-spacing:.14em}
+#chapter-card .cc-title{font-size:30px;font-weight:900;margin-top:8px}
+#chapter-card .cc-sub{font-size:13.5px;color:#c9cfdd;margin-top:10px;line-height:1.8}
+#skip-btn{display:none;margin-top:9px;background:rgba(255,255,255,.16);color:#fff;border:1px solid rgba(255,255,255,.35);border-radius:13px;padding:5px 12px;font-size:11.5px;font-weight:700;cursor:pointer;font-family:inherit}
 .foot{font-size:11px;color:#8b93a5;padding:0 16px 18px;text-align:center;line-height:1.7;max-width:560px}
 </style>
 </head>
@@ -282,7 +288,7 @@ transform:translateY(-190%);transition:transform.55s cubic-bezier(.2,.9,.25,1);c
         <div class="lock-date" id="lock-date">11月2日 月曜日</div>
         <div class="lock-time" id="lock-time">20:49</div>
         <div class="lock-notifs">
-          <div class="lock-notif"><span class="p-ic" style="background:#06c755">💬</span><span><b>ひろと</b> ・ 昨日<br>昨日はありがとうな😎 カフェオレ、また飲みに行こ</span></div>
+          <div class="lock-notif"><span class="p-ic" style="background:#f59e0b">🍻</span><span><b>いつメン🍻</b> ・ 昨日<br>ゆい：次の飲みいつにする？</span></div>
           <div class="lock-notif"><span class="p-ic" style="background:linear-gradient(45deg,#fa7e1e,#d62976,#962fbf)">📷</span><span><b>Instagram</b> ・ 1日前<br>193.hiroto_jixiang が投稿しました「冬終わらんといてほしい🙃」</span></div>
         </div>
         <div class="lock-hint">👆 タップしてロック解除</div>
@@ -294,8 +300,8 @@ transform:translateY(-190%);transition:transform.55s cubic-bezier(.2,.9,.25,1);c
 <div class="wallpaper"></div>
 <div class="home-inner">
 <div class="widget">
-<div class="w-title" id="w-title">📱 なおのスマホ｜いつも通り</div>
-<div class="w-main" id="w-main">ひろとのインスタ、昨日も更新されてた。</div>
+<div class="w-title" id="w-title">📖 物語は、出会いから</div>
+<div class="w-main" id="w-main">第1話『出会い』—— 9月27日、飲み会の夜。</div><button id="skip-btn">⏩ 炎上編へスキップ</button>
 <div class="w-row">
 <span>Instagram フォロワー <b id="w-ig">342</b></span>
 <span>X フォロワー <b id="w-x">189</b></span>
@@ -431,7 +437,7 @@ transform:translateY(-190%);transition:transform.55s cubic-bezier(.2,.9,.25,1);c
 <div class="line-list" id="line-list">
 <button class="talkrow" id="talk-hiroto">
 <img class="avatar" src="assets/selfie.jpg" width="48" height="48" alt="">
-<span style="min-width:0"><span class="nm">ひろと <span class="ubadge" id="line-unread" style="display:none"></span></span><br><span class="pv" id="line-preview">昨日はありがとうな😎</span></span>
+<span style="min-width:0"><span class="nm">ひろと <span class="ubadge" id="line-unread" style="display:none"></span></span><br><span class="pv" id="line-preview">（まだトークはない）</span></span>
 <span class="tm">昨日</span>
 </button>
 <button class="talkrow" id="talk-group">
@@ -443,10 +449,7 @@ transform:translateY(-190%);transition:transform.55s cubic-bezier(.2,.9,.25,1);c
 <div id="line-chat" style="display:none;flex:1;flex-direction:column;min-height:0">
 <div class="line-head" style="padding-top:56px"><button class="back" id="line-back" style="border:none;background:none;font-size:19px;cursor:pointer">‹</button><img class="avatar" src="assets/selfie.jpg" width="32" height="32" alt=""><span><span class="t" style="font-size:15.5px;font-weight:800;display:block">ひろと</span><span class="s" style="font-size:10.5px;color:#8e8e93">ISFPの本音は短い。行動で来る。</span></span><span style="margin-left:auto;font-size:18px">📞</span></div>
 <div class="chat-scroll" id="chat">
-<div class="daychip">昨日</div>
-<div class="msg him"><img class="avatar" src="assets/selfie.jpg" width="34" height="34" alt=""><span class="bub">昨日はありがとうな😎</span><span class="meta">21:03</span></div>
-<div class="msg him"><span style="width:34px"></span><span class="bub">カフェオレ、また飲みに行こ</span><span class="meta">21:03</span></div>
-<div class="daychip">今日</div>
+<div class="daychip">9月27日（土）</div>
 </div>
 <div class="typing" id="typing" style="margin:0 12px 8px"><i></i><i></i><i></i></div>
 <div class="choices" id="choices"></div>
@@ -479,7 +482,7 @@ transform:translateY(-190%);transition:transform.55s cubic-bezier(.2,.9,.25,1);c
 <section class="view" id="v-photos">
 <div class="appbar"><button class="back" data-home>‹</button><span class="t">写真</span><span class="s">ひろと＋思い出</span></div>
 <div class="scroll">
-<div class="ph-grid">
+<div class="ph-grid" id="ph-grid">
 <figure><img src="assets/crown.jpg" alt=""><figcaption>ファンミの日🤴</figcaption></figure>
 <figure><img src="assets/stage.jpg" alt=""><figcaption>ステージ</figcaption></figure>
 <figure><img src="assets/selfie.jpg" alt=""><figcaption>送ってくれた自撮り</figcaption></figure>
@@ -521,11 +524,12 @@ transform:translateY(-190%);transition:transform.55s cubic-bezier(.2,.9,.25,1);c
 </div>
 </section>
 
-<div class="toastbox" id="toastbox"></div>
+<div id="chapter-card"><div class="cc-no" id="cc-no">第1話</div><div class="cc-title" id="cc-title">出会い</div><div class="cc-sub" id="cc-sub"></div></div>
+    <div class="toastbox" id="toastbox"></div>
 <div class="homebar" id="homebar"></div>
 </div>
 </div>
-<p class="foot">遊び方：ロック画面をタップして解除すると、少しして速報プッシュが来る。そのあとX・Instagram・ニュースを行き来すると数字とコメントが増えていく。LINEは返信を選ぶとひろとの反応が変わるよ。最初からやり直すときは再読み込み。</p>
+<p class="foot">遊び方：ロック解除で物語スタート。第1話『出会い』から、初デート・告白・付き合い始めを経て、炎上編へ。LINEで返信を選んで進めてね（ウィジェットのボタンで炎上編へスキップもできる）。最初からやり直すときは再読み込み。</p>
 
 <script>
 "use strict";
@@ -564,13 +568,63 @@ let pushCb=null;
 function pop(){ try{ if(navigator.vibrate) navigator.vibrate(25); if(!window._ac) window._ac=new (window.AudioContext||window.webkitAudioContext)(); const ac=window._ac; if(ac.state==="suspended") ac.resume(); const o=ac.createOscillator(),g=ac.createGain(); o.type="sine"; o.frequency.value=920; g.gain.setValueAtTime(0.05,ac.currentTime); g.gain.exponentialRampToValueAtTime(0.001,ac.currentTime+0.16); o.connect(g); g.connect(ac.destination); o.start(); o.stop(ac.currentTime+0.18);}catch(e){} }
 function push(app,color,icon,title,body,cb){ pop(); $("#push-app").textContent=app; const ic=$("#push-ic"); ic.style.background=color; ic.textContent=icon; $("#push-title").textContent=title; $("#push-body").textContent=body; pushCb=cb||null; $("#push").classList.add("in"); clearTimeout(push._t); push._t=setTimeout(()=>$("#push").classList.remove("in"),7000);}
 $("#push").addEventListener("click",()=>{ $("#push").classList.remove("in"); if(pushCb) pushCb();});
+/* ============ v4: prologue (from the beginning) ============ */
+state.phase="prologue"; state.chapter=0; state._token=0;
+function chapterCard(no,title,sub){ $("#cc-no").textContent=no; $("#cc-title").textContent=title; $("#cc-sub").innerHTML=sub||""; const c=$("#chapter-card"); c.classList.add("on"); clearTimeout(chapterCard._t); chapterCard._t=setTimeout(()=>c.classList.remove("on"),2500); }
+function addDayChip(t){ const d=document.createElement("div"); d.className="daychip"; d.textContent=t; $("#chat").appendChild(d); }
+function setChapterWidget(no,main){ $("#w-title").textContent="📖 "+no; $("#w-main").textContent=main; }
+function alive(t){ return t===state._token && state.phase==="prologue"; }
+function addPhoto(src,cap){ const f=document.createElement("figure"); f.innerHTML=`<img src="${src}" alt=""><figcaption>${cap}</figcaption>`; $("#ph-grid").prepend(f); }
+function schedulePrologue(){ if(state._proStarted) return; state._proStarted=true; $("#skip-btn").style.display="inline-block"; later(()=>chapter(1),1300); }
+$("#skip-btn").addEventListener("click",()=>{ if(state.phase!=="prologue") return; state._token++; toScandal(); });
+function toScandal(){ if(state.phase==="scandal") return; state.phase="scandal"; $("#skip-btn").style.display="none"; chapterCard("第6話","バレた日","11月2日（日）夜 —— 。LINEを開いて様子を見てね"); addDayChip("11月2日（日）"); scheduleFirstPush(); }
+function chapter(n){ if(state.phase!=="prologue") return; state.chapter=n; const t=state._token; if(n===1) ch1(t); else if(n===2) ch2(t); else if(n===3) ch3(t); else if(n===4) ch4(t); else if(n===5) ch5(t); }
+async function ch1(t){ setChapterWidget("第1話『出会い』","9月27日、飲み会の夜に。"); chapterCard("第1話","出会い","9月27日（土）夜 —— 共通の友達の飲み会。<br>LINEを開いてね"); 
+  await himMsg("今日はありがとうな",900); if(!alive(t))return; await himMsg("ひろとです"); if(!alive(t))return; await himMsg("なおと喋れて、楽しかった"); if(!alive(t))return; await himMsg("またごはん、行こな");
+  if(!alive(t))return; askChoices("なおの返信を選んで",[
+    {label:"行きたい！",fn:async()=>{ if(!alive(t))return; await himMsg("ほんま？"); if(!alive(t))return; await himMsg("じゃ、来週あけといてな"); later(()=>chapter(2),2000); }},
+    {label:"また今度ね（様子見）",fn:async()=>{ if(!alive(t))return; await himMsg("おっけー"); if(!alive(t))return; await himMsg("急かさんから、気が向いたらで"); later(()=>chapter(2),2000); }},
+  ]); }
+async function ch2(t){ addDayChip("10月4日（土）"); setChapterWidget("第2話『初デート』","カフェで待ち合わせ。"); chapterCard("第2話","初デート","10月4日（土） —— 初めての、二人きり。<br>LINEを開いてね");
+  await himMsg("今日、楽しみにしてた",700); if(!alive(t))return; await himMsg("カフェオレの美味い店、見つけてん");
+  later(()=>{ addPhoto("assets/ig-drink.jpg","初デート☕️"); push("写真","#8e8e93","🌼","思い出が追加されました","初デートの写真 —— タップで写真へ",()=>show("photos")); },6500);
+  later(async()=>{ if(!alive(t))return; await himMsg("今日、楽しかった"); if(!alive(t))return; await himMsg("カフェオレ、なおの好きなやつ覚えたで");
+    if(!alive(t))return; askChoices("なおの返信を選んで",[
+      {label:"私も楽しかった！",fn:async()=>{ if(!alive(t))return; await himMsg("よかった"); await himMsg("また行こな"); later(()=>chapter(3),2000); }},
+      {label:"次は映画もいいな",fn:async()=>{ if(!alive(t))return; await himMsg("映画な、任せて"); await himMsg("なおの好きそうなん、探しとく"); later(()=>chapter(3),2000); }},
+    ]); },8000); }
+async function ch3(t){ addDayChip("10月12日（日）"); setChapterWidget("第3話『告白』","帰り道、駅までの並木道で。"); chapterCard("第3話","告白","10月12日（日）夕方 —— 帰り道。<br>LINEを開いてね");
+  await himMsg("なお",700); if(!alive(t))return; await himMsg("今日の帰り、ちょっと歩こ"); if(!alive(t))return; await himMsg("…大事な話、あってん"); if(!alive(t))return; await himMsg("俺、なおが好きやねん"); if(!alive(t))return; await himMsg("付き合ってほしい");
+  if(!alive(t))return; const yesEnd=async()=>{ if(!alive(t))return; await himMsg("ほんまに！？"); if(!alive(t))return; await himMsg("ありがとう、なお"); await himMsg("絶対、大事にする"); later(()=>chapter(4),2200); };
+  askChoices("なおの答えは——",[
+    {label:"うん、付き合う",fn:yesEnd},
+    {label:"私でいいの…？",fn:async()=>{ if(!alive(t))return; await himMsg("なおがいいねん"); await himMsg("他の誰でもない"); if(!alive(t))return; askChoices("なおの答えは——",[{label:"うん、付き合う",fn:yesEnd}]); }},
+    {label:"ちょっと考えさせて",fn:async()=>{ if(!alive(t))return; await himMsg("うん、待つで"); await himMsg("急かさんから"); addDayChip("10月13日（月）"); await himMsg("おはよ",1600); if(!alive(t))return; await himMsg("…考えた？"); if(!alive(t))return; askChoices("なおの答えは——",[{label:"うん、付き合う",fn:yesEnd},{label:"付き合いたい",fn:yesEnd}]); }},
+  ]); }
+async function ch4(t){ addDayChip("10月18日（土）"); setChapterWidget("第4話『付き合い始め』","内緒の、ふたりだけの関係。"); chapterCard("第4話","付き合い始め","10月18日（土） —— 誰にも言えない、幸せ。<br>LINEを開いてね");
+  await himPhoto("assets/ig-meal.jpg"); if(!alive(t))return; await himMsg("今日の、なおが撮ってくれたやつ"); if(!alive(t))return; await himMsg("ネックレス、買ったで"); if(!alive(t))return; await himMsg("お揃い…なおと"); if(!alive(t))return; await himMsg("バレへんようにな"); await himStamp("😎");
+  later(()=>toast("📷 ひろとの<b>ストーリー</b>が更新された（彼の垢から見れる）"),3500);
+  if(!alive(t))return; askChoices("なおの返信を選んで",[
+    {label:"内緒、守るね",fn:async()=>{ if(!alive(t))return; await himMsg("ありがとう"); await himMsg("なおだけは、特別やねん"); later(()=>chapter(5),2000); }},
+    {label:"バレたらどうするの…？",fn:async()=>{ if(!alive(t))return; await himMsg("大丈夫"); await himMsg("その時はその時や"); later(()=>chapter(5),2000); }},
+  ]); }
+async function ch5(t){ addDayChip("11月1日（土）"); setChapterWidget("第5話『何気ない日常』","これがずっと続けばいいのに。"); chapterCard("第5話","何気ない日常","11月1日（土） —— いつものカフェ、いつもの二人。<br>LINEを開いてね");
+  await himMsg("今日のカフェ、当たりやったな",700); if(!alive(t))return; await himMsg("麺、なおのやつも美味そうやった");
+  later(()=>toast("📷 ひろとが投稿したよ「冬終わらんといてほしい🙃」（彼の垢）"),4000);
+  if(!alive(t))return; askChoices("なおの返信を選んで",[
+    {label:"今日はありがとう",fn:async()=>{ if(!alive(t))return; ch5end(t); }},
+    {label:"明日も会いたいな",fn:async()=>{ if(!alive(t))return; await himMsg("俺も"); ch5end(t); }},
+  ]); }
+async function ch5end(t){ if(!alive(t))return; await himMsg("今日はありがとうな😎"); if(!alive(t))return; await himMsg("カフェオレ、また飲みに行こ"); 
+  later(()=>{ if(!alive(t))return; toast("📸 <b>…シャッター音？</b>　気のせい…だよね"); },2500);
+  later(async()=>{ if(!alive(t))return; await himMsg("…なぁ、今の、なんか光らんかった？"); if(!alive(t))return; await himMsg("気のせいか"); later(()=>{ if(alive(t)) toScandal(); },2600); },4200); }
 /* ============ story start ============ */
 function scheduleFirstPush(){ if(state._pushScheduled) return; state._pushScheduled=true;
   later(()=>{ if(state.started) return;
     push("ニュース速報","#e60012","N","【熱愛スクープ】人気アイドルに手つなぎデート報道","週刊誌が今夜配信。お相手は“一般女性”——タップで記事へ",()=>{show("news"); startScandal();});
   },2600);
 }
-function unlock(){ if(!$("#v-lock").classList.contains("on")) return; show("home"); scheduleFirstPush(); }
+function unlock(){ if(!$("#v-lock").classList.contains("on")) return; show("home"); schedulePrologue(); }
 $("#v-lock").addEventListener("click",unlock);
 (function(){const d=new Date();const w=["日","月","火","水","木","金","土"][d.getDay()];$("#lock-date").textContent=(d.getMonth()+1)+"月"+d.getDate()+"日 "+w+"曜日";$("#lock-time").textContent=String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0")}());
 function fmt(n){return n.toLocaleString("ja-JP")}
@@ -782,7 +836,7 @@ $("#line-text").addEventListener("keydown",e=>{ if(e.key==="Enter") sendLine(); 
 /* ===== v2: his story ===== */
 let storyTimer=null;
 $("#story-btn").addEventListener("click",()=>{ const v=$("#story-view"); const img=$("#story-img"); const txt=$("#story-txt");
-  if(state.started){ img.style.display="none"; txt.textContent="驚かせてしまって、ごめんね。\nいつも本当にありがとう。"; } else { img.style.display="block"; img.src="assets/ig-drink.jpg"; txt.textContent="今日もありがとう😎"; }
+  if(state.started){ img.style.display="none"; txt.textContent="驚かせてしまって、ごめんね。\nいつも本当にありがとう。"; } else if(state.phase==="prologue"&&state.chapter>=4){ img.style.display="block"; img.src="assets/ig-meal.jpg"; txt.textContent="内緒やけど、\n幸せやねん"; } else { img.style.display="block"; img.src="assets/ig-drink.jpg"; txt.textContent="今日もありがとう😎"; }
   v.classList.remove("on"); void v.offsetWidth; v.classList.add("on"); clearTimeout(storyTimer); storyTimer=setTimeout(()=>v.classList.remove("on"),5000); });
 $("#story-close").addEventListener("click",()=>$("#story-view").classList.remove("on"));
 /* ===== v2: incoming call ===== */
