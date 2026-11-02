@@ -738,7 +738,7 @@ input,textarea{font-size:16px!important}
 <div class="setrow"><span>📞 通話した回数</span><span style="color:#8e8e93;font-size:12.5px" id="set-calls">0回</span></div>
 <button class="btn-main" style="background:#ff3b30;color:#fff;width:100%;margin:6px 0 12px" onclick="location.reload()">🔁 物語を最初からやり直す</button>
 <div style="font-size:13px;font-weight:800;margin:2px 2px 8px">📞 通話履歴</div><div id="set-calllog" style="background:#fff;border-radius:12px;padding:6px 14px;margin-bottom:6px"><div style="font-size:12.5px;color:#8e8e93;padding:8px 0">まだ通話はない</div></div><button id="calllog-clear" style="background:none;border:none;color:#8e8e93;font-size:12px;cursor:pointer;font-family:inherit;padding:2px 2px 12px">通話履歴を消す</button>
-<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v105</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
+<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v106</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
 </div>
 </section>
 
@@ -2481,62 +2481,6 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
  bell.addEventListener("click",()=>{ panel.style.display="flex"; bd.style.display="none";
   panel.querySelector("#x-notif-list").innerHTML=ITEMS().map(([i,t])=>'<div style="display:flex;gap:11px;padding:11px 16px;border-bottom:1px solid #f2f2f4;font-size:13.5px;line-height:1.5"><span style="font-size:17px">'+i+'</span><span>'+t+'</span></div>').join(""); });
  panel.querySelector("#x-notif-x").addEventListener("click",()=>panel.style.display="none");
-})();
-/* ===== v102: a real clock widget on the home screen ===== */
-(function(){
- const inner=document.querySelector("#v-home .home-inner"); if(!inner) return;
- const w=document.createElement("div"); w.id="home-clock";
- w.style.cssText="text-align:center;color:#fff;text-shadow:0 2px 14px rgba(0,0,0,.45);margin:26px 0 4px;pointer-events:none";
- w.innerHTML='<div id="hc-time" style="font-size:52px;font-weight:200;letter-spacing:1px;line-height:1">--:--</div><div id="hc-date" style="font-size:13.5px;margin-top:5px"></div>';
- inner.insertBefore(w,inner.firstChild);
- const tick=()=>{ const d=new Date(); const days=["日","月","火","水","木","金","土"];
-  const t=document.querySelector("#hc-time"), dt=document.querySelector("#hc-date"); if(!t) return;
-  t.textContent=d.getHours()+":"+String(d.getMinutes()).padStart(2,"0");
-  dt.textContent=(d.getMonth()+1)+"月"+d.getDate()+"日（"+days[d.getDay()]+"）"; };
- tick(); setInterval(tick,10000);
-})();
-/* ===== v103: friend chats get a stamp picker too ===== */
-(function(){
- const fc=document.querySelector("#friend-chat"); if(!fc) return;
- const send=document.querySelector("#f-send"); if(!send) return;
- const bar=document.createElement("div"); bar.id="f-stamps";
- bar.style.cssText="display:none;gap:8px;padding:8px 12px;background:#fff;border-top:1px solid #eee;flex-wrap:wrap";
- bar.innerHTML=["🥺","😆","❤️","👍","😭","🍻","✨","🙏"].map(e=>'<button class="f-stamp" style="font-size:25px;border:none;background:#f6f6f8;border-radius:12px;padding:5px 9px;cursor:pointer">'+e+'</button>').join("");
- const inputRow=send.parentElement; inputRow.parentElement.insertBefore(bar,inputRow.nextSibling);
- const btn=document.createElement("button"); btn.textContent="😊"; btn.id="f-stamp-btn";
- btn.style.cssText="border:none;background:none;font-size:20px;cursor:pointer;padding:0 2px";
- send.parentElement.insertBefore(btn,send);
- btn.addEventListener("click",()=>{ bar.style.display=bar.style.display==="none"?"flex":"none"; });
- bar.querySelectorAll(".f-stamp").forEach(b=>b.addEventListener("click",()=>{
-  const inp=document.querySelector("#f-text"); if(!inp) return;
-  inp.value=b.textContent; bar.style.display="none"; if(typeof fSend==="function") fSend(); }));
-})();
-/* ===== v104: a live breaking-news banner while the scandal burns ===== */
-(function(){
- const list=document.querySelector("#news-list"); if(!list||!list.parentElement) return;
- const bar=document.createElement("div"); bar.id="news-breaking";
- bar.style.cssText="display:none;background:#e60012;color:#fff;padding:9px 14px;font-size:13px;font-weight:700;line-height:1.45";
- list.parentElement.insertBefore(bar,list);
- const H=["🔴 速報：井汲大翔さん熱愛報道　事務所がコメント発表へ","🔴 速報：SNSでは応援の声も　「本人の言葉を待つ」","🔴 速報：関連ワードがトレンド上位を維持"];
- let i=0;
- setInterval(()=>{ const on=state.phase==="scandal"&&!state.act2;
-  bar.style.display=on?"block":"none"; if(!on) return;
-  bar.textContent=H[i%H.length]; i++; },4000);
-})();
-/* ===== v105: miss his call and he follows up on LINE ===== */
-(function(){
- if(typeof showIncomingCall!=="function") return;
- const _si=showIncomingCall;
- showIncomingCall=function(caller){ _si(caller);
-  if((caller||"hiroto")==="hiroto") state._incMiss=true; };
- setInterval(()=>{ if(!state._incMiss) return;
-  const inc=document.querySelector("#call-incoming"), act=document.querySelector("#call-active");
-  if(!inc||!act) return;
-  if(act.style.display==="flex"){ state._incMiss=false; return; }
-  if(inc.style.display==="none"){ state._incMiss=false;
-   setTimeout(()=>{ himMsg("さっき電話したんやけど"); setTimeout(()=>himMsg("出られへんかった？　またかけるわ"),1500);
-    if(typeof push==="function") push("LINE","#06c755","ひ","ひろと","さっき電話したんやけど",()=>{ show("line"); openChat(); }); },20000); }
- },1000);
 })();
 /* ===== v41: individual friend chats (yui / misaki / rina) ===== */
 const FCHATS={
