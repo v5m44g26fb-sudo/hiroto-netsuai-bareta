@@ -280,6 +280,17 @@ transform:translateY(-190%);transition:transform.55s cubic-bezier(.2,.9,.25,1);c
 .dm-bub{max-width:75%;padding:9px 13px;border-radius:18px;font-size:14px;line-height:1.5}
 .dm-bub.them{background:#efefef;align-self:flex-start}
 .dm-bub.me{background:#0095f6;color:#fff;align-self:flex-end}
+@keyframes viewin{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+.view.on{animation:viewin .26s ease}
+.appicon:active{transform:scale(.88)}
+.appicon{transition:transform .12s ease}
+.appicon span{text-shadow:0 1px 5px rgba(0,0,0,.55)}
+.choices button{transition:transform .1s ease,opacity .2s}
+.choices button:active{transform:scale(.97)}
+.choices button:disabled{opacity:.55}
+img{-webkit-user-drag:none;user-select:none}
+@keyframes ringpulse{0%{box-shadow:0 0 0 0 rgba(52,199,89,.45)}100%{box-shadow:0 0 0 22px rgba(52,199,89,0)}}
+.ringpulse{animation:ringpulse 1.4s ease-out infinite}
 .foot{font-size:11px;color:#8b93a5;padding:0 16px 18px;text-align:center;line-height:1.7;max-width:560px}
 </style>
 </head>
@@ -368,6 +379,8 @@ transform:translateY(-190%);transition:transform.55s cubic-bezier(.2,.9,.25,1);c
 <div id="x-thread" style="display:none"><div class="thread-head"><button id="thread-back" style="background:none;border:none;font-size:17px;cursor:pointer">‹</button> ポスト</div><div id="thread-main"></div><div style="padding:9px 14px;font-weight:800;font-size:13.5px;border-bottom:1px solid #eff3f4">返信</div><div id="thread-replies"></div></div>
         <div id="x-pane-search" style="display:none"><div style="padding:10px 14px 0;font-weight:800;font-size:13.5px;color:#536471">おすすめワード</div><div class="sug" id="x-sug"></div><div id="x-search-results"></div></div>
         <div id="x-pane-me" style="display:none">
+          <div style="height:96px;background:url(assets/night.jpg) center 30%/cover"></div>
+          <div style="padding:0 14px"><img class="avatar" src="assets/default-avatar.svg" width="62" height="62" style="margin-top:-28px;border:3px solid #fff" alt=""><div style="font-size:18px;font-weight:900;margin-top:4px">なお</div><div style="color:#536471;font-size:13px">@nao_0324</div><div style="font-size:13px;margin-top:5px">カフェとサウナとエビが好き🍤</div></div>
 <div class="x-profile">
 <img class="avatar" src="assets/default-avatar.svg" width="56" height="56" alt="">
 <div style="font-size:17px;font-weight:800;margin-top:7px">なお</div>
@@ -607,7 +620,7 @@ function push(app,color,icon,title,body,cb){ pop(); $("#push-app").textContent=a
 $("#push").addEventListener("click",()=>{ $("#push").classList.remove("in"); if(pushCb) pushCb();});
 /* ============ v4: prologue (from the beginning) ============ */
 state.phase="prologue"; state.chapter=0; state._token=0;
-function chapterCard(no,title,sub){ $("#cc-no").textContent=no; $("#cc-title").textContent=title; $("#cc-sub").innerHTML=sub||""; const c=$("#chapter-card"); c.classList.add("on"); clearTimeout(chapterCard._t); chapterCard._t=setTimeout(()=>c.classList.remove("on"),2500); }
+function chapterCard(no,title,sub){ $("#cc-no").textContent=no+(no.includes("話")?" ／ 全6話":""); $("#cc-title").textContent=title; $("#cc-sub").innerHTML=sub||""; const c=$("#chapter-card"); c.classList.add("on"); clearTimeout(chapterCard._t); chapterCard._t=setTimeout(()=>c.classList.remove("on"),2500); }
 function addDayChip(t){ const d=document.createElement("div"); d.className="daychip"; d.textContent=t; $("#chat").appendChild(d); }
 function setChapterWidget(no,main){ $("#w-title").textContent="📖 "+no; $("#w-main").textContent=main; }
 function alive(t){ return t===state._token && state.phase==="prologue"; }
@@ -678,7 +691,7 @@ animateCount($("#ig-fol-n"),342,52814,26000); animateCount($("#w-ig"),342,52814,
 animateCount($("#x-fol-n"),189,38427,26000); animateCount($("#w-x"),189,38427,26000);
 animateCount($("#his-fol-n"),81476,77900,26000,v=>(v/10000).toFixed(1)+"万");
 buildTrends(); buildTimeline(); toast("🔥 <b>炎上度上昇中</b>：トレンド1位を獲得");
-floodComments(); floodMentions(); floodDms(); every(genContent,15000); every(genAct,13000);
+floodComments(); floodMentions(); floodDms(); every(genContent,15000); every(genAct,13000); every(bumpTrends,8000);
   state._imp=312; every(()=>{ if(state._imp<1480){ state._imp+=Math.floor(Math.random()*26+7); const el=$("#imp-n"); if(el) el.textContent=state._imp.toLocaleString("ja-JP")+"万"; } },3000);
   state._batt=43; every(()=>{ if(state._batt>36){ state._batt--; $("#batt-n").textContent=state._batt; document.querySelector(".batt .fill").style.width=state._batt+"%"; } },25000);
   $("#nao-story-viewers").innerHTML="👁 2,314人 ・ <b>193.hiroto_jixiang</b>、yui_s、sauna_m 他 —— 彼、見てる…";
@@ -716,6 +729,7 @@ function buildTimeline(){const tl=$("#x-pane-tl"); X_POSTS.forEach((p,i)=>later(
 const mine=document.createElement("div"); $("#x-me-posts").appendChild(postEl({n:"なお",h:"@nao_0324",t:"（このアカウント、今めちゃくちゃ見られてる…）",m:["💬 0","🔁 0","❤️ 0"]},false));}
 const TRENDS=[["エンターテイメント ・ トレンド","#大翔熱愛","128,409 件のポスト"],["日本のトレンド","#手つなぎデート","84,210 件のポスト"],["日本のトレンド","事務所コメント","61,003 件のポスト"],["エンターテイメント ・ トレンド","匂わせ","44,918 件のポスト"],["日本のトレンド","ロットダン","29,377 件のポスト"]];
 function buildTrends(){const w=$("#x-pane-trend"); w.innerHTML=""; TRENDS.forEach((t,i)=>{const d=document.createElement("div");d.className="trend";d.innerHTML=`<div class="cat">${i+1} ・ ${t[0]}</div><div class="kw">${t[1]}</div><div class="cnt">${t[2]}</div>`;w.appendChild(d)})}
+function bumpTrends(){ $$("#x-pane-trend .trend .cnt").forEach(el=>{ const n=parseInt(el.textContent.replace(/[^0-9]/g,"")); if(!isNaN(n)){ const add=Math.floor(Math.random()*900+120); el.textContent=(n+add).toLocaleString("ja-JP")+" 件のポスト"; } }); }
 $$("[data-xtab]").forEach(b=>b.addEventListener("click",()=>{$$("[data-xtab]").forEach(x=>x.classList.remove("act"));b.classList.add("act");$("#x-thread").style.display="none";["tl","trend","mention","me","search"].forEach(k=>$("#x-pane-"+k).style.display=k===b.dataset.xtab?"block":"none")}));
 const MENTIONS=[
 ["ゆん@yun_o0","@nao_0324 あんたが大翔奪ったの？　説明して"],
@@ -744,8 +758,8 @@ $("#talk-hiroto").addEventListener("click",openChat);
 $("#line-back").addEventListener("click",closeChat);
 function nowTime(){const d=new Date();return String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0")}
 function himMsg(text,delay){ return new Promise(res=>{ later(()=>{ $("#typing").classList.add("on"); $("#chat").scrollTop=$("#chat").scrollHeight; later(()=>{ $("#typing").classList.remove("on"); const d=document.createElement("div"); d.className="msg him"; d.innerHTML=`<img class="avatar" src="assets/selfie.jpg" width="34" height="34" alt=""><span class="bub"></span><span class="meta">${nowTime()}</span>`; d.querySelector(".bub").textContent=text; $("#chat").appendChild(d); $("#line-preview").textContent=text; $("#chat").scrollTop=$("#chat").scrollHeight; bump("line"); res();},1100);},delay||400);})}
-function meMsg(text){const d=document.createElement("div");d.className="msg me";d.innerHTML=`<span class="bub"></span><span class="meta">既読<br>${nowTime()}</span>`;d.querySelector(".bub").textContent=text;$("#chat").appendChild(d);$("#chat").scrollTop=$("#chat").scrollHeight}
-function askChoices(q,opts){const w=$("#choices");w.innerHTML=`<div class="q">${q}</div>`;opts.forEach(o=>{const b=document.createElement("button");b.textContent=o.label;b.addEventListener("click",()=>{w.classList.remove("on");meMsg(o.label);o.fn()});w.appendChild(b)});w.classList.add("on");$("#chat").scrollTop=$("#chat").scrollHeight}
+function meMsg(text){ pop();const d=document.createElement("div");d.className="msg me";d.innerHTML=`<span class="bub"></span><span class="meta">既読<br>${nowTime()}</span>`;d.querySelector(".bub").textContent=text;$("#chat").appendChild(d);$("#chat").scrollTop=$("#chat").scrollHeight}
+function askChoices(q,opts){const w=$("#choices");w.innerHTML=`<div class="q">${q}</div>`;opts.forEach(o=>{const b=document.createElement("button");b.textContent=o.label;b.addEventListener("click",()=>{ if(w.dataset.done) return; w.dataset.done="1"; $$("#choices button").forEach(x=>x.disabled=true); w.classList.remove("on"); meMsg(o.label); o.fn(); setTimeout(()=>{delete w.dataset.done},600); });w.appendChild(b)});w.classList.add("on");$("#chat").scrollTop=$("#chat").scrollHeight}
 async function lineSequence1(){
 push("LINE","#06c755","💬","ひろと","「なお」——タップでトークを開く",()=>{show("line");openChat()});
 await himMsg("なお"); await himMsg("ニュース、見た？"); await himMsg("ごめん…俺のせいで"); await himMsg("俺は平気やから"); await himMsg("なおだけが心配やねん");
@@ -768,9 +782,10 @@ function startCall(customLines){ show("call"); state.callSec=0; $("#call-time").
 const lines=customLines||["「…なおの声、聞きたかってん」","「大丈夫。俺、逃げへんから」","「ファンのことも大事やけど」","「なおのことも、同じくらい大事やねん」","「今日はもう、寝られへんかもな 笑」","「明日も電話していい？」"];
 let i=0; $("#call-sub").textContent=lines[0];
 state.callTimer=setInterval(()=>{state.callSec++;$("#call-time").textContent=String(Math.floor(state.callSec/60)).padStart(2,"0")+":"+String(state.callSec%60).padStart(2,"0")},1000);
-const iv=setInterval(()=>{i++; if(i<lines.length){$("#call-sub").textContent=lines[i]} else {clearInterval(iv)}},4200); timers.push(iv);
+if(customLines){ const iv=setInterval(()=>{i++; if(i<lines.length){$("#call-sub").textContent=lines[i]} else {clearInterval(iv)}},4200); timers.push(iv); }
+else { startCallVoice(); }
 }
-$("#call-end").addEventListener("click",async()=>{ clearInterval(state.callTimer); if(state.caller==="manager"){ state.caller="hiroto"; show("line"); openChat(); await himMsg("マネージャーと話した？"); await himMsg("ごめんな、心配かけて"); await himMsg("俺は大丈夫やから"); return; } show("line"); openChat(); await himMsg("電話、ありがとう"); await himMsg("声聞けて、ちょっと落ち着いた"); lineSequence2();});
+$("#call-end").addEventListener("click",async()=>{ clearInterval(state.callTimer); stopCallVoice(); if(state.caller==="manager"){ state.caller="hiroto"; show("line"); openChat(); await himMsg("マネージャーと話した？"); await himMsg("ごめんな、心配かけて"); await himMsg("俺は大丈夫やから"); return; } show("line"); openChat(); await himMsg("電話、ありがとう"); await himMsg("声聞けて、ちょっと落ち着いた"); lineSequence2();});
 async function ending(kind){ if(state.ended) return; state.ended=true;
 const box={open:{h:"エンディング：堂々と",t:"翌日、ひろとは自分の言葉でファンへ短く報告した。「大事な人がいます」——炎上は続いたけど、応援の声も日に日に増えていった。なおのフォロワーは今も増えている。でも一番大事な通知は、いつもLINEのひとつだけ。",news:"本人が交際を認めるコメント　「大事な人がいます」"},
 wait:{h:"エンディング：静かに待つ",t:"二人は表向き静かに過ごすことにした。コメント欄は少しずつ落ち着いて、ひと月後——ひろとの投稿に、小さくコーヒーの絵文字が増えた。知ってる人だけが、知っている。",news:"熱愛報道は沈静化へ　二人は静観の構え"},
@@ -829,7 +844,7 @@ function gMsg(name,text){ const f=FRIENDS[name]; const d=document.createElement(
   if($("#group-chat").style.display==="none"){ state.gUnread=(state.gUnread||0)+1; const u=$("#g-unread"); u.style.display="inline-flex"; u.textContent=state.gUnread; bump("line"); } }
 function gMe(text){ const d=document.createElement("div"); d.className="msg me"; d.innerHTML=`<span class="bub"></span><span class="meta">既読<br>${nowTime()}</span>`; d.querySelector(".bub").textContent=text; $("#gchat").appendChild(d); $("#gchat").scrollTop=$("#gchat").scrollHeight }
 const FRIEND_REPLIES=["え、落ち着いて聞くよ","大丈夫なの！？","電話する？","とりあえず深呼吸！","あんたは悪くないからね"];
-function sendGroup(){ const inp=$("#g-text"); const v=inp.value.trim(); if(!v) return; inp.value=""; gMe(v); setTimeout(()=>gMsg(pick(Object.keys(FRIENDS)),pick(FRIEND_REPLIES)),1400); }
+function sendGroup(){ pop(); const inp=$("#g-text"); const v=inp.value.trim(); if(!v) return; inp.value=""; gMe(v); setTimeout(()=>gMsg(pick(Object.keys(FRIENDS)),pick(FRIEND_REPLIES)),1400); }
 $("#g-send").addEventListener("click",sendGroup);
 $("#g-text").addEventListener("keydown",e=>{ if(e.key==="Enter") sendGroup(); });
 async function groupFlood(){ const seq=[["ゆい","なお！？"],["ゆい","ニュース見た！？　あれ、なお！？"],["みさき","待って、相手って…なおのこと？"],["りな","インスタのフォロワー増え方が異常なんだけど"],["ゆい","電話出れる？　心配で"],["みさき","叩かれてるけど、私たちは味方だから"]]; for(const [n,t] of seq){ gMsg(n,t); await new Promise(r=>setTimeout(r,2100)); } push("LINE","#06c755","💬","いつメン🍻","「なお！？ ニュース見た！？」——タップでグループへ",()=>{show("line");openGroup()}); }
@@ -878,7 +893,7 @@ $("#nao-cmt-text").addEventListener("keydown",e=>{ if(e.key==="Enter") postNaoCo
 $("#ig-dms").addEventListener("click",e=>{ const row=e.target.closest(".dmrow"); if(!row) return; const nm=row.querySelector(".nm"); if(nm&&nm.textContent.trim()==="yui_s") $("#dm-thread").classList.add("on"); });
 $("#dm-back").addEventListener("click",()=>$("#dm-thread").classList.remove("on"));
 const YUI_REPLIES=["ありがとう…心配で寝れなかった","あんたは悪くないからね","何かあったらすぐ電話して。いつでも出る"];
-function sendDm(){ const inp=$("#dm-text"); const v=inp.value.trim(); if(!v) return; inp.value=""; const d=document.createElement("div"); d.className="dm-bub me"; d.textContent=v; $("#dm-scroll").appendChild(d); $("#dm-scroll").scrollTop=$("#dm-scroll").scrollHeight;
+function sendDm(){ pop(); const inp=$("#dm-text"); const v=inp.value.trim(); if(!v) return; inp.value=""; const d=document.createElement("div"); d.className="dm-bub me"; d.textContent=v; $("#dm-scroll").appendChild(d); $("#dm-scroll").scrollTop=$("#dm-scroll").scrollHeight;
   setTimeout(()=>{ const r=document.createElement("div"); r.className="dm-bub them"; r.textContent=pick(YUI_REPLIES); $("#dm-scroll").appendChild(r); $("#dm-scroll").scrollTop=$("#dm-scroll").scrollHeight; },1500); }
 $("#dm-send").addEventListener("click",sendDm);
 $("#dm-text").addEventListener("keydown",e=>{ if(e.key==="Enter") sendDm(); });
@@ -887,9 +902,9 @@ document.addEventListener("click",e=>{const b=e.target.closest(".like-btn"); if(
 /* ===== v2: infinite generators ===== */
 const GEN_NAMES=["fan_mama","rottdan_2","oshi_katsu_jp","hana_22","mio_p","yume_ko","sora_machi","ebiko_love"];
 const GEN_MEN_HOT=["@nao_0324 まだ信じたくない…","@nao_0324 説明してほしい、ほんとに","@nao_0324 そのカフェ投稿、やっぱ匂わせ？"];
-const GEN_MEN_OK=["@nao_0324 応援してるよ、負けないで","@nao_0324 大翔のこと大事にしてあげてね","@nao_0324 幸せならそれが一番だと思う"];
-const GEN_IG_HOT=["やっぱり相手この人か…","匂わせだけはモヤる","説明まだ？"];
-const GEN_IG_OK=["応援に来ました！","大翔さんを幸せにしてあげて","炎上落ち着いてきたね"];
+const GEN_MEN_OK=["@nao_0324 応援してるよ、負けないで","@nao_0324 大翔のこと大事にしてあげてね","@nao_0324 幸せならそれが一番だと思う","@nao_0324 無理しないでね、味方もいるよ","@nao_0324 本人の言葉を信じて待ってます"];
+const GEN_IG_HOT=["やっぱり相手この人か…","匂わせだけはモヤる","説明まだ？","ネックレスの件、答えてほしい","ファンミの発言と矛盾してない？"];
+const GEN_IG_OK=["応援に来ました！","大翔さんを幸せにしてあげて","炎上落ち着いてきたね","最初は驚いたけど、今は応援派です","二人のペースでいいと思う","コメント欄、平和になってきた"];
 function pick(a){return a[Math.floor(Math.random()*a.length)]}
 function genContent(){ if(state._genN>=16) return; state._genN=(state._genN||0)+1;
   const ok=Math.random()<(state.act2?0.85:0.45); const nm=pick(GEN_NAMES);
@@ -926,6 +941,28 @@ $("#story-btn").addEventListener("click",()=>{ const v=$("#story-view"); const i
   if(state.started){ img.style.display="none"; txt.textContent="驚かせてしまって、ごめんね。\nいつも本当にありがとう。"; } else if(state.phase==="prologue"&&state.chapter>=4){ img.style.display="block"; img.src="assets/ig-meal.jpg"; txt.textContent="内緒やけど、\n幸せやねん"; } else { img.style.display="block"; img.src="assets/ig-drink.jpg"; txt.textContent="今日もありがとう😎"; }
   v.classList.remove("on"); void v.offsetWidth; v.classList.add("on"); clearTimeout(storyTimer); storyTimer=setTimeout(()=>v.classList.remove("on"),5000); });
 $("#story-close").addEventListener("click",()=>$("#story-view").classList.remove("on"));
+/* ===== v6: real voice call (AnyVoice clone) ===== */
+const VOICE_SCHED=[
+ [0,"「…なお？ 声、聞きたかってん」"],
+ [2500,"「大丈夫、俺は逃げへんから」"],
+ [4600,"「ファンのことも大事やけど」"],
+ [6400,"「なおのことも、同じくらい大事やねん」"],
+ [9640,"「今日はもう、寝られへんかもな」"],
+ [12400,"「…なぁ、明日も電話していい？」"],
+ [14900,"「ありがとう、なお。おやすみ」"],
+ [17600,"（…なおの返事を、待ってる）"],
+];
+let _cv1=null,_cv2=null;
+function startCallVoice(){
+  stopCallVoice();
+  _cv1=new Audio("assets/voice-1.mp3"); _cv2=new Audio("assets/voice-2.mp3");
+  _cv1.volume=1; _cv2.volume=1;
+  VOICE_SCHED.forEach(([ms,txt])=>{ timers.push(setTimeout(()=>{ const el=$("#call-sub"); if(el&&$("#v-call").classList.contains("on")) el.textContent=txt; },ms)); });
+  $("#call-sub").textContent=VOICE_SCHED[0][1];
+  const p1=_cv1.play(); if(p1&&p1.catch) p1.catch(()=>{ $("#call-sub").textContent="「…なおの声、聞きたかってん」"; });
+  timers.push(setTimeout(()=>{ if(_cv2){ const p2=_cv2.play(); if(p2&&p2.catch) p2.catch(()=>{}); } },9640));
+}
+function stopCallVoice(){ [_cv1,_cv2].forEach(a=>{ if(a){ try{a.pause()}catch(e){} } }); _cv1=null; _cv2=null; }
 /* ===== v2: incoming call ===== */
 function showIncomingCall(caller){ state.caller=caller||"hiroto"; const mgr=state.caller==="manager";
   $("#call-inc-name").textContent=mgr?"マネージャー（事務所）":"ひろと";
