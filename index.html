@@ -738,7 +738,7 @@ input,textarea{font-size:16px!important}
 <div class="setrow"><span>📞 通話した回数</span><span style="color:#8e8e93;font-size:12.5px" id="set-calls">0回</span></div>
 <button class="btn-main" style="background:#ff3b30;color:#fff;width:100%;margin:6px 0 12px" onclick="location.reload()">🔁 物語を最初からやり直す</button>
 <div style="font-size:13px;font-weight:800;margin:2px 2px 8px">📞 通話履歴</div><div id="set-calllog" style="background:#fff;border-radius:12px;padding:6px 14px;margin-bottom:6px"><div style="font-size:12.5px;color:#8e8e93;padding:8px 0">まだ通話はない</div></div><button id="calllog-clear" style="background:none;border:none;color:#8e8e93;font-size:12px;cursor:pointer;font-family:inherit;padding:2px 2px 12px">通話履歴を消す</button>
-<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v177</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
+<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v178</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
 </div>
 </section>
 
@@ -4200,6 +4200,30 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
    FCHATS.kazu.calm.push("映画の話なら任せて","ゆうたの様子、また報告するわ","平常心、平常心");
   }catch(e){}
  },600);
+})();
+/* ===== v178: Yuta gets bolder - a tipsy late-night thread and flirtier replies ===== */
+(function(){
+ /* (a) his history and reply pool lean in */
+ const iv=setInterval(()=>{ let ok=false; try{ ok=(typeof FCHATS!=="undefined"&&!!FCHATS.yuta); }catch(e){}
+  if(!ok) return; clearInterval(iv);
+  try{
+   FCHATS.yuta.log.push(["f","この前の飲み、楽しかったわ"],["f","なおちゃん、近いとドキドキするねん"],["me","ゆうた、飲みすぎ笑"],["f","……酒のせいだけ、ちゃうけどな"]);
+   FCHATS.yuta.calm.push("なおちゃん、今日の服かわいかったで","二人で飲みに行かん？","……ひろとくんには、内緒な","俺やったら、もっと大事にするけどな");
+  }catch(e){}
+ },600);
+ /* (b) the late-night tipsy sequence, once a night */
+ const bub=t=>{ const box=document.querySelector("#fchat"); if(!box) return;
+  const d=document.createElement("div"); d.className="msg him";
+  d.innerHTML='<img class="avatar" src="assets/fr-yuta.jpg" width="34" height="34" alt=""><span><span class="bub"></span></span>';
+  d.querySelector(".bub").textContent=t; box.appendChild(d); box.scrollTop=box.scrollHeight; };
+ const SEQ=["なおちゃん、起きてる？","俺、今ひとりで飲んでるねん","……なおちゃんに、会いたいわ","今度、二人きりで飲みたいな","ひろとくんには、言わんといてな"];
+ setInterval(()=>{ const h=new Date().getHours(); if(!(h>=22||h<2)) return;
+  const today=new Date().toDateString(); if(state._yutaNight===today) return;
+  const fc=document.querySelector("#friend-chat"); if(!fc||fc.style.display==="none") return;
+  const nm=(document.querySelector("#f-name")||{}).textContent||""; if(!nm.includes("ゆうた")) return;
+  state._yutaNight=today;
+  SEQ.forEach((t,i)=>setTimeout(()=>bub(t),1400+i*2100));
+ },1500);
 })();
 /* ===== v41: individual friend chats (yui / misaki / rina) ===== */
 const FCHATS={
