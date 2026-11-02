@@ -738,7 +738,7 @@ input,textarea{font-size:16px!important}
 <div class="setrow"><span>📞 通話した回数</span><span style="color:#8e8e93;font-size:12.5px" id="set-calls">0回</span></div>
 <button class="btn-main" style="background:#ff3b30;color:#fff;width:100%;margin:6px 0 12px" onclick="location.reload()">🔁 物語を最初からやり直す</button>
 <div style="font-size:13px;font-weight:800;margin:2px 2px 8px">📞 通話履歴</div><div id="set-calllog" style="background:#fff;border-radius:12px;padding:6px 14px;margin-bottom:6px"><div style="font-size:12.5px;color:#8e8e93;padding:8px 0">まだ通話はない</div></div><button id="calllog-clear" style="background:none;border:none;color:#8e8e93;font-size:12px;cursor:pointer;font-family:inherit;padding:2px 2px 12px">通話履歴を消す</button>
-<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v158</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
+<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v160</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
 </div>
 </section>
 
@@ -3816,6 +3816,42 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
   box.appendChild(d);
   const cn=document.querySelector("#ig-cmt-n"); if(cn) cn.textContent=box.querySelectorAll(".cmt").length;
  },42000);
+})();
+/* ===== v159: his everyday-life lines follow the real clock ===== */
+(function(){
+ if(typeof openChat!=="function") return;
+ const SLOTS={
+  morning:["おはよ。今日は早起きできた","朝、寒くなかった？","今、移動中。電車ぎゅうぎゅう"],
+  noon:["お昼食べた？","今、休憩。ちょっと寝不足","外、いい天気やな"],
+  evening:["今、コンビニ。プリン買うか迷ってる","帰り道。今日もおつかれさま","お風呂、先入るわ"],
+  night:["シャワー出た。さっぱり","明日の服、出した？","そろそろ寝よか"]};
+ const _oc=openChat;
+ openChat=function(){ _oc();
+  if(state.started||!(state._vmCalm||state._vmA2)) return;
+  if(state._dayAt&&Date.now()-state._dayAt<18*60000) return;
+  if(Math.random()>0.5) return;
+  state._dayAt=Date.now();
+  const h=new Date().getHours();
+  const slot=h<11?"morning":h<16?"noon":h<22?"evening":"night";
+  const L=SLOTS[slot];
+  setTimeout(()=>{ if(!state.started) himMsg(L[Math.floor(Math.random()*L.length)]); },2200);
+ };
+})();
+/* ===== v160: her X posts show a view count that grows while she browses ===== */
+(function(){
+ const view=document.querySelector("#v-x"); const mine=document.querySelector("#x-me-posts");
+ if(!view||!mine) return;
+ const fmt=n=>n>=10000?(n/10000).toFixed(1).replace(/\.0$/,"")+"万":n>=1000?(n/1000).toFixed(1).replace(/\.0$/,"")+"K":String(n);
+ const add=post=>{ if(post.dataset.vw) return; post.dataset.vw="1";
+  const mt=post.querySelector(".mt"); if(!mt) return;
+  const s=document.createElement("span"); s.className="vw-n";
+  let n=800+Math.floor(Math.random()*4000);
+  s.textContent="👁 "+fmt(n); s.style.cssText="color:#71767b;margin-left:2px";
+  mt.appendChild(s);
+  post._vwIv=setInterval(()=>{ if(!view.classList.contains("on")) return;
+   n+=Math.floor(Math.random()*14); s.textContent="👁 "+fmt(n); },9000); };
+ new MutationObserver(()=>mine.querySelectorAll(".post").forEach(add)).observe(mine,{childList:true,subtree:true});
+ mine.querySelectorAll(".post").forEach(add);
 })();
 /* ===== v41: individual friend chats (yui / misaki / rina) ===== */
 const FCHATS={
