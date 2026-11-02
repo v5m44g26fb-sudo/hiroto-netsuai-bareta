@@ -256,6 +256,30 @@ transform:translateY(-190%);transition:transform.55s cubic-bezier(.2,.9,.25,1);c
 #chapter-card .cc-title{font-size:30px;font-weight:900;margin-top:8px}
 #chapter-card .cc-sub{font-size:13.5px;color:#c9cfdd;margin-top:10px;line-height:1.8}
 #skip-btn{display:none;margin-top:9px;background:rgba(255,255,255,.16);color:#fff;border:1px solid rgba(255,255,255,.35);border-radius:13px;padding:5px 12px;font-size:11.5px;font-weight:700;cursor:pointer;font-family:inherit}
+#ph-view{position:absolute;inset:0;background:#000;z-index:210;display:none;flex-direction:column}
+#ph-view.on{display:flex}
+#ph-view img.main{flex:1;width:100%;object-fit:contain;min-height:0;background:#000}
+#ph-view .pv-meta{color:#fff;padding:12px 16px 26px}
+#ph-view .pv-cap{font-size:16px;font-weight:800}
+#ph-view .pv-date{font-size:12px;color:#aeb6c6;margin-top:3px}
+.pv-nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.14);color:#fff;border:none;width:38px;height:38px;border-radius:50%;font-size:18px;cursor:pointer;z-index:2}
+.x-searchbar{display:flex;gap:8px;padding:10px 12px 2px}
+.x-searchbar input{flex:1;border:1px solid #cfd9de;background:#eff3f4;border-radius:999px;padding:8px 14px;font-size:13.5px;font-family:inherit}
+.x-searchbar button{background:#1d9bf0;color:#fff;border:none;border-radius:999px;padding:8px 15px;font-weight:800;font-size:13px;cursor:pointer;font-family:inherit}
+.sug{display:flex;flex-wrap:wrap;gap:7px;padding:10px 14px}
+.sug button{border:1px solid #cfd9de;background:#fff;border-radius:999px;padding:6px 12px;font-size:12.5px;cursor:pointer;font-family:inherit}
+#hiroto-prof{position:absolute;inset:0;background:#fff;z-index:206;display:none;flex-direction:column}
+#hiroto-prof.on{display:flex}
+#hiroto-prof .hp-bg{height:210px;object-fit:cover;width:100%}
+.cmt-input{display:flex;gap:8px;padding:9px 14px;border-top:1px solid #efefef;background:#fff}
+.cmt-input input{flex:1;border:1px solid #dbdbdb;border-radius:999px;padding:7px 12px;font-size:13px;font-family:inherit}
+.cmt-input button{background:none;border:none;color:#0095f6;font-weight:800;font-size:13px;cursor:pointer;font-family:inherit}
+#dm-thread{position:absolute;inset:0;background:#fff;z-index:204;display:none;flex-direction:column}
+#dm-thread.on{display:flex}
+.dm-scroll{flex:1;overflow-y:auto;padding:56px 14px 10px;display:flex;flex-direction:column;gap:8px;background:#fff}
+.dm-bub{max-width:75%;padding:9px 13px;border-radius:18px;font-size:14px;line-height:1.5}
+.dm-bub.them{background:#efefef;align-self:flex-start}
+.dm-bub.me{background:#0095f6;color:#fff;align-self:flex-end}
 .foot{font-size:11px;color:#8b93a5;padding:0 16px 18px;text-align:center;line-height:1.7;max-width:560px}
 </style>
 </head>
@@ -332,7 +356,7 @@ transform:translateY(-190%);transition:transform.55s cubic-bezier(.2,.9,.25,1);c
 <section class="view" id="v-x">
 <div class="appbar"><button class="back" data-home>‹</button><img class="avatar" src="assets/default-avatar.svg" width="30" height="30" alt=""><span class="t">𝕏 ホーム</span><span class="s" style="margin-left:auto" id="x-head-note"></span></div>
 <div class="x-tabs">
-<button data-xtab="tl" class="act">タイムライン</button>
+</div><div class="x-searchbar"><input id="x-q" placeholder="キーワード検索（例：大翔）" autocomplete="off"><button id="x-search-btn">検索</button></div><div class="xtabs" style="border-top:none"><button data-xtab="tl" class="act">タイムライン</button>
 <button data-xtab="trend">トレンド</button>
 <button data-xtab="mention">メンション <span id="x-men-n"></span></button>
 <button data-xtab="me">自分</button>
@@ -342,6 +366,7 @@ transform:translateY(-190%);transition:transform.55s cubic-bezier(.2,.9,.25,1);c
 <div id="x-pane-trend" style="display:none"></div>
 <div id="x-pane-mention" style="display:none"><div style="padding:26px 18px;color:#536471;font-size:13.5px" id="x-men-empty">まだメンションはない。…今のところは。</div><div id="x-men-list"></div></div>
 <div id="x-thread" style="display:none"><div class="thread-head"><button id="thread-back" style="background:none;border:none;font-size:17px;cursor:pointer">‹</button> ポスト</div><div id="thread-main"></div><div style="padding:9px 14px;font-weight:800;font-size:13.5px;border-bottom:1px solid #eff3f4">返信</div><div id="thread-replies"></div></div>
+        <div id="x-pane-search" style="display:none"><div style="padding:10px 14px 0;font-weight:800;font-size:13.5px;color:#536471">おすすめワード</div><div class="sug" id="x-sug"></div><div id="x-search-results"></div></div>
         <div id="x-pane-me" style="display:none">
 <div class="x-profile">
 <img class="avatar" src="assets/default-avatar.svg" width="56" height="56" alt="">
@@ -373,6 +398,7 @@ transform:translateY(-190%);transition:transform.55s cubic-bezier(.2,.9,.25,1);c
 </div>
 <div class="ig-bio">なお｜大阪<br>サウナとエビと推し活の記録🦐<br><span style="color:#00376b">#日常</span></div>
 <div class="stories"><button id="nao-story-btn"><span class="ring"><img src="assets/default-avatar.svg" alt=""></span>ストーリー</button></div>
+        <div class="cmt-input" style="margin:0 0 4px"><img class="avatar" src="assets/default-avatar.svg" width="30" height="30" alt=""><input id="nao-cmt-text" placeholder="コメントを追加…（返信もここから）" autocomplete="off"><button id="nao-cmt-send">投稿</button></div>
         <div style="padding:0 14px 10px"><span class="chip">最新投稿へのコメント <b id="ig-cmt-n">3</b>件</span> <span class="chip">DMリクエスト <b id="ig-dm-n">0</b>件</span></div>
 <div class="ig-post">
 <div class="ph"><img class="avatar" src="assets/default-avatar.svg" width="30" height="30" alt=""> nao_0324</div>
@@ -390,7 +416,8 @@ transform:translateY(-190%);transition:transform.55s cubic-bezier(.2,.9,.25,1);c
 </div>
 </section>
 
-<div id="nao-story-view"><div class="sbar"><i></i></div><button id="nao-story-close" style="position:absolute;top:66px;right:14px;background:rgba(0,0,0,.4);color:#fff;border:none;width:32px;height:32px;border-radius:50%;font-size:15px;cursor:pointer;z-index:2">✕</button><img src="assets/cafe.jpg" alt="" style="flex:1;width:100%;object-fit:cover;min-height:0"><div style="position:absolute;left:0;right:0;bottom:110px;text-align:center;color:#fff;font-size:19px;font-weight:800;text-shadow:0 2px 10px rgba(0,0,0,.8)">お昼の麺🍜</div><div id="nao-story-viewers" style="padding:14px 16px 30px;color:#fff;font-size:12.5px">👁 12人 ・ yui_s、sauna_m 他</div></div>
+<div id="dm-thread"><div class="line-head" style="padding-top:56px;background:#fff"><button class="back" id="dm-back" style="border:none;background:none;font-size:19px;cursor:pointer">‹</button><img class="avatar" src="assets/default-avatar.svg" width="30" height="30" alt=""><span class="t" style="font-size:15px;font-weight:800">yui_s</span></div><div class="dm-scroll" id="dm-scroll"><div class="dm-bub them">なお！？　ニュース見たんだけど…</div><div class="dm-bub them">あれ、なおだよね？　心配でDMした</div></div><div class="cmt-input"><input id="dm-text" placeholder="メッセージを送信…" autocomplete="off"><button id="dm-send">送信</button></div></div>
+    <div id="nao-story-view"><div class="sbar"><i></i></div><button id="nao-story-close" style="position:absolute;top:66px;right:14px;background:rgba(0,0,0,.4);color:#fff;border:none;width:32px;height:32px;border-radius:50%;font-size:15px;cursor:pointer;z-index:2">✕</button><img src="assets/cafe.jpg" alt="" style="flex:1;width:100%;object-fit:cover;min-height:0"><div style="position:absolute;left:0;right:0;bottom:110px;text-align:center;color:#fff;font-size:19px;font-weight:800;text-shadow:0 2px 10px rgba(0,0,0,.8)">お昼の麺🍜</div><div id="nao-story-viewers" style="padding:14px 16px 30px;color:#fff;font-size:12.5px">👁 12人 ・ yui_s、sauna_m 他</div></div>
     <!-- ===== Instagram (hiroto) ===== -->
 <section class="view" id="v-hisig">
 <div class="ig-head"><button class="back" data-home style="border:none;background:none;font-size:19px;cursor:pointer">‹</button><span class="t">193.hiroto_jixiang <span class="verified">☑</span></span></div>
@@ -408,7 +435,9 @@ transform:translateY(-190%);transition:transform.55s cubic-bezier(.2,.9,.25,1);c
         <div id="his-statement"></div>
 <div class="ig-grid">
 <img src="assets/stage.jpg" alt=""><img src="assets/crown.jpg" alt=""><img src="assets/selfie.jpg" alt="">
-<img src="assets/crown-full.jpg" alt=""><img src="assets/insta-post.jpg" alt=""><img src="assets/stage.jpg" alt="">
+<img src="assets/crown-full.jpg" alt=""><img src="assets/insta-post.jpg" alt=""><img src="assets/roses.jpg" alt="">
+<img src="assets/studio.jpg" alt=""><img src="assets/glasses.jpg" alt=""><img src="assets/cafe3.jpg" alt="">
+<img src="assets/hoodie.jpg" alt=""><img src="assets/night.jpg" alt=""><img src="assets/ig-food.jpg" alt="">
 </div>
 <div class="ig-post" style="margin-top:4px">
 <div class="ph"><img class="avatar" src="assets/ig-avatar.jpg" width="30" height="30" alt=""> 193.hiroto_jixiang <span class="verified">☑</span><span style="margin-left:auto;color:#8e8e93">…</span></div>
@@ -447,7 +476,7 @@ transform:translateY(-190%);transition:transform.55s cubic-bezier(.2,.9,.25,1);c
 </button>
 </div>
 <div id="line-chat" style="display:none;flex:1;flex-direction:column;min-height:0">
-<div class="line-head" style="padding-top:56px"><button class="back" id="line-back" style="border:none;background:none;font-size:19px;cursor:pointer">‹</button><img class="avatar" src="assets/selfie.jpg" width="32" height="32" alt=""><span><span class="t" style="font-size:15.5px;font-weight:800;display:block">ひろと</span><span class="s" style="font-size:10.5px;color:#8e8e93">ISFPの本音は短い。行動で来る。</span></span><span style="margin-left:auto;font-size:18px">📞</span></div>
+<div class="line-head" style="padding-top:56px"><button class="back" id="line-back" style="border:none;background:none;font-size:19px;cursor:pointer">‹</button><button id="hiroto-prof-btn" style="display:flex;gap:8px;align-items:center;background:none;border:none;cursor:pointer;text-align:left;padding:0"><img class="avatar" src="assets/selfie.jpg" width="32" height="32" alt=""><span><span class="t" style="font-size:15.5px;font-weight:800;display:block">ひろと</span><span class="s" style="font-size:10.5px;color:#8e8e93">ISFPの本音は短い。行動で来る。</span></span></button><button id="line-call-btn" style="margin-left:auto;font-size:18px;background:none;border:none;cursor:pointer">📞</button></div>
 <div class="chat-scroll" id="chat">
 <div class="daychip">9月27日（土）</div>
 </div>
@@ -463,6 +492,7 @@ transform:translateY(-190%);transition:transform.55s cubic-bezier(.2,.9,.25,1);c
         </div>
         <div class="line-input"><span style="font-size:19px">＋</span><input id="g-text" placeholder="メッセージを入力" autocomplete="off"><button class="sendbtn" id="g-send">送信</button></div>
       </div>
+<div id="hiroto-prof"><img class="hp-bg" src="assets/night.jpg" alt=""><button id="hp-close" style="position:absolute;top:52px;left:12px;background:rgba(0,0,0,.45);color:#fff;border:none;width:34px;height:34px;border-radius:50%;font-size:15px;cursor:pointer">✕</button><div style="padding:0 20px;margin-top:-42px"><img class="avatar" src="assets/selfie.jpg" width="84" height="84" style="border:3px solid #fff" alt=""><div style="font-size:21px;font-weight:900;margin-top:8px">ひろと</div><div style="font-size:13px;color:#536471;margin-top:2px">…なおだけ、特別やねん</div><div style="font-size:12.5px;color:#8e8e93;margin-top:10px">🎵 BGM： サウナ帰りのプレイリスト</div><div style="display:flex;gap:10px;margin-top:18px"><button id="hp-call" style="flex:1;background:#06c755;color:#fff;border:none;border-radius:12px;padding:12px;font-weight:800;font-size:14px;cursor:pointer;font-family:inherit">📞 無料通話</button><button id="hp-chat" style="flex:1;background:#f2f2f7;border:none;border-radius:12px;padding:12px;font-weight:800;font-size:14px;cursor:pointer;font-family:inherit">💬 トーク</button></div><div style="font-size:12px;color:#8e8e93;margin-top:16px;line-height:1.9">ホーム写真：夜の散歩で撮ったやつ（11月1日）<br>※ プロフィールは本人だけが見れる設定…のはず</div></div></div>
 </section>
 
 <!-- ===== NEWS ===== -->
@@ -480,6 +510,7 @@ transform:translateY(-190%);transition:transform.55s cubic-bezier(.2,.9,.25,1);c
 
 <!-- ===== PHOTOS ===== -->
 <section class="view" id="v-photos">
+<div id="ph-view"><button id="pv-close" style="position:absolute;top:52px;left:12px;background:rgba(255,255,255,.14);color:#fff;border:none;width:34px;height:34px;border-radius:50%;font-size:15px;cursor:pointer;z-index:2">✕</button><button class="pv-nav" id="pv-prev" style="left:8px">‹</button><button class="pv-nav" id="pv-next" style="right:8px">›</button><img class="main" id="pv-img" src="" alt=""><div class="pv-meta"><div class="pv-cap" id="pv-cap"></div><div class="pv-date" id="pv-date"></div></div></div>
 <div class="appbar"><button class="back" data-home>‹</button><span class="t">写真</span><span class="s">ひろと＋思い出</span></div>
 <div class="scroll">
 <div class="ph-grid" id="ph-grid">
@@ -492,6 +523,12 @@ transform:translateY(-190%);transition:transform.55s cubic-bezier(.2,.9,.25,1);c
           <figure><img src="assets/ig-drink.jpg" alt=""><figcaption>本人の投稿🥤</figcaption></figure>
           <figure><img src="assets/ig-bday.jpg" alt=""><figcaption>HBD to me🎂</figcaption></figure>
           <figure><img src="assets/ig-sushi.jpg" alt=""><figcaption>寿司🍣</figcaption></figure>
+          <figure><img src="assets/roses.jpg" alt=""><figcaption>バラと彼🌹</figcaption></figure>
+          <figure><img src="assets/night.jpg" alt=""><figcaption>夜の散歩</figcaption></figure>
+          <figure><img src="assets/glasses.jpg" alt=""><figcaption>メガネの日</figcaption></figure>
+          <figure><img src="assets/studio.jpg" alt=""><figcaption>お仕事ショット</figcaption></figure>
+          <figure><img src="assets/cafe3.jpg" alt=""><figcaption>カフェで腕組み</figcaption></figure>
+          <figure><img src="assets/hoodie.jpg" alt=""><figcaption>フーディ彼氏</figcaption></figure>
 </div>
 <div style="padding:14px 16px;font-size:13px;line-height:1.8;color:#3a3a3c">
 ※週刊誌に載った“手つなぎ写真”はここにはない。でもXでは、昨日のカフェとネックレスと、この投稿のキャプションが「匂わせ」として掘られていく…。
@@ -502,18 +539,18 @@ transform:translateY(-190%);transition:transform.55s cubic-bezier(.2,.9,.25,1);c
 <!-- ===== CALL ===== -->
 <section class="view" id="v-call">
 <div class="call-wrap" id="call-incoming" style="display:none">
-        <img src="assets/selfie.jpg" alt="" class="ringpulse">
-        <div style="font-size:23px;font-weight:800">ひろと</div>
+        <img src="assets/selfie.jpg" alt="" class="ringpulse" id="call-inc-img">
+        <div style="font-size:23px;font-weight:800" id="call-inc-name">ひろと</div>
         <div style="font-size:13.5px;color:#aeb6c6">📱 着信中…</div>
-        <div class="call-sub">ドキドキの着信。応答する？</div>
+        <div class="call-sub" id="call-inc-sub">ドキドキの着信。応答する？</div>
         <div style="display:flex;gap:74px;margin-top:16px">
           <span style="text-align:center"><button class="cb" id="call-decline" style="background:#ff3b30;width:62px;height:62px;border-radius:50%;border:none;font-size:25px;color:#fff;cursor:pointer">📞</button><br><span style="font-size:11.5px">拒否</span></span>
           <span style="text-align:center"><button class="cb" id="call-answer" style="background:#34c759;width:62px;height:62px;border-radius:50%;border:none;font-size:25px;color:#fff;cursor:pointer">📞</button><br><span style="font-size:11.5px">応答</span></span>
         </div>
       </div>
       <div class="call-wrap" id="call-active">
-<img src="assets/selfie.jpg" alt="">
-<div style="font-size:23px;font-weight:800">ひろと</div>
+<img src="assets/selfie.jpg" alt="" id="call-act-img">
+<div style="font-size:23px;font-weight:800" id="call-act-name">ひろと</div>
 <div style="font-size:13px;color:#aeb6c6" id="call-state">通話中… <span id="call-time">00:00</span></div>
 <div class="call-sub" id="call-sub">「…なおの声、聞きたかってん」</div>
 <div class="call-btns">
@@ -577,8 +614,8 @@ function alive(t){ return t===state._token && state.phase==="prologue"; }
 function addPhoto(src,cap){ const f=document.createElement("figure"); f.innerHTML=`<img src="${src}" alt=""><figcaption>${cap}</figcaption>`; $("#ph-grid").prepend(f); }
 function schedulePrologue(){ if(state._proStarted) return; state._proStarted=true; $("#skip-btn").style.display="inline-block"; later(()=>chapter(1),1300); }
 $("#skip-btn").addEventListener("click",()=>{ if(state.phase!=="prologue") return; state._token++; toScandal(); });
-function toScandal(){ if(state.phase==="scandal") return; state.phase="scandal"; $("#skip-btn").style.display="none"; chapterCard("第6話","バレた日","11月2日（日）夜 —— 。LINEを開いて様子を見てね"); addDayChip("11月2日（日）"); scheduleFirstPush(); }
-function chapter(n){ if(state.phase!=="prologue") return; state.chapter=n; const t=state._token; if(n===1) ch1(t); else if(n===2) ch2(t); else if(n===3) ch3(t); else if(n===4) ch4(t); else if(n===5) ch5(t); }
+function toScandal(){ if(state.phase==="scandal") return; state.phase="scandal"; $("#lock-date").textContent="11月2日 日曜日"; $("#skip-btn").style.display="none"; chapterCard("第6話","バレた日","11月2日（日）夜 —— 。LINEを開いて様子を見てね"); addDayChip("11月2日（日）"); scheduleFirstPush(); }
+function chapter(n){ if(state.phase!=="prologue") return; state.chapter=n; const LD={1:"9月27日 土曜日",2:"10月4日 土曜日",3:"10月12日 日曜日",4:"10月18日 土曜日",5:"11月1日 土曜日"}; if(LD[n]) $("#lock-date").textContent=LD[n]; const t=state._token; if(n===1) ch1(t); else if(n===2) ch2(t); else if(n===3) ch3(t); else if(n===4) ch4(t); else if(n===5) ch5(t); }
 async function ch1(t){ setChapterWidget("第1話『出会い』","9月27日、飲み会の夜に。"); chapterCard("第1話","出会い","9月27日（土）夜 —— 共通の友達の飲み会。<br>LINEを開いてね"); 
   await himMsg("今日はありがとうな",900); if(!alive(t))return; await himMsg("ひろとです"); if(!alive(t))return; await himMsg("なおと喋れて、楽しかった"); if(!alive(t))return; await himMsg("またごはん、行こな");
   if(!alive(t))return; askChoices("なおの返信を選んで",[
@@ -610,6 +647,7 @@ async function ch4(t){ addDayChip("10月18日（土）"); setChapterWidget("第4
   ]); }
 async function ch5(t){ addDayChip("11月1日（土）"); setChapterWidget("第5話『何気ない日常』","これがずっと続けばいいのに。"); chapterCard("第5話","何気ない日常","11月1日（土） —— いつものカフェ、いつもの二人。<br>LINEを開いてね");
   await himMsg("今日のカフェ、当たりやったな",700); if(!alive(t))return; await himMsg("麺、なおのやつも美味そうやった");
+  later(()=>{ addPhoto("assets/night.jpg","夜の散歩"); },5000);
   later(()=>toast("📷 ひろとが投稿したよ「冬終わらんといてほしい🙃」（彼の垢）"),4000);
   if(!alive(t))return; askChoices("なおの返信を選んで",[
     {label:"今日はありがとう",fn:async()=>{ if(!alive(t))return; ch5end(t); }},
@@ -626,7 +664,7 @@ function scheduleFirstPush(){ if(state._pushScheduled) return; state._pushSchedu
 }
 function unlock(){ if(!$("#v-lock").classList.contains("on")) return; show("home"); schedulePrologue(); }
 $("#v-lock").addEventListener("click",unlock);
-(function(){const d=new Date();const w=["日","月","火","水","木","金","土"][d.getDay()];$("#lock-date").textContent=(d.getMonth()+1)+"月"+d.getDate()+"日 "+w+"曜日";$("#lock-time").textContent=String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0")}());
+(function(){const d=new Date();const w=["日","月","火","水","木","金","土"][d.getDay()];$("#lock-date").textContent="9月27日 土曜日";$("#lock-time").textContent=String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0")}());
 function fmt(n){return n.toLocaleString("ja-JP")}
 function animateCount(el,from,to,dur,format){const t0=performance.now();function step(t){const p=Math.min(1,(t-t0)/dur);const e=1-Math.pow(1-p,3);const v=Math.round(from+(to-from)*e);el.textContent=format?format(v):fmt(v);if(p<1)requestAnimationFrame(step)}requestAnimationFrame(step)}
 function setHeat(v){state.heat=Math.min(100,v);$("#w-meter").style.width=state.heat+"%"}
@@ -644,7 +682,7 @@ floodComments(); floodMentions(); floodDms(); every(genContent,15000); every(gen
   state._imp=312; every(()=>{ if(state._imp<1480){ state._imp+=Math.floor(Math.random()*26+7); const el=$("#imp-n"); if(el) el.textContent=state._imp.toLocaleString("ja-JP")+"万"; } },3000);
   state._batt=43; every(()=>{ if(state._batt>36){ state._batt--; $("#batt-n").textContent=state._batt; document.querySelector(".batt .fill").style.width=state._batt+"%"; } },25000);
   $("#nao-story-viewers").innerHTML="👁 2,314人 ・ <b>193.hiroto_jixiang</b>、yui_s、sauna_m 他 —— 彼、見てる…";
-  later(groupFlood,23000);
+  later(groupFlood,23000); later(()=>{ if(!state._mgrDone){ state._mgrDone=true; showIncomingCall("manager"); } },85000);
 later(()=>push("X","#000","𝕏","トレンド1位 #大翔熱愛","「裏切られた」「幸せなら応援」賛否が真っ二つ",()=>show("x")),6000);
 later(()=>push("Instagram","linear-gradient(45deg,#fa7e1e,#d62976,#962fbf)","📷","フォロワーが+10,000人突破","コメントとDMリクエストが殺到している",()=>show("ig")),12000);
 later(()=>{lineSequence1()},16000);
@@ -678,7 +716,7 @@ function buildTimeline(){const tl=$("#x-pane-tl"); X_POSTS.forEach((p,i)=>later(
 const mine=document.createElement("div"); $("#x-me-posts").appendChild(postEl({n:"なお",h:"@nao_0324",t:"（このアカウント、今めちゃくちゃ見られてる…）",m:["💬 0","🔁 0","❤️ 0"]},false));}
 const TRENDS=[["エンターテイメント ・ トレンド","#大翔熱愛","128,409 件のポスト"],["日本のトレンド","#手つなぎデート","84,210 件のポスト"],["日本のトレンド","事務所コメント","61,003 件のポスト"],["エンターテイメント ・ トレンド","匂わせ","44,918 件のポスト"],["日本のトレンド","ロットダン","29,377 件のポスト"]];
 function buildTrends(){const w=$("#x-pane-trend"); w.innerHTML=""; TRENDS.forEach((t,i)=>{const d=document.createElement("div");d.className="trend";d.innerHTML=`<div class="cat">${i+1} ・ ${t[0]}</div><div class="kw">${t[1]}</div><div class="cnt">${t[2]}</div>`;w.appendChild(d)})}
-$$("[data-xtab]").forEach(b=>b.addEventListener("click",()=>{$$("[data-xtab]").forEach(x=>x.classList.remove("act"));b.classList.add("act");$("#x-thread").style.display="none";["tl","trend","mention","me"].forEach(k=>$("#x-pane-"+k).style.display=k===b.dataset.xtab?"block":"none")}));
+$$("[data-xtab]").forEach(b=>b.addEventListener("click",()=>{$$("[data-xtab]").forEach(x=>x.classList.remove("act"));b.classList.add("act");$("#x-thread").style.display="none";["tl","trend","mention","me","search"].forEach(k=>$("#x-pane-"+k).style.display=k===b.dataset.xtab?"block":"none")}));
 const MENTIONS=[
 ["ゆん@yun_o0","@nao_0324 あんたが大翔奪ったの？　説明して"],
 ["応援垢@m_support","@nao_0324 叩かれてるけど負けないで。幸せならそれでいい"],
@@ -726,13 +764,13 @@ askChoices("これから、どうする？",[
 {label:"少しだけ距離を置こう",fn:()=>ending("away")},
 ]);
 }
-function startCall(){ show("call"); state.callSec=0; $("#call-time").textContent="00:00";
-const lines=["「…なおの声、聞きたかってん」","「大丈夫。俺、逃げへんから」","「ファンのことも大事やけど」","「なおのことも、同じくらい大事やねん」","「今日はもう、寝られへんかもな 笑」","「明日も電話していい？」"];
+function startCall(customLines){ show("call"); state.callSec=0; $("#call-time").textContent="00:00";
+const lines=customLines||["「…なおの声、聞きたかってん」","「大丈夫。俺、逃げへんから」","「ファンのことも大事やけど」","「なおのことも、同じくらい大事やねん」","「今日はもう、寝られへんかもな 笑」","「明日も電話していい？」"];
 let i=0; $("#call-sub").textContent=lines[0];
 state.callTimer=setInterval(()=>{state.callSec++;$("#call-time").textContent=String(Math.floor(state.callSec/60)).padStart(2,"0")+":"+String(state.callSec%60).padStart(2,"0")},1000);
 const iv=setInterval(()=>{i++; if(i<lines.length){$("#call-sub").textContent=lines[i]} else {clearInterval(iv)}},4200); timers.push(iv);
 }
-$("#call-end").addEventListener("click",async()=>{ clearInterval(state.callTimer); show("line"); openChat(); await himMsg("電話、ありがとう"); await himMsg("声聞けて、ちょっと落ち着いた"); lineSequence2();});
+$("#call-end").addEventListener("click",async()=>{ clearInterval(state.callTimer); if(state.caller==="manager"){ state.caller="hiroto"; show("line"); openChat(); await himMsg("マネージャーと話した？"); await himMsg("ごめんな、心配かけて"); await himMsg("俺は大丈夫やから"); return; } show("line"); openChat(); await himMsg("電話、ありがとう"); await himMsg("声聞けて、ちょっと落ち着いた"); lineSequence2();});
 async function ending(kind){ if(state.ended) return; state.ended=true;
 const box={open:{h:"エンディング：堂々と",t:"翌日、ひろとは自分の言葉でファンへ短く報告した。「大事な人がいます」——炎上は続いたけど、応援の声も日に日に増えていった。なおのフォロワーは今も増えている。でも一番大事な通知は、いつもLINEのひとつだけ。",news:"本人が交際を認めるコメント　「大事な人がいます」"},
 wait:{h:"エンディング：静かに待つ",t:"二人は表向き静かに過ごすことにした。コメント欄は少しずつ落ち着いて、ひと月後——ひろとの投稿に、小さくコーヒーの絵文字が増えた。知ってる人だけが、知っている。",news:"熱愛報道は沈静化へ　二人は静観の構え"},
@@ -795,6 +833,55 @@ function sendGroup(){ const inp=$("#g-text"); const v=inp.value.trim(); if(!v) r
 $("#g-send").addEventListener("click",sendGroup);
 $("#g-text").addEventListener("keydown",e=>{ if(e.key==="Enter") sendGroup(); });
 async function groupFlood(){ const seq=[["ゆい","なお！？"],["ゆい","ニュース見た！？　あれ、なお！？"],["みさき","待って、相手って…なおのこと？"],["りな","インスタのフォロワー増え方が異常なんだけど"],["ゆい","電話出れる？　心配で"],["みさき","叩かれてるけど、私たちは味方だから"]]; for(const [n,t] of seq){ gMsg(n,t); await new Promise(r=>setTimeout(r,2100)); } push("LINE","#06c755","💬","いつメン🍻","「なお！？ ニュース見た！？」——タップでグループへ",()=>{show("line");openGroup()}); }
+/* ===== v5: his IG extra posts ===== */
+(function(){ const hs=$("#v-hisig .scroll"); if(!hs) return;
+  const mk=(img,cap,likes)=>{ const d=document.createElement("div"); d.innerHTML=`<div class="ph"><img class="avatar" src="assets/ig-avatar.jpg" width="30" height="30" alt=""> 193.hiroto_jixiang <span class="verified">☑</span><span style="margin-left:auto;color:#8e8e93">…</span></div><img class="pimg" src="${img}" alt=""><div class="acts"><span class="like-btn">♡ ${likes}</span><span>💬</span><span>✈</span></div><div class="cap"><b>193.hiroto_jixiang</b> ${cap}</div>`; hs.appendChild(d); };
+  mk("assets/roses.jpg","🌹","3,863"); mk("assets/hoodie.jpg","寒くなってきた","4,023");
+})();
+/* ===== v5: photo viewer ===== */
+const PHOTO_DATES={"crown.jpg":"9月 ・ 神戸","crown-full.jpg":"9月 ・ 保存用","stage.jpg":"9月 ・ ライブ会場","selfie.jpg":"10月 ・ ひろとから送信","insta-post.jpg":"11月1日 ・ Instagramの投稿","ig-drink.jpg":"10月4日 ・ 初デートのカフェ","ig-food.jpg":"本人の投稿 ・ 麺の日","ig-bday.jpg":"本人の投稿 ・ 誕生日","ig-sushi.jpg":"本人の投稿 ・ 寿司","roses.jpg":"本人の投稿 ・ バラ園","night.jpg":"11月1日 ・ 夜の散歩","glasses.jpg":"本人の投稿 ・ メガネの日","studio.jpg":"本人の投稿 ・ お仕事","cafe3.jpg":"本人の投稿 ・ カフェ","hoodie.jpg":"本人の投稿 ・ 寒い日","cafe.jpg":"なおの投稿写真"};
+let pvIdx=0;
+function pvList(){ return $$("#ph-grid figure"); }
+function pvShow(i){ const list=pvList(); if(!list.length) return; pvIdx=(i+list.length)%list.length; const img=list[pvIdx].querySelector("img"); const cap=list[pvIdx].querySelector("figcaption"); const base=(img.getAttribute("src")||"").split("/").pop();
+  $("#pv-img").src=img.getAttribute("src"); $("#pv-cap").textContent=cap?cap.textContent:"思い出"; $("#pv-date").textContent=(PHOTO_DATES[base]||"思い出")+" ・ "+(pvIdx+1)+" / "+list.length; }
+$("#ph-grid").addEventListener("click",e=>{ const f=e.target.closest("figure"); if(!f) return; $("#ph-view").classList.add("on"); pvShow(pvList().indexOf(f)); });
+$("#pv-close").addEventListener("click",()=>$("#ph-view").classList.remove("on"));
+$("#pv-prev").addEventListener("click",()=>pvShow(pvIdx-1));
+$("#pv-next").addEventListener("click",()=>pvShow(pvIdx+1));
+/* ===== v5: X search ===== */
+const X_SUGS=["大翔 熱愛","大翔 彼女","大翔 ネックレス","大翔 一般女性 誰","ひろと なお","大翔 事務所コメント"];
+const X_SEARCH_POSTS=[
+ {n:"まとめ速報",h:"@matome_soku",t:"【まとめ】井汲大翔の熱愛報道、事務所コメントまでの流れを時系列で整理。否定なし＝事実上の容認か",m:["💬 1,204","🔁 8,932","❤️ 12,408"]},
+ {n:"芸能ウォッチャー",h:"@geino_watch",t:"お相手の特定が進んでるけど、一般の方なので行き過ぎた詮索は控えめに…という声も増えてきた",m:["💬 864","🔁 3,102","❤️ 9,845"]},
+ {n:"ファンの声bot",h:"@fan_voice",t:"「ステージの大翔は変わらない」「幸せなら応援する」ポジティブな投稿が増加中",m:["💬 432","🔁 2,208","❤️ 15,320"]},
+];
+function doSearch(q){ q=(q||"").trim()||"大翔"; ["tl","trend","mention","me"].forEach(k=>$("#x-pane-"+k).style.display="none"); $("#x-thread").style.display="none"; const pane=$("#x-pane-search"); pane.style.display="block";
+  const sug=$("#x-sug"); sug.innerHTML=""; X_SUGS.forEach(w=>{ const b=document.createElement("button"); b.textContent="🔍 "+w; b.addEventListener("click",()=>{ $("#x-q").value=w; doSearch(w); }); sug.appendChild(b); });
+  const res=$("#x-search-results"); res.innerHTML=""; const h=document.createElement("div"); h.style.cssText="padding:4px 14px 8px;font-weight:800;font-size:14.5px"; h.textContent="「"+q+"」の検索結果"; res.appendChild(h);
+  if(q.includes("ネックレス")) res.appendChild(postEl({n:"特定班",h:"@tokutei_jp",t:"【検証】お揃いネックレス、ブランド特定。彼の10月の投稿と、彼女の投稿に同じものが…",m:["💬 2,314","🔁 18,540","❤️ 9,208"]},false));
+  X_SEARCH_POSTS.forEach(pst=>res.appendChild(postEl(pst,false))); $("#x-scroll").scrollTop=0; }
+$("#x-search-btn").addEventListener("click",()=>doSearch($("#x-q").value));
+$("#x-q").addEventListener("keydown",e=>{ if(e.key==="Enter") doSearch($("#x-q").value); });
+/* ===== v5: hiroto profile + call buttons ===== */
+$("#hiroto-prof-btn").addEventListener("click",()=>$("#hiroto-prof").classList.add("on"));
+$("#hp-close").addEventListener("click",()=>$("#hiroto-prof").classList.remove("on"));
+$("#hp-chat").addEventListener("click",()=>{ $("#hiroto-prof").classList.remove("on"); });
+function requestCall(){ if(state.phase==="prologue"&&state.chapter<3){ toast("📞 まだ電話する仲じゃないかも…（物語を進めてね）"); return; } $("#hiroto-prof").classList.remove("on"); showIncomingCall("hiroto"); }
+$("#hp-call").addEventListener("click",requestCall);
+$("#line-call-btn").addEventListener("click",requestCall);
+/* ===== v5: nao comment post ===== */
+function postNaoComment(){ const inp=$("#nao-cmt-text"); const v=inp.value.trim(); if(!v) return; inp.value=""; const d=document.createElement("div"); d.className="cmt"; d.innerHTML="<b>nao_0324</b> "; d.appendChild(document.createTextNode(v)); const box=$("#ig-cmts"); box.insertBefore(d,box.firstChild);
+  if(state.started) later(()=>toast("♡ <b>193.hiroto_jixiang</b> があなたのコメントにいいねしました"),15000); }
+$("#nao-cmt-send").addEventListener("click",postNaoComment);
+$("#nao-cmt-text").addEventListener("keydown",e=>{ if(e.key==="Enter") postNaoComment(); });
+/* ===== v5: yui DM thread ===== */
+$("#ig-dms").addEventListener("click",e=>{ const row=e.target.closest(".dmrow"); if(!row) return; const nm=row.querySelector(".nm"); if(nm&&nm.textContent.trim()==="yui_s") $("#dm-thread").classList.add("on"); });
+$("#dm-back").addEventListener("click",()=>$("#dm-thread").classList.remove("on"));
+const YUI_REPLIES=["ありがとう…心配で寝れなかった","あんたは悪くないからね","何かあったらすぐ電話して。いつでも出る"];
+function sendDm(){ const inp=$("#dm-text"); const v=inp.value.trim(); if(!v) return; inp.value=""; const d=document.createElement("div"); d.className="dm-bub me"; d.textContent=v; $("#dm-scroll").appendChild(d); $("#dm-scroll").scrollTop=$("#dm-scroll").scrollHeight;
+  setTimeout(()=>{ const r=document.createElement("div"); r.className="dm-bub them"; r.textContent=pick(YUI_REPLIES); $("#dm-scroll").appendChild(r); $("#dm-scroll").scrollTop=$("#dm-scroll").scrollHeight; },1500); }
+$("#dm-send").addEventListener("click",sendDm);
+$("#dm-text").addEventListener("keydown",e=>{ if(e.key==="Enter") sendDm(); });
 /* ===== v2: likes ===== */
 document.addEventListener("click",e=>{const b=e.target.closest(".like-btn"); if(!b) return; const on=b.classList.toggle("liked"); const m=b.textContent.match(/([\d,]+)/); if(m){let n=parseInt(m[1].replace(/,/g,"")); n+=on?1:-1; b.textContent=b.textContent.replace(m[1],n.toLocaleString("ja-JP"));}});
 /* ===== v2: infinite generators ===== */
@@ -840,11 +927,18 @@ $("#story-btn").addEventListener("click",()=>{ const v=$("#story-view"); const i
   v.classList.remove("on"); void v.offsetWidth; v.classList.add("on"); clearTimeout(storyTimer); storyTimer=setTimeout(()=>v.classList.remove("on"),5000); });
 $("#story-close").addEventListener("click",()=>$("#story-view").classList.remove("on"));
 /* ===== v2: incoming call ===== */
-function showIncomingCall(){ show("call"); $("#call-incoming").style.display="flex"; $("#call-active").style.display="none"; }
-$("#call-answer").addEventListener("click",()=>{ $("#call-incoming").style.display="none"; $("#call-active").style.display="flex"; startCall(); });
-$("#call-decline").addEventListener("click",async()=>{ show("line"); openChat(); await himMsg("出れんかった？",300); await himMsg("大丈夫、気にせんといて"); await himMsg("文字でも、なおと話せたらいい"); lineSequence2(); });
+function showIncomingCall(caller){ state.caller=caller||"hiroto"; const mgr=state.caller==="manager";
+  $("#call-inc-name").textContent=mgr?"マネージャー（事務所）":"ひろと";
+  $("#call-inc-img").src=mgr?"assets/default-avatar.svg":"assets/selfie.jpg";
+  $("#call-inc-sub").textContent=mgr?"事務所からの着信。何の話だろう…":"ドキドキの着信。応答する？";
+  show("call"); $("#call-incoming").style.display="flex"; $("#call-active").style.display="none"; }
+const MGR_LINES=["「…もしもし、なおさんですか」","「彼は今、事務所で待機しています」","「今日はどうか、静かに過ごしてください」","「彼のことは、私たちが守ります」","「…彼が『心配させるな』って、うるさくて」"];
+$("#call-answer").addEventListener("click",()=>{ $("#call-incoming").style.display="none"; $("#call-active").style.display="flex"; const mgr=state.caller==="manager";
+  $("#call-act-name").textContent=mgr?"マネージャー（事務所）":"ひろと"; $("#call-act-img").src=mgr?"assets/default-avatar.svg":"assets/selfie.jpg";
+  startCall(mgr?MGR_LINES:null); });
+$("#call-decline").addEventListener("click",async()=>{ if(state.caller==="manager"){ state.caller="hiroto"; show("line"); openChat(); await himMsg("マネージャーから電話いった？",300); await himMsg("出んでも大丈夫やで"); await himMsg("内容は俺から聞いて"); return; } show("line"); openChat(); await himMsg("出れんかった？",300); await himMsg("大丈夫、気にせんといて"); await himMsg("文字でも、なおと話せたらいい"); lineSequence2(); });
 /* ===== v2: act2 next morning ===== */
-async function startAct2(kind){ if(state._act2) return; state._act2=true; state.act2=true; const ec=$("#endcard"); if(ec) ec.remove();
+async function startAct2(kind){ if(state._act2) return; state._act2=true; state.act2=true; $("#lock-date").textContent="11月3日 月曜日"; const ec=$("#endcard"); if(ec) ec.remove();
   $("#w-title").textContent="🌅 翌朝｜少しずつ、日常が戻る";
   $("#w-main").textContent="ひろとが自分の言葉でコメントを出した朝。";
   setHeat(kind==="open"?52:kind==="wait"?28:38);
