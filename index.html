@@ -738,7 +738,7 @@ input,textarea{font-size:16px!important}
 <div class="setrow"><span>📞 通話した回数</span><span style="color:#8e8e93;font-size:12.5px" id="set-calls">0回</span></div>
 <button class="btn-main" style="background:#ff3b30;color:#fff;width:100%;margin:6px 0 12px" onclick="location.reload()">🔁 物語を最初からやり直す</button>
 <div style="font-size:13px;font-weight:800;margin:2px 2px 8px">📞 通話履歴</div><div id="set-calllog" style="background:#fff;border-radius:12px;padding:6px 14px;margin-bottom:6px"><div style="font-size:12.5px;color:#8e8e93;padding:8px 0">まだ通話はない</div></div><button id="calllog-clear" style="background:none;border:none;color:#8e8e93;font-size:12px;cursor:pointer;font-family:inherit;padding:2px 2px 12px">通話履歴を消す</button>
-<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v343</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
+<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v344</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
 </div>
 </section>
 
@@ -6465,6 +6465,56 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
    c.querySelectorAll("[id]").forEach(el=>el.removeAttribute("id"));
    posts[0].parentNode.insertBefore(c, posts[0]);
   }catch(e){}
+ },1500);
+})();
+/* ===== v344: the big polish - ending collection, an epilogue note page, a follow-up news article, and a Christmas countdown ===== */
+(function(){
+ /* (a) record reached endings and show the collection in settings */
+ const NAMES={open:"堂々と",wait:"静かに待つ",away:"距離を置く"};
+ const ivE=setInterval(()=>{ if(typeof ending!=="function"||ending._v344) return; clearInterval(ivE);
+  const orig=ending;
+  const wrapped=async function(kind){ try{ const k=JSON.parse(localStorage.getItem("hb_endings")||"{}"); k[kind]=1; localStorage.setItem("hb_endings",JSON.stringify(k)); }catch(e){} return orig(kind); };
+  wrapped._v344=true; ending=wrapped;
+ },400);
+ const ivS=setInterval(()=>{ const sc=document.querySelector("#v-settings .scroll"); if(!sc||document.querySelector("#set-endings")) return; clearInterval(ivS);
+  const row=document.createElement("div"); row.className="setrow"; row.id="set-endings"; row.style.cursor="pointer";
+  const render=()=>{ let k={}; try{ k=JSON.parse(localStorage.getItem("hb_endings")||"{}"); }catch(e){}
+   const got=Object.keys(NAMES).filter(x=>k[x]);
+   row.innerHTML='<span>🏁 エンディング到達</span><b style="color:#8e8e93">'+got.length+' / 3</b>'; };
+  render();
+  setInterval(render,2000);
+  row.addEventListener("click",()=>{ render(); let k={}; try{ k=JSON.parse(localStorage.getItem("hb_endings")||"{}"); }catch(e){}
+   toast("🏁 "+Object.keys(NAMES).map(x=>(k[x]?"✅ ":"🔒 ")+NAMES[x]).join("　")); });
+  sc.appendChild(row);
+ },800);
+ /* (b) an epilogue page joins the two-person notebook (same observer pattern as the other extra pages) */
+ const injectN=()=>{ if(!state._act2MorningDone) return;
+  const panel=document.querySelector("#note-panel"); if(!panel||panel.querySelector("#note-extra-v344")) return;
+  const sc2=panel.querySelector('div[style*="overflow-y"]'); if(!sc2) return;
+  const page=document.createElement("div"); page.id="note-extra-v344"; page.className="note-extra";
+  page.style.cssText="background:#f2fbf4;border:1px solid #cde8d2;border-radius:12px;padding:12px 14px;margin:10px 0;color:#333";
+  page.innerHTML='<b>🌱 11月4日 ― これからの二人</b><br>騒ぎを越えて、初めての普通の朝。<br>ここから先は、二人で決めていく。';
+  sc2.appendChild(page); };
+ const vlineEl=document.querySelector("#v-line");
+ if(vlineEl) new MutationObserver(injectN).observe(vlineEl,{childList:true,subtree:true});
+ /* (c) a follow-up news article once the epilogue morning is done */
+ const ivW=setInterval(()=>{ if(state._v344news) { clearInterval(ivW); return; }
+  if(!state._act2MorningDone) return; state._v344news=true; clearInterval(ivW);
+  try{ addNewsRow("assets/crown.jpg","【その後】公表から数日――二人の『普通の毎日』に、静かな応援が広がる","週刊デジタル ・ 11月4日",()=>{
+   document.querySelector("#news-list").style.display="none"; const a=document.querySelector("#news-article"); a.style.display="block";
+   a.innerHTML='<div class="article"><button class="btn-main" style="background:#f2f2f7;width:auto;padding:7px 14px;margin:0 0 12px" onclick="newsBack()">‹ 一覧に戻る</button><h2>公表から数日――井汲大翔と一般女性の「普通の毎日」に、静かな応援</h2><div class="m">週刊デジタル ・ 11月4日配信</div><p>熱愛報道から数日が経った。所属事務所の「プライベートは本人に任せております」というコメントと、本人の短い報告を境に、過熱していた騒ぎは少しずつ落ち着きを見せている。</p><div class="box">ファン「隠さずにいてくれるのが一番嬉しい。応援の仕方は、変わらないです」</div><p>関係者によると、二人は人目を過剰に避けることも、見せつけることもなく、普段通りの生活を送っているという。週末には都内のカフェで、並んで歩く姿も目撃されている。</p><p>SNSでは「#普通の毎日を応援」という穏やかなハッシュタグも広がり始めた。騒ぎのあとに残ったのは、案外、静かな日常だったのかもしれない。</p></div>';
+   document.querySelector("#news-scroll").scrollTop=0; }); }catch(e){}
+ },1500);
+ /* (d) a Christmas countdown appears on the home widget after act2 */
+ const ivX=setInterval(()=>{ if(state._v344x) { clearInterval(ivX); return; }
+  if(!state.act2) return;
+  const w=document.querySelector("#v-home .widget"); if(!w) return;
+  if(w.querySelector("#w-xmas")) { state._v344x=true; clearInterval(ivX); return; }
+  const d=document.createElement("div"); d.id="w-xmas";
+  d.style.cssText="margin-top:9px;font-size:12px;color:#ffe9a8";
+  d.textContent="🎄 クリスマス（12月24日）まで あと50日 ― 約束の日";
+  w.appendChild(d);
+  state._v344x=true; clearInterval(ivX);
  },1500);
 })();
 /* ===== v41: individual friend chats (yui / misaki / rina) ===== */
