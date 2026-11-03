@@ -738,7 +738,7 @@ input,textarea{font-size:16px!important}
 <div class="setrow"><span>📞 通話した回数</span><span style="color:#8e8e93;font-size:12.5px" id="set-calls">0回</span></div>
 <button class="btn-main" style="background:#ff3b30;color:#fff;width:100%;margin:6px 0 12px" onclick="location.reload()">🔁 物語を最初からやり直す</button>
 <div style="font-size:13px;font-weight:800;margin:2px 2px 8px">📞 通話履歴</div><div id="set-calllog" style="background:#fff;border-radius:12px;padding:6px 14px;margin-bottom:6px"><div style="font-size:12.5px;color:#8e8e93;padding:8px 0">まだ通話はない</div></div><button id="calllog-clear" style="background:none;border:none;color:#8e8e93;font-size:12px;cursor:pointer;font-family:inherit;padding:2px 2px 12px">通話履歴を消す</button>
-<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v332</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
+<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v333</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
 </div>
 </section>
 
@@ -6384,20 +6384,16 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
   seq.forEach((s,i)=> setTimeout(()=>{ try{ gMsg(s[0], s[1]); }catch(e){} }, 1200*(i+1)));
  },1500);
 })();
-/* ===== v332: volume diet - a free-chat reply may contain at most 3 of his text messages ===== */
+/* ===== v333: volume diet (revised) - at most 3 of his text messages per free-chat send, story beats exempt ===== */
 (function(){
- const ivH=setInterval(()=>{ if(typeof himMsg!=="function"||himMsg._v332) return; clearInterval(ivH);
+ const stamp=()=>{ state._seqAt=Date.now(); state._seqChapter=state.chapter; state._seqToken=state._token; state._seqMsgN=0; };
+ const ivB=setInterval(()=>{ const b=document.querySelector("#line-send"), inp=document.querySelector("#line-text");
+  if(b&&inp){ b.addEventListener("click",stamp,true); inp.addEventListener("keydown",e=>{ if(e.key==="Enter") stamp(); },true); clearInterval(ivB); } },500);
+ const ivH=setInterval(()=>{ if(typeof himMsg!=="function"||himMsg._v333) return; clearInterval(ivH);
   const origMsg=himMsg;
-  himMsg=function(text){ if(state._replyWin && Date.now()-state._replyWin.t<6000){ if(state._replyWin.n>=3) return; state._replyWin.n++; } return origMsg(text); };
-  himMsg._v332=true;
+  himMsg=function(text){ if(state._seqAt && Date.now()-state._seqAt<12000 && state.chapter===state._seqChapter && state._token===state._seqToken){ state._seqMsgN=(state._seqMsgN||0)+1; if(state._seqMsgN>3) return; } return origMsg(text); };
+  himMsg._v333=true;
  },300);
- const ivR=setInterval(()=>{ if(typeof himReply!=="function"||himReply._v332) return; clearInterval(ivR);
-  const orig=himReply;
-  himReply=function(t,cb){ state._replyWin={n:0,t:Date.now()};
-   const wrapped=(typeof cb==="function")? function(){ state._replyWin=null; cb(); } : cb;
-   return orig(t,wrapped); };
-  himReply._v332=true;
- },350);
 })();
 /* ===== v41: individual friend chats (yui / misaki / rina) ===== */
 const FCHATS={
