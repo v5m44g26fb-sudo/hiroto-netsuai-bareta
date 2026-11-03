@@ -69,7 +69,7 @@ padding:12px 14px;margin-bottom:16px;border:1px solid rgba(255,255,255,.14);
 .ic-line{background:var(--line)}.ic-x{background:#000;border:1px solid #333;font-weight:900;font-style:normal}
 .ic-ig{background:linear-gradient(45deg,var(--ig1),var(--ig2),var(--ig3),var(--ig4),var(--ig5))}
 .ic-news{background:#e60012}.ic-photo{background:#fff}.ic-tel{background:#34c759}
-.ic-msg{background:#34c759}.ic-safari{background:#fff}.ic-set{background:#8e8e93}.ic-cam{background:#e9e9ee}
+.ic-msg{background:#34c759}.ic-safari{background:#fff}
 .dock{margin-top:auto;background:rgba(255,255,255,.22);backdrop-filter:blur(16px);border-radius:26px;padding:10px 14px;display:flex;justify-content:space-between}
 /* ===== push banner ===== */
 .push{
@@ -89,19 +89,19 @@ transform:translateY(-190%);transition:transform.55s cubic-bezier(.2,.9,.25,1);c
 .appbar .s{font-size:11px;color:var(--sub)}
 .scroll{overflow-y:auto;flex:1;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
 .scroll::-webkit-scrollbar{width:0}
-.tabbar{flex:none;display:flex;border-top:1px solid #e5e5ea;background:#fff;padding:7px 4px 20px}
-.tabbar button{flex:1;background:none;border:none;font-size:19px;cursor:pointer;color:#111;position:relative;padding:3px 0}
-.tabbar .tb-badge{position:absolute;top:-3px;right:calc(50% - 19px);min-width:16px;height:16px;border-radius:8px;background:var(--red);color:#fff;font-size:9.5px;font-weight:700;display:none;align-items:center;justify-content:center;padding:0 4px}
-.tabbar .tb-badge.on{display:flex}
+
+
+
+
 .push .p-head,.push .p-title,.push .p-body{display:block}
 .ava-txt{width:38px;height:38px;border-radius:50%;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;flex:none}
 .avatar{border-radius:50%;object-fit:cover;background:#ddd;flex:none}
 .chip{display:inline-block;background:#f2f2f7;border-radius:12px;padding:3px 9px;font-size:11.5px;color:#3a3a3c}
 /* ===== X ===== */
 #v-x{background:#fff}
-.x-tabs{display:flex;border-bottom:1px solid #e5e5ea;flex:none;background:#fff}
-.x-tabs button{flex:1;padding:10px 0;background:none;border:none;font-size:13.5px;font-weight:700;color:#536471;cursor:pointer;font-family:inherit}
-.x-tabs button.act{color:#111;box-shadow:inset 0 -3px 0 #1d9bf0}
+
+
+
 .post{display:flex;gap:10px;padding:12px 14px;border-bottom:1px solid #eff3f4;animation:fadeup.4s ease;text-align:left;width:100%;background:#fff;border-left:none;border-right:none;border-top:none;font-family:inherit;cursor:default}
 .post .nm{font-size:14px;font-weight:800}
 .post .hd{font-size:12.5px;color:#536471;font-weight:400}
@@ -113,9 +113,9 @@ transform:translateY(-190%);transition:transform.55s cubic-bezier(.2,.9,.25,1);c
 .trend .cat{font-size:12px;color:#536471}
 .trend .kw{font-size:15.5px;font-weight:800;margin:1px 0}
 .trend .cnt{font-size:12px;color:#536471}
-.x-profile{padding:14px 16px;border-bottom:1px solid #eff3f4}
-.x-profile .counts{display:flex;gap:18px;margin-top:9px;font-size:13px;color:#536471}
-.x-profile .counts b{color:#111;font-size:14.5px}
+
+
+
 /* ===== Instagram ===== */
 .ig-head{padding:56px 14px 9px;display:flex;align-items:center;gap:9px;border-bottom:1px solid #e5e5ea;background:#fff;flex:none}
 .ig-head .t{font-size:16.5px;font-weight:800}
@@ -738,7 +738,7 @@ input,textarea{font-size:16px!important}
 <div class="setrow"><span>📞 通話した回数</span><span style="color:#8e8e93;font-size:12.5px" id="set-calls">0回</span></div>
 <button class="btn-main" style="background:#ff3b30;color:#fff;width:100%;margin:6px 0 12px" onclick="location.reload()">🔁 物語を最初からやり直す</button>
 <div style="font-size:13px;font-weight:800;margin:2px 2px 8px">📞 通話履歴</div><div id="set-calllog" style="background:#fff;border-radius:12px;padding:6px 14px;margin-bottom:6px"><div style="font-size:12.5px;color:#8e8e93;padding:8px 0">まだ通話はない</div></div><button id="calllog-clear" style="background:none;border:none;color:#8e8e93;font-size:12px;cursor:pointer;font-family:inherit;padding:2px 2px 12px">通話履歴を消す</button>
-<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v317</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
+<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v318</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
 </div>
 </section>
 
@@ -1249,7 +1249,7 @@ $("#call-answer").addEventListener("click",()=>{ ringStop(); $("#call-incoming")
 $("#call-decline").addEventListener("click",async()=>{ logCall("📵 "+(state.caller==="manager"?"マネージャー（事務所）":"ひろと")+" ・ 不在着信（拒否） ・ "+nowTime()); ringStop(); if(state.caller==="manager"){ state.caller="hiroto"; show("line"); openChat(); await himMsg("マネージャーから電話いった？",300); await himMsg("出んでも大丈夫やで"); await himMsg("内容は俺から聞いて"); return; } show("line"); openChat(); await himMsg("出れんかった？",300); await himMsg("大丈夫、気にせんといて"); await himMsg("文字でも、なおと話せたらいい"); lineSequence2(); });
 /* ===== v2: act2 next morning ===== */
 async function startAct2(kind){ if(state._act2) return; state._act2=true; state.act2=true; $("#lock-date").textContent="11月3日 月曜日";
-  $("#w-title").textContent="🌅 翌朝 —— 少しずつ、日常に"; $("#w-main").textContent="彼の公式コメントが出た。炎上は、応援に変わりつつある。"; setHeat(18); const ec=$("#endcard"); if(ec) ec.remove();
+  const ec=$("#endcard"); if(ec) ec.remove();
   $("#w-title").textContent="🌅 翌朝｜少しずつ、日常が戻る";
   $("#w-main").textContent="ひろとが自分の言葉でコメントを出した朝。";
   setHeat(kind==="open"?52:kind==="wait"?28:38);
