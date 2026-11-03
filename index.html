@@ -738,7 +738,7 @@ input,textarea{font-size:16px!important}
 <div class="setrow"><span>📞 通話した回数</span><span style="color:#8e8e93;font-size:12.5px" id="set-calls">0回</span></div>
 <button class="btn-main" style="background:#ff3b30;color:#fff;width:100%;margin:6px 0 12px" onclick="location.reload()">🔁 物語を最初からやり直す</button>
 <div style="font-size:13px;font-weight:800;margin:2px 2px 8px">📞 通話履歴</div><div id="set-calllog" style="background:#fff;border-radius:12px;padding:6px 14px;margin-bottom:6px"><div style="font-size:12.5px;color:#8e8e93;padding:8px 0">まだ通話はない</div></div><button id="calllog-clear" style="background:none;border:none;color:#8e8e93;font-size:12px;cursor:pointer;font-family:inherit;padding:2px 2px 12px">通話履歴を消す</button>
-<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v324</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
+<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v325</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
 </div>
 </section>
 
@@ -6316,7 +6316,20 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
    if(n.nodeType===1&&n.classList&&n.classList.contains("msg")&&n.classList.contains("me")) state._sendSeq++;
  } }).observe(chat,{childList:true});
 })();
-/* ===== v41: individual friend chats (yui / misaki / rina) ===== *//* ===== v41: individual friend chats (yui / misaki / rina) ===== *//* ===== v41: individual friend chats (yui / misaki / rina) ===== */
+/* ===== v325: after act2, the world softens - a follow-up news story and supportive fan posts on X ===== */
+(function(){
+ const iv=setInterval(()=>{ if(state._v325) { clearInterval(iv); return; }
+  if(!state.act2) return; state._v325=true; clearInterval(iv);
+  try{ addNewsRow("assets/crown.jpg","「大事な人がいます」——ひろと本人の言葉に、ファンの応援が殺到　追加公演の発表も","TV・新聞各紙 ・ 翌朝",null); }catch(e){}
+  try{ const tl=document.querySelector("#x-pane-tl");
+   if(tl&&typeof postEl==="function"){
+    const p1=postEl({n:"ロットダン",h:"@rottdan_ouen",tm:"2時間",t:"彼の言葉、全部読んだ。泣いたし、もっと好きになった。これからも全力で応援する。#井汲大翔",m:["💬 214","🔁 1,893","❤️ 9,412"]},false);
+    const p2=postEl({n:"みお",h:"@mio_wish",tm:"3時間",t:"追加公演、絶対に当てる。ひろとのステージを見られるなら、なんだってする",m:["💬 48","🔁 312","❤️ 2,204"]},false);
+    tl.insertBefore(p2, tl.firstChild); tl.insertBefore(p1, tl.firstChild);
+   } }catch(e){}
+ },1500);
+})();
+/* ===== v41: individual friend chats (yui / misaki / rina) ===== */
 const FCHATS={
  yui:{name:"ゆい",ini:"ゆ",color:"#e879a0",sub:"幹事担当🍻",log:[["f","次の飲みの店、候補3つ送るね！"],["f","なおの分も予約しとく？"]],calm:["まかせて！　幹事やるから","それいいね〜","今度サウナも行こ","なおの推し活の話、もっと聞かせて"],scandalLog:["なお、ニュース見た…あれ、なおのことだよね？","心配で電話しようか迷った","私たちは味方だからね"],scandal:["大丈夫、そばにいるよ","無理しないでね","いつでも電話して"]},
  misaki:{name:"みさき",ini:"み",color:"#7a9cc6",sub:"相談役",log:[["f","この前のカフェ、写真送るね"],["f","無理しすぎてない？"]],calm:["うんうん","それは大事だね","またゆっくり話そ","なおは頑張りすぎるとこあるから"],scandalLog:["大丈夫？　騒ぎになってるけど","ネットの言葉、全部は見なくていいからね"],scandal:["落ち着いて、大丈夫","私は信じてるよ","必要なものあれば言って"]},
