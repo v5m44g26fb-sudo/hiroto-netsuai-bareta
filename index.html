@@ -738,7 +738,7 @@ input,textarea{font-size:16px!important}
 <div class="setrow"><span>📞 通話した回数</span><span style="color:#8e8e93;font-size:12.5px" id="set-calls">0回</span></div>
 <button class="btn-main" style="background:#ff3b30;color:#fff;width:100%;margin:6px 0 12px" onclick="location.reload()">🔁 物語を最初からやり直す</button>
 <div style="font-size:13px;font-weight:800;margin:2px 2px 8px">📞 通話履歴</div><div id="set-calllog" style="background:#fff;border-radius:12px;padding:6px 14px;margin-bottom:6px"><div style="font-size:12.5px;color:#8e8e93;padding:8px 0">まだ通話はない</div></div><button id="calllog-clear" style="background:none;border:none;color:#8e8e93;font-size:12px;cursor:pointer;font-family:inherit;padding:2px 2px 12px">通話履歴を消す</button>
-<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v331</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
+<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v332</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
 </div>
 </section>
 
@@ -4085,17 +4085,17 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
   if(!state._gT1&&state.phase==="prologue"&&state.chapter>=3){ state._gT1=true;
    run([ ()=>gMsg("ゆい","なお、彼氏と順調？"),
     ()=>gMsg("りな","この前、駅で似た人見た！　手つないでなかった？"),
-    ()=>gMsg("みさき","詮索はほどほどに笑"),
+    
     ()=>gMsg("ゆい","幸せそうで、何よりやわ") ]); }
   else if(!state._gT2&&state.phase==="scandal"&&!state.act2){ state._gT2=true;
    run([ ()=>gMsg("ゆい","なお、家に記者とか来てない？"),
     ()=>gMsg("みさき","差し入れ、置き配しとくね"),
-    ()=>gMsg("りな","うち、泊まってもいいからね"),
+    
     ()=>gMsg("ゆい","返信は、落ち着いてからでいいよ") ]); }
   else if(!state._gT3&&state.act2&&state._gAct2){ state._gT3=true;
    run([ ()=>gMsg("りな","ツーショット、早く見せて！！"),
     ()=>gMsg("みさき","お祝いのケーキ、予約したよ"),
-    ()=>gMsg("ゆい","金曜の店、個室とれた"),
+    
     ()=>gMsg("りな","乾杯の音頭は、なおに任せた笑") ]); }
   else if(!state._gT4&&!state.started&&state.phase==="prologue"&&state.chapter>=6){ state._gT4=true;
    run([ ()=>gMsg("みさき","今日の晩ごはん、何にする？"),
@@ -4419,7 +4419,7 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
  const vis=sel=>{ const el=document.querySelector(sel); return el&&el.style.display!=="none"&&!!el.offsetParent; };
  setInterval(()=>{ if(state.phase==="scandal") return;
   if(vis("#group-chat")&&!state._gNabe2&&((state.chapter||0)>=2||state.act2)){ state._gNabe2=true;
-   const seq=[["ゆい","鍋パの日程、来週の土曜で確定したよ！"],["りな","買い出しリスト作るね。鶏肉、白菜、ねぎ…"],["みさき","きのこ多めでお願い！"],["ゆい","なおは締めの雑炊、担当ね"]];
+   const seq=[["ゆい","鍋パの日程、来週の土曜で確定したよ！"],["りな","買い出しリスト作るね。鶏肉、白菜、ねぎ…"],["ゆい","なおは締めの雑炊、担当ね"]];
    seq.forEach((m,i)=>setTimeout(()=>{ try{ gMsg(m[0],m[1]); }catch(e){} },1200+i*1900)); }
   if(vis("#party-chat")&&!state._pBook2&&((state.chapter||0)>=2||state.act2)){ state._pBook2=true;
    const seq=[["かず","この前の店、来月の予約取れたよ"],["ゆうた","次は全員集合でな"],["りな","楽しみ！なお、ひろとくんの話も聞かせてね"]];
@@ -4944,7 +4944,7 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
    chapterCard("翌朝","9月28日（日）","昨日の合コンの余韻が、グループに。<br>LINEの『飲み会グループ』を開いてね");
    setChapterWidget("9月28日（日） 翌朝","LINEの『飲み会グループ』を開いてね");
    let vis=false; for(let i=0;i<150&&al();i++){ const p=document.querySelector("#party-chat"); if(p&&p.style.display!=="none"&&p.offsetParent!==null){ vis=true; break; } await new Promise(r=>setTimeout(r,700)); }
-   if(vis&&al()){ const lines=[["かず","昨日はありがとうな、みんな"],["ゆい","楽しかった〜！"],["りな","カラオケの盛り上がり、最高やった"],["ゆうた","井汲の歌、鳥肌たったわ"],["かず","井汲、また来いよ"],["ひろと","……ありがとう。楽しかったわ"]];
+   if(vis&&al()){ const lines=[["かず","昨日はありがとうな、みんな"],["ゆい","楽しかった〜！"],["ゆうた","井汲の歌、鳥肌たったわ"],["ひろと","……ありがとう。楽しかったわ"]];
     for(const [nm,m] of lines){ await new Promise(r=>setTimeout(r,1500)); if(!al()) break; try{ pMsg(nm,m,nowTime()); }catch(e){} }
     await new Promise(r=>setTimeout(r,1400));
     if(al()){ setChapterWidget("9月28日（日） 翌朝","このトークを閉じると、第2話『初デート』へ進むよ");
@@ -6384,11 +6384,26 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
   seq.forEach((s,i)=> setTimeout(()=>{ try{ gMsg(s[0], s[1]); }catch(e){} }, 1200*(i+1)));
  },1500);
 })();
+/* ===== v332: volume diet - a free-chat reply may contain at most 3 of his text messages ===== */
+(function(){
+ const ivH=setInterval(()=>{ if(typeof himMsg!=="function"||himMsg._v332) return; clearInterval(ivH);
+  const origMsg=himMsg;
+  himMsg=function(text){ if(state._replyWin && Date.now()-state._replyWin.t<6000){ if(state._replyWin.n>=3) return; state._replyWin.n++; } return origMsg(text); };
+  himMsg._v332=true;
+ },300);
+ const ivR=setInterval(()=>{ if(typeof himReply!=="function"||himReply._v332) return; clearInterval(ivR);
+  const orig=himReply;
+  himReply=function(t,cb){ state._replyWin={n:0,t:Date.now()};
+   const wrapped=(typeof cb==="function")? function(){ state._replyWin=null; cb(); } : cb;
+   return orig(t,wrapped); };
+  himReply._v332=true;
+ },350);
+})();
 /* ===== v41: individual friend chats (yui / misaki / rina) ===== */
 const FCHATS={
- yui:{name:"ゆい",ini:"ゆ",color:"#e879a0",sub:"幹事担当🍻",log:[["f","次の飲みの店、候補3つ送るね！"],["f","なおの分も予約しとく？"]],calm:["まかせて！　幹事やるから","それいいね〜","今度サウナも行こ","なおの推し活の話、もっと聞かせて"],scandalLog:["なお、ニュース見た…あれ、なおのことだよね？","心配で電話しようか迷った","私たちは味方だからね"],scandal:["大丈夫、そばにいるよ","無理しないでね","いつでも電話して"]},
- misaki:{name:"みさき",ini:"み",color:"#7a9cc6",sub:"相談役",log:[["f","この前のカフェ、写真送るね"],["f","無理しすぎてない？"]],calm:["うんうん","それは大事だね","またゆっくり話そ","なおは頑張りすぎるとこあるから"],scandalLog:["大丈夫？　騒ぎになってるけど","ネットの言葉、全部は見なくていいからね"],scandal:["落ち着いて、大丈夫","私は信じてるよ","必要なものあれば言って"]},
- rina:{name:"りな",ini:"り",color:"#8fbf7a",sub:"テンション担当",log:[["f","見て見て、この前の写真のなお可愛すぎん！？"],["f","次いつ会える〜"]],calm:["わかる！！","きゃーそれ最高","早く会いたい🥺","なおの話聞くの大好き"],scandalLog:["なお！？　トレンド見たんだけど！？","大丈夫なの！？　返信して！？"],scandal:["なおは悪くない！！","応援してるから！！","泣かないで🥺"]}
+ yui:{name:"ゆい",ini:"ゆ",color:"#e879a0",sub:"幹事担当🍻",log:[["f","次の飲みの店、候補3つ送るね！"],["f","なおの分も予約しとく？"]],calm:["まかせて！　幹事やるから","それいいね〜","今度サウナも行こ"],scandalLog:["なお、ニュース見た…あれ、なおのことだよね？","私たちは味方だからね"],scandal:["大丈夫、そばにいるよ","いつでも電話して"]},
+ misaki:{name:"みさき",ini:"み",color:"#7a9cc6",sub:"相談役",log:[["f","この前のカフェ、写真送るね"],["f","無理しすぎてない？"]],calm:["うんうん","それは大事だね","またゆっくり話そ"],scandalLog:["大丈夫？　騒ぎになってるけど","ネットの言葉、全部は見なくていいからね"],scandal:["落ち着いて、大丈夫","私は信じてるよ"]},
+ rina:{name:"りな",ini:"り",color:"#8fbf7a",sub:"テンション担当",log:[["f","見て見て、この前の写真のなお可愛すぎん！？"],["f","次いつ会える〜"]],calm:["わかる！！","きゃーそれ最高","早く会いたい🥺"],scandalLog:["なお！？　トレンド見たんだけど！？","大丈夫なの！？　返信して！？"],scandal:["なおは悪くない！！","応援してるから！！"]}
 };
 let fCur=null;
 function fRender(){ const box=$("#fchat"); box.innerHTML='<div class="daychip">トーク</div>'; const fc=FCHATS[fCur]; if(!fc) return;
