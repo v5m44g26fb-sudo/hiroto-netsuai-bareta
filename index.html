@@ -738,7 +738,7 @@ input,textarea{font-size:16px!important}
 <div class="setrow"><span>📞 通話した回数</span><span style="color:#8e8e93;font-size:12.5px" id="set-calls">0回</span></div>
 <button class="btn-main" style="background:#ff3b30;color:#fff;width:100%;margin:6px 0 12px" onclick="location.reload()">🔁 物語を最初からやり直す</button>
 <div style="font-size:13px;font-weight:800;margin:2px 2px 8px">📞 通話履歴</div><div id="set-calllog" style="background:#fff;border-radius:12px;padding:6px 14px;margin-bottom:6px"><div style="font-size:12.5px;color:#8e8e93;padding:8px 0">まだ通話はない</div></div><button id="calllog-clear" style="background:none;border:none;color:#8e8e93;font-size:12px;cursor:pointer;font-family:inherit;padding:2px 2px 12px">通話履歴を消す</button>
-<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v327</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
+<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v329</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
 </div>
 </section>
 
@@ -1988,9 +1988,7 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
  const p2=document.createElement("div"); p2.id="home-page2";
  p2.innerHTML='<div class="grid">'
   +'<button class="appicon" data-hp="cal"><span class="ic" style="background:linear-gradient(180deg,#ffffff,#e8e8ee);color:#d92b2b;font-size:24px">📅</span><span class="lb">カレンダー</span></button>'
-  +'<button class="appicon" data-hp="clock"><span class="ic" style="background:#111;font-size:24px">🕐</span><span class="lb">時計</span></button>'
   +'<button class="appicon" data-hp="memo"><span class="ic" style="background:linear-gradient(180deg,#ffd94d,#f5b81d);font-size:24px">📝</span><span class="lb">メモ</span></button>'
-  +'<button class="appicon" data-hp="wx"><span class="ic" style="background:linear-gradient(180deg,#4a90d9,#7ab648);font-size:24px">🌤</span><span class="lb">天気</span></button>'
   +'</div><div class="home-pages" style="margin-top:auto"><i></i><i class="on"></i><span class="hp-search">🔍 検索</span></div>';
  home.appendChild(p2);
  const inner=home.querySelector(".home-inner");
@@ -6357,6 +6355,19 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
    return orig(t,cb); };
   himReply._v327=true;
  },400);
+})();
+/* ===== v329: once the Christmas promise call happened, a Christmas page appears in the two-person notebook ===== */
+(function(){
+ const iv=setInterval(()=>{ if(state._v329) { clearInterval(iv); return; }
+  if(!(state.act2 && (state._callN||0)>=4)) return;
+  const panel=document.querySelector("#note-panel"); if(!panel) return;
+  const sc=panel.querySelector("[style*='overflow']")||panel;
+  const page=document.createElement("div"); page.className="note-extra"; page.dataset.v329="1";
+  page.style.cssText="background:#fff7f0;border:1px solid #f3d9c8;border-radius:12px;padding:12px 14px;margin:10px 0;color:#333";
+  page.innerHTML='<b>🎄 12月24日の約束</b><br>クリスマス、一日あけとくって言ってくれた日。<br>何があっても、この日だけは二人で。';
+  (sc===panel? panel : sc).appendChild(page);
+  state._v329=true; clearInterval(iv);
+ },1500);
 })();
 /* ===== v41: individual friend chats (yui / misaki / rina) ===== */
 const FCHATS={
