@@ -738,7 +738,7 @@ input,textarea{font-size:16px!important}
 <div class="setrow"><span>📞 通話した回数</span><span style="color:#8e8e93;font-size:12.5px" id="set-calls">0回</span></div>
 <button class="btn-main" style="background:#ff3b30;color:#fff;width:100%;margin:6px 0 12px" onclick="location.reload()">🔁 物語を最初からやり直す</button>
 <div style="font-size:13px;font-weight:800;margin:2px 2px 8px">📞 通話履歴</div><div id="set-calllog" style="background:#fff;border-radius:12px;padding:6px 14px;margin-bottom:6px"><div style="font-size:12.5px;color:#8e8e93;padding:8px 0">まだ通話はない</div></div><button id="calllog-clear" style="background:none;border:none;color:#8e8e93;font-size:12px;cursor:pointer;font-family:inherit;padding:2px 2px 12px">通話履歴を消す</button>
-<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v313</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
+<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v314</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
 </div>
 </section>
 
@@ -1227,13 +1227,13 @@ const VOICE_SCHED=[
 let _cv1=null,_cv2=null;
 function startCallVoice(){
   stopCallVoice();
-  state._callN=(state._callN||0)+1; const useC=state._callN>=3; const useB=!useC&&(state.act2||state._callN>1); const sched=useC?VOICE_SCHED_C:(useB?VOICE_SCHED_B:VOICE_SCHED);
-  _cv1=new Audio(useC?"assets/vm-callc1.mp3":(useB?"assets/voice-b1.mp3":"assets/voice-1.mp3")); _cv2=new Audio(useC?"assets/vm-callc2.mp3":(useB?"assets/voice-b2.mp3":"assets/voice-2.mp3"));
+  state._callN=(state._callN||0)+1; const useD=!!state.act2&&state._callN>=4; const useC=!useD&&state._callN>=3; const useB=!useD&&!useC&&(state.act2||state._callN>1); const sched=useD?VOICE_SCHED_D:(useC?VOICE_SCHED_C:(useB?VOICE_SCHED_B:VOICE_SCHED));
+  _cv1=new Audio(useD?"assets/call-d1.mp3":(useC?"assets/vm-callc1.mp3":(useB?"assets/voice-b1.mp3":"assets/voice-1.mp3"))); _cv2=new Audio(useD?"assets/call-d2.mp3":(useC?"assets/vm-callc2.mp3":(useB?"assets/voice-b2.mp3":"assets/voice-2.mp3")));
   _cv1.volume=1; _cv2.volume=1;
   sched.forEach(([ms,txt])=>{ timers.push(setTimeout(()=>{ const el=$("#call-sub"); if(el&&$("#v-call").classList.contains("on")) el.textContent=txt; },ms)); });
   $("#call-sub").textContent=sched[0][1];
   const p1=_cv1.play(); if(p1&&p1.catch) p1.catch(()=>{ $("#call-sub").textContent=sched[0][1]; });
-  timers.push(setTimeout(()=>{ if(_cv2){ const p2=_cv2.play(); if(p2&&p2.catch) p2.catch(()=>{}); } },useC?9200:(useB?8000:9640)));
+  timers.push(setTimeout(()=>{ if(_cv2){ const p2=_cv2.play(); if(p2&&p2.catch) p2.catch(()=>{}); } },useD?5700:(useC?9200:(useB?8000:9640))));
 }
 function stopCallVoice(){ [_cv1,_cv2].forEach(a=>{ if(a){ try{a.pause()}catch(e){} } }); _cv1=null; _cv2=null; }
 /* ===== v2: incoming call ===== */
@@ -1355,6 +1355,12 @@ const VOICE_SCHED_B=[
  [10600,"「…ありがとう。俺、頑張るわ」"],
  [13300,"（…なおの返事を、待ってる）"],
 ];
+const VOICE_SCHED_D=[
+ [0,"「おはよ。……昨日はほんまにごめん」"],
+ [2500,"「今日はもう大丈夫やから、普通に話そな」"],
+ [5700,"「なあ、クリスマスの日……」"],
+ [8200,"「一日空けといてくれへん？　なおと過ごしたいねん」"],
+ [11800,"（…なおの返事を、待ってる）"]];
 function himVoice(src,durLabel){ return new Promise(res=>{ later(()=>{ const tp=$("#typing"); tp.classList.add("on"); $("#chat").scrollTop=$("#chat").scrollHeight;
   later(()=>{ tp.classList.remove("on"); const d=document.createElement("div"); d.className="msg him";
     const bars=Array.from({length:16},()=>'<i style="height:'+(5+Math.floor(Math.random()*15))+'px"></i>').join("");
@@ -6264,6 +6270,18 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
   [...p.children].filter(c=>/^note-extra/.test(c.id||"")).forEach(x=>sc.appendChild(x));
  };
  new MutationObserver(()=>{ try{ fix(); }catch(e){} }).observe(document.body,{childList:true,subtree:true});
+})();
+/* ===== v314: free-chat voices 6 - "aitai" and "arigato" get his voice too ===== */
+(function(){
+ const iv=setInterval(()=>{ if(typeof himReply!=="function"||!himReply._v290||himReply._v314) return;
+  const prev=himReply;
+  himReply=function(t,cb){ const done=()=>{ if(typeof cb==="function") cb();
+    try{ const s=t||"";
+     if(/会いたい|あいたい|逢いたい/.test(s)&&Math.random()<0.55) himVoice("assets/fv-14.mp3","0:02");
+     else if(/ありがとう|ありがと/.test(s)&&Math.random()<0.45) himVoice("assets/fv-15.mp3","0:02");
+    }catch(e){} };
+   return prev.call(this,t,done); };
+  himReply._v314=true; clearInterval(iv); },700);
 })();
 /* ===== v41: individual friend chats (yui / misaki / rina) ===== */
 const FCHATS={
