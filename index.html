@@ -737,7 +737,7 @@ input,textarea{font-size:16px!important}
 <div class="setrow"><span>📞 通話した回数</span><span style="color:#8e8e93;font-size:12.5px" id="set-calls">0回</span></div>
 <button class="btn-main" style="background:#ff3b30;color:#fff;width:100%;margin:6px 0 12px" onclick="location.reload()">🔁 物語を最初からやり直す</button>
 <div style="font-size:13px;font-weight:800;margin:2px 2px 8px">📞 通話履歴</div><div id="set-calllog" style="background:#fff;border-radius:12px;padding:6px 14px;margin-bottom:6px"><div style="font-size:12.5px;color:#8e8e93;padding:8px 0">まだ通話はない</div></div><button id="calllog-clear" style="background:none;border:none;color:#8e8e93;font-size:12px;cursor:pointer;font-family:inherit;padding:2px 2px 12px">通話履歴を消す</button>
-<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v350</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
+<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v351</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
 </div>
 </section>
 
@@ -6828,6 +6828,57 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
   if(queued) return; queued=true;
   requestAnimationFrame(()=>{ queued=false; const list=[...new Set(pending.splice(0))]; list.forEach(process); });
  }).observe(document.body,{childList:true,subtree:true,characterData:true});
+})();
+/* ===== v351: realistic app icons (brand artwork, calendar follows the story date) ===== */
+(function(){
+ "use strict";
+ const $=q=>document.querySelector(q), $$=q=>[...document.querySelectorAll(q)];
+ const css=document.createElement("style");
+ css.textContent=".appicon .ic svg.icart{position:absolute;inset:0;width:100%;height:100%;border-radius:14px;display:block}";
+ document.head.appendChild(css);
+ const petals=["#F7C948","#F08C2E","#E4572E","#D62976","#7C4DBD","#4F5BD5","#2E9E5B","#8BC34A"].map((c,i)=>'<ellipse cx="29" cy="16.5" rx="5" ry="11.5" fill="'+c+'" opacity=".78" transform="rotate('+(i*45)+' 29 29)"/>').join("");
+ const spokes=Array.from({length:8},(_,i)=>'<rect x="26.7" y="7.5" width="4.6" height="11" rx="2.2" transform="rotate('+(i*45)+' 29 29)"/>').join("");
+ const ART={
+  line:'<rect width="58" height="58" fill="#06C755"/><rect x="9" y="12" width="40" height="28" rx="10" fill="#fff"/><path d="M17 37l-2.5 10L26 39.5" fill="#fff"/><text x="29" y="31" font-family="Arial,sans-serif" font-size="12.5" font-weight="900" fill="#06C755" text-anchor="middle">LINE</text>',
+  x:'<rect width="58" height="58" fill="#000"/><text x="29" y="41" font-family="Arial,sans-serif" font-size="29" font-weight="700" fill="#fff" text-anchor="middle">𝕏</text>',
+  ig:'<defs><linearGradient id="igg351" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#feda75"/><stop offset=".35" stop-color="#fa7e1e"/><stop offset=".62" stop-color="#d62976"/><stop offset=".85" stop-color="#962fbf"/><stop offset="1" stop-color="#4f5bd5"/></linearGradient></defs><rect width="58" height="58" fill="url(#igg351)"/><g fill="none" stroke="#fff" stroke-width="3.4"><rect x="14" y="14" width="30" height="30" rx="9"/><circle cx="29" cy="29" r="7.6"/></g><circle cx="40.6" cy="17.4" r="2.3" fill="#fff"/>',
+  news:'<rect width="58" height="58" fill="#C8102E"/><text x="29" y="42" font-family="Arial,sans-serif" font-size="31" font-weight="900" fill="#fff" text-anchor="middle">N</text>',
+  photos:'<rect width="58" height="58" fill="#fff"/>'+petals,
+  settings:'<rect width="58" height="58" fill="#E3E3E8"/><g fill="#74747B">'+spokes+'<circle cx="29" cy="29" r="10.6"/></g><circle cx="29" cy="29" r="5.2" fill="#E3E3E8"/>',
+  tiktok:'<rect width="58" height="58" fill="#000"/><text x="31.5" y="43" font-size="33" fill="#25F4EE" text-anchor="middle">♪</text><text x="26.5" y="45" font-size="33" fill="#FE2C55" text-anchor="middle">♪</text><text x="29" y="44" font-size="33" fill="#fff" text-anchor="middle">♪</text>',
+  phone:'<defs><linearGradient id="phg351" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#63E67E"/><stop offset="1" stop-color="#00C853"/></linearGradient></defs><rect width="58" height="58" fill="url(#phg351)"/><g transform="translate(5,5) scale(2)"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z" fill="#fff"/></g>',
+  safari:'<rect width="58" height="58" fill="#fff"/><circle cx="29" cy="29" r="21.5" fill="none" stroke="#1B9BF0" stroke-width="2.6"/><polygon points="29,15 43,29 29,29" fill="#E8324A"/><polygon points="29,43 15,29 29,29" fill="#E3E3E8"/>',
+  msg:'<defs><linearGradient id="msg351" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#63E67E"/><stop offset="1" stop-color="#00C853"/></linearGradient></defs><rect width="58" height="58" fill="url(#msg351)"/><ellipse cx="29" cy="26.5" rx="17.5" ry="13.5" fill="#fff"/><path d="M17.5 35.5c-.6 3.8-2.2 7-4.8 9.2 4-.1 7.9-1.6 10.6-4.1z" fill="#fff"/>',
+  music:'<defs><linearGradient id="mus351" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FC6A85"/><stop offset="1" stop-color="#E81F3E"/></linearGradient></defs><rect width="58" height="58" fill="url(#mus351)"/><text x="29" y="44" font-size="33" fill="#fff" text-anchor="middle">♪</text>',
+  calendar:'<rect width="58" height="58" fill="#fff"/><text class="cal-wd" x="29" y="19" font-family="sans-serif" font-size="10.5" font-weight="600" fill="#E8324A" text-anchor="middle">土曜日</text><text class="cal-d" x="29" y="48" font-family="sans-serif" font-size="31" font-weight="300" fill="#111" text-anchor="middle">27</text>',
+  notes:'<rect width="58" height="58" fill="#fff"/><rect width="58" height="15" fill="#F7CE2E"/><g stroke="#C9C9CF" stroke-width="2" stroke-linecap="round"><path d="M11 27h36M11 37h36M11 47h25"/></g>',
+  camera:'<rect width="58" height="58" fill="#D8D8DE"/><rect x="21" y="14.5" width="16" height="6" rx="2.5" fill="#3A3A3C"/><rect x="10" y="19.5" width="38" height="25" rx="5.5" fill="#3A3A3C"/><circle cx="29" cy="32" r="7.6" fill="#101012"/><circle cx="29" cy="32" r="4.1" fill="#48484A"/><circle cx="42" cy="24.5" r="1.9" fill="#D8D8DE"/>',
+  quiz:'<rect width="58" height="58" fill="#262640"/><g transform="translate(12.5,8) scale(1.38)" fill="none" stroke="#F2C14E" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.5 13 17 22l-5-3-5 3 1.5-9"/></g>',
+  fortune:'<rect width="58" height="58" fill="#FF7BAC"/><g transform="translate(12.5,13) scale(1.38)"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21.2l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.8z" fill="#fff"/></g>'
+ };
+ function apply(ic,art){
+  if(!ic||ic.dataset.art) return; ic.dataset.art="1";
+  const badges=[...ic.querySelectorAll(".badge")];
+  ic.innerHTML='<svg class="icart" viewBox="0 0 58 58" aria-hidden="true">'+art+'</svg>';
+  badges.forEach(b=>ic.appendChild(b));
+  ic.style.background="transparent";
+ }
+ function byLabel(label){ const a=$$(".appicon").find(x=>{ const lb=x.querySelector(".lb"); return lb&&lb.textContent.trim()===label; }); return a?a.querySelector(".ic"):null; }
+ function applyAll(){
+  apply($(".ic-line"),ART.line); apply($(".ic-x"),ART.x); apply($(".ic-ig"),ART.ig);
+  apply($(".ic-news"),ART.news); apply($(".grid .ic-photo"),ART.photos); apply($(".dock .ic-photo"),ART.music);
+  apply($('[data-open="settings"] .ic'),ART.settings); apply($('[data-open="tiktok"] .ic'),ART.tiktok);
+  apply($(".ic-tel"),ART.phone); apply($(".ic-safari"),ART.safari); apply($(".ic-msg"),ART.msg);
+  apply($('[data-hp="cal"] .ic'),ART.calendar);
+  apply(byLabel("メモ"),ART.notes); apply(byLabel("カメラ"),ART.camera);
+  apply(byLabel("ひろと検定"),ART.quiz); apply(byLabel("相性占い"),ART.fortune);
+ }
+ applyAll(); setTimeout(applyAll,1200); setTimeout(applyAll,3000);
+ /* calendar icon follows the story date */
+ const ld=$("#lock-date");
+ function syncCal(){ if(!ld) return; const m=(ld.textContent||"").match(/(\d+)月(\d+)日\s*(\S+?曜日)/); if(!m) return;
+  const wd=$(".cal-wd"), d=$(".cal-d"); if(wd) wd.textContent=m[3]; if(d) d.textContent=m[2]; }
+ if(ld){ new MutationObserver(syncCal).observe(ld,{childList:true,characterData:true,subtree:true}); syncCal(); }
 })();
 /* ===== v41: individual friend chats (yui / misaki / rina) ===== */
 const FCHATS={
