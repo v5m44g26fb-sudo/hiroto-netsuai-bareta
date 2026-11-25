@@ -737,7 +737,7 @@ input,textarea{font-size:16px!important}
 <div class="setrow"><span>📞 通話した回数</span><span style="color:#8e8e93;font-size:12.5px" id="set-calls">0回</span></div>
 <button class="btn-main" style="background:#ff3b30;color:#fff;width:100%;margin:6px 0 12px" onclick="location.reload()">🔁 物語を最初からやり直す</button>
 <div style="font-size:13px;font-weight:800;margin:2px 2px 8px">📞 通話履歴</div><div id="set-calllog" style="background:#fff;border-radius:12px;padding:6px 14px;margin-bottom:6px"><div style="font-size:12.5px;color:#8e8e93;padding:8px 0">まだ通話はない</div></div><button id="calllog-clear" style="background:none;border:none;color:#8e8e93;font-size:12px;cursor:pointer;font-family:inherit;padding:2px 2px 12px">通話履歴を消す</button>
-<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v392</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
+<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v393</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
 </div>
 </section>
 
@@ -7454,6 +7454,98 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
  function applySaves(){ var set=loadSet(); if(!set.size) return;
   document.querySelectorAll(".save-btn").forEach(function(s){ var k=postKey(s); if(k&&set.has(k)&&!s.classList.contains("save-on")) s.classList.add("save-on"); }); }
  applySaves(); setTimeout(applySaves,1800); setTimeout(applySaves,4000);
+})();
+
+
+/* ===== v393: X pack in the Tinder edition's line - her profile with tabs (its v742/743), persistent own posts (its v1031), persistent likes (its v980/985) ===== */
+(function(){
+ "use strict";
+ var css=document.createElement("style");
+ css.textContent="#x-prof{position:absolute;inset:0;background:#fff;z-index:320;display:none;flex-direction:column;color:#0f1419}"
+  +"#x-prof .xp-banner{height:104px;background:linear-gradient(120deg,#f7b733,#fc4a1a 55%,#b24592);flex:none;margin-top:52px}"
+  +"#x-prof .xp-body{flex:1;overflow-y:auto}"
+  +"#x-prof .xp-ava{width:72px;height:72px;border-radius:50%;border:3.5px solid #fff;object-fit:cover;margin:-36px 0 0 14px;background:#fff}"
+  +"#x-prof .xp-tabs{display:flex;border-bottom:1px solid #eff3f4;margin-top:8px}"
+  +"#x-prof .xp-tabs button{flex:1;background:none;border:none;padding:12px 0;font-size:14px;font-weight:700;color:#536471;cursor:pointer;font-family:inherit}"
+  +"#x-prof .xp-tabs button.act{color:#0f1419;box-shadow:inset 0 -3px 0 #1d9bf0}"
+  +"#x-prof .xp-media{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}"
+  +"#x-prof .xp-media img{width:100%;aspect-ratio:1;object-fit:cover;display:block}";
+ document.head.appendChild(css);
+ var prof=null;
+ function buildProf(){
+  var phone=document.querySelector("#phone"); if(!phone) return null;
+  var s=document.createElement("div"); s.id="x-prof";
+  s.innerHTML='<button type="button" id="xp-x" style="position:absolute;top:58px;left:10px;z-index:3;background:rgba(0,0,0,.55);color:#fff;border:none;width:32px;height:32px;border-radius:50%;font-size:15px;cursor:pointer">‹</button>'
+   +'<div class="xp-banner"></div><div class="xp-body">'
+   +'<img class="xp-ava" src="assets/nao-avatar4.jpg" alt="">'
+   +'<div style="padding:4px 16px 0"><div style="font-size:19px;font-weight:800">なお</div><div style="color:#536471;font-size:13.5px">@nao_0324</div>'
+   +'<div style="font-size:13px;color:#536471;margin-top:7px">大阪　·　🎂 3月24日</div>'
+   +'<div style="font-size:13px;margin-top:6px"><b>128</b> <span style="color:#536471">フォロー中</span>　<b>342</b> <span style="color:#536471">フォロワー</span></div></div>'
+   +'<div class="xp-tabs"><button type="button" class="act" data-t="posts">ポスト</button><button type="button" data-t="media">メディア</button></div>'
+   +'<div class="xp-pane"></div></div>';
+  phone.appendChild(s);
+  s.querySelector("#xp-x").addEventListener("click",function(){ s.style.display="none"; });
+  var pane=s.querySelector(".xp-pane");
+  function render(tab){
+   s.querySelectorAll(".xp-tabs button").forEach(function(b){ b.classList.toggle("act",b.dataset.t===tab); });
+   if(tab==="media"){ var imgs=[...document.querySelectorAll("#v-ig .ig-grid img")].map(function(i){ return i.getAttribute("src"); }).filter(Boolean);
+    pane.innerHTML=imgs.length? '<div class="xp-media">'+imgs.map(function(src){ return '<img src="'+src+'" alt="">'; }).join("")+'</div>' : '<div style="padding:26px;text-align:center;color:#536471;font-size:13.5px">メディアはまだないよ</div>';
+    return; }
+   var seen={}, mine=[]; [...document.querySelectorAll("#x-me-posts .post, #x-scroll .post")].forEach(function(p){ if(!p.textContent.includes("@nao_0324")) return; var k=p.textContent.trim().slice(0,60); if(seen[k]) return; seen[k]=1; mine.push(p); });
+   pane.innerHTML="";
+   if(!mine.length){ pane.innerHTML='<div style="padding:26px;text-align:center;color:#536471;font-size:13.5px">まだポストがないよ</div>'; return; }
+   mine.forEach(function(p){ var c=p.cloneNode(true); c.style.borderBottom="1px solid #eff3f4"; pane.appendChild(c); }); }
+  s.querySelectorAll(".xp-tabs button").forEach(function(b){ b.addEventListener("click",function(){ render(b.dataset.t); }); });
+  s._render=render;
+  return s; }
+ var appbarAva=document.querySelector("#v-x .appbar img.avatar");
+ if(appbarAva){ appbarAva.style.cursor="pointer";
+  appbarAva.addEventListener("click",function(){ if(!prof) prof=buildProf(); if(prof){ prof.style.display="flex"; prof._render("posts"); } }); }
+ /* persistent own posts */
+ var MKEY="hb_xmine_v1", armed=false;
+ var xcPost=document.querySelector("#xc-post");
+ if(xcPost) xcPost.addEventListener("click",function(){ armed=true; setTimeout(function(){ armed=false; },3000); });
+ function meEl(){ return document.querySelector("#x-me-posts"); }
+ function saveMine(){
+  var box=meEl(); if(!box) return;
+  var tagged=[...box.querySelectorAll(".post[data-v393saved]")];
+  try{ localStorage.setItem(MKEY,JSON.stringify(tagged.slice(0,8).map(function(p){ return p.outerHTML; }))); }catch(e){} }
+ var xme=meEl();
+ if(xme){ new MutationObserver(function(ms){ if(!armed) return;
+   ms.forEach(function(m){ m.addedNodes.forEach(function(n){ if(n.nodeType!==1) return;
+    if(n.classList && n.classList.contains("post")) n.dataset.v393saved="1";
+    if(n.querySelectorAll) n.querySelectorAll(".post").forEach(function(q){ q.dataset.v393saved="1"; }); }); });
+   saveMine(); }).observe(xme,{childList:true,subtree:true}); }
+ function restoreMine(){
+  var box=meEl(); if(!box||box.dataset.v393r) return; box.dataset.v393r="1";
+  var arr=[]; try{ arr=JSON.parse(localStorage.getItem(MKEY)||"[]"); }catch(e){}
+  if(!arr.length) return;
+  var existing=new Set([...box.querySelectorAll(".post")].map(function(p){ return p.textContent.trim().slice(0,60); }));
+  var tmp=document.createElement("div");
+  arr.slice().reverse().forEach(function(html){ tmp.innerHTML=html; var el=tmp.firstElementChild; if(!el) return;
+   if(existing.has(el.textContent.trim().slice(0,60))) return;
+   box.insertBefore(el,box.firstChild); }); }
+ restoreMine(); setTimeout(restoreMine,2500);
+ /* persistent likes in X */
+ var LKEY="hb_xlikes_v1";
+ function loadLikes(){ try{ return new Set(JSON.parse(localStorage.getItem(LKEY)||"[]")); }catch(e){ return new Set(); } }
+ function postKey(post){ var hd=post.querySelector(".hd"); var tx=post.querySelector(".tx,.post-text,.bd");
+  var base=(hd? hd.textContent.trim():"")+"|"+(tx? tx.textContent.trim().slice(0,42): post.textContent.trim().slice(0,42)); return base; }
+ document.addEventListener("click",function(e){
+  var b=e.target.closest? e.target.closest(".like-btn"): null; if(!b) return;
+  var post=b.closest("#v-x .post"); if(!post) return;
+  setTimeout(function(){ var set=loadLikes(); var k=postKey(post);
+   if(b.dataset.on==="1"||b.classList.contains("liked")) set.add(k); else set.delete(k);
+   try{ localStorage.setItem(LKEY,JSON.stringify([...set])); }catch(err){} },60); },true);
+ function applyLikes(){ var set=loadLikes(); if(!set.size) return;
+  document.querySelectorAll("#v-x .post").forEach(function(post){ if(!set.has(postKey(post))) return;
+   var b=post.querySelector(".like-btn"); if(!b||b.classList.contains("liked")) return;
+   b.dataset.on="1"; b.style.color="#f91880"; b.classList.add("liked");
+   b.innerHTML=b.innerHTML.replace(/(\d[\d,]*)(?!.*\d)/,function(m){ return String(parseInt(m.replace(/,/g,""),10)+1); }); }); }
+ applyLikes(); setTimeout(applyLikes,2000); setTimeout(applyLikes,4500);
+ var _lkT=null; var _xs2=document.querySelector("#x-scroll");
+ if(_xs2) new MutationObserver(function(){ clearTimeout(_lkT); _lkT=setTimeout(applyLikes,350); }).observe(_xs2,{childList:true,subtree:true});
+ var _lkN=0; var _lkIv=setInterval(function(){ applyLikes(); if(++_lkN>48) clearInterval(_lkIv); },2500);
 })();
 
 /* ===== v41: individual friend chats (yui / misaki / rina) ===== */
