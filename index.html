@@ -737,7 +737,7 @@ input,textarea{font-size:16px!important}
 <div class="setrow"><span>📞 通話した回数</span><span style="color:#8e8e93;font-size:12.5px" id="set-calls">0回</span></div>
 <button class="btn-main" style="background:#ff3b30;color:#fff;width:100%;margin:6px 0 12px" onclick="location.reload()">🔁 物語を最初からやり直す</button>
 <div style="font-size:13px;font-weight:800;margin:2px 2px 8px">📞 通話履歴</div><div id="set-calllog" style="background:#fff;border-radius:12px;padding:6px 14px;margin-bottom:6px"><div style="font-size:12.5px;color:#8e8e93;padding:8px 0">まだ通話はない</div></div><button id="calllog-clear" style="background:none;border:none;color:#8e8e93;font-size:12px;cursor:pointer;font-family:inherit;padding:2px 2px 12px">通話履歴を消す</button>
-<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v394</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
+<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v395</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
 </div>
 </section>
 
@@ -2506,6 +2506,7 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
 /* ===== v100: the memo app is writable - her own notes live next to his ===== */
 (function(){
  const panel=document.querySelector("#hp-panel"); if(!panel) return;
+ return; /* v395: superseded by the notes app */
  const mine=[];
  const renderMine=()=>{ const box=panel.querySelector("#my-memos"); if(!box) return;
   box.innerHTML=mine.map(m=>'<div style="background:#fff8e1;border:1px solid #f0e2ac;border-radius:10px;padding:9px 11px;margin-top:8px;font-size:13px;line-height:1.55">📝 なおのメモ<span style="color:#a08c3a;font-size:11px">　'+m.t+'</span><br>'+m.x.replace(/</g,"&lt;")+'</div>').join(""); };
@@ -3799,6 +3800,7 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
 /* ===== v152: a hidden memo from him appears in the memo app after going public ===== */
 (function(){
  const panel=document.querySelector("#hp-panel"); if(!panel) return;
+ return; /* v395: absorbed into the notes app */
  new MutationObserver(()=>{ if(state._himMemo||!state.act2) return;
   const head=panel.querySelector(".hp-head"); if(!head||!head.textContent.includes("メモ")) return;
   state._himMemo=true;
@@ -7546,6 +7548,141 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
  var _lkT=null; var _xs2=document.querySelector("#x-scroll");
  if(_xs2) new MutationObserver(function(){ clearTimeout(_lkT); _lkT=setTimeout(applyLikes,350); }).observe(_xs2,{childList:true,subtree:true});
  var _lkN=0; var _lkIv=setInterval(function(){ applyLikes(); if(++_lkN>48) clearInterval(_lkIv); },2500);
+})();
+
+/* ===== v395: real iOS-style Calendar and Notes apps ===== */
+(function(){
+ const panel=document.querySelector("#hp-panel"); if(!panel) return;
+ const $q=sel=>panel.querySelector(sel);
+ const esc=t=>String(t).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+ const WD=["日","月","火","水","木","金","土"];
+ function storyToday(){ if(state.act2) return [2025,11,3]; if(state.phase==="scandal") return [2025,11,2];
+  const c=state.chapter||0; return c>=5?[2025,11,1]:c>=4?[2025,10,18]:c>=3?[2025,10,12]:c>=2?[2025,10,4]:c>=1?[2025,9,28]:[2025,9,27]; }
+ const SEV=[[2025,9,27,"出会いの日",()=>state.chapter>=1],[2025,10,4,"初デート",()=>state.chapter>=2],[2025,10,12,"告白",()=>state.chapter>=3],[2025,10,18,"お揃いの日",()=>state.chapter>=4],[2025,11,1,"何気ない日常",()=>state.chapter>=5],[2025,11,2,"バレた日",()=>state.chapter>=6||state.phase==="scandal"],[2025,11,3,"翌朝",()=>!!state.act2],[2025,12,24,"クリスマスの約束",()=>!!state.act2]];
+ const CKEY="hb_cal_v1";
+ const loadCal=()=>{ try{ return JSON.parse(localStorage.getItem(CKEY)||"[]"); }catch(e){ return []; } };
+ const saveCal=a=>{ try{ localStorage.setItem(CKEY,JSON.stringify(a)); }catch(e){} };
+ function openSheet(html){ panel.style.padding="0"; panel.innerHTML=html; panel.style.display="flex"; }
+ function closeSheet(){ panel.style.display="none"; panel.style.padding="64px 16px 16px"; }
+ const head=(title,right,btnCls)=>'<div style="display:flex;align-items:center;padding:60px 14px 6px;background:#fff">'
+  +'<button class="'+(btnCls||"v395-x")+'" style="border:none;background:#f2f2f7;width:32px;height:32px;border-radius:50%;font-size:17px;cursor:pointer;color:#111">‹</button>'
+  +'<span style="margin-left:8px;font-size:13px;color:#8e8e93">'+title+'</span>'
+  +'<span style="margin-left:auto">'+(right||"")+'</span></div>';
+ /* ---------- Calendar ---------- */
+ let calY=null, calM=null, selD=null;
+ function evList(y,m,d){ const out=[];
+  SEV.forEach(e=>{ if(e[0]===y&&e[1]===m&&e[2]===d&&e[4]()) out.push({t:e[3],mine:false}); });
+  loadCal().forEach(e=>{ const p=e.d.split("-").map(Number); if(p[0]===y&&p[1]===m&&p[2]===d) out.push({t:e.t,mine:true,d:e.d}); });
+  return out; }
+ function renderCal(){
+  const st=storyToday(), ty=st[0], tm=st[1], td=st[2];
+  const first=new Date(calY,calM-1,1), startDay=first.getDay();
+  const dim=new Date(calY,calM,0).getDate(), dpm=new Date(calY,calM-1,0).getDate();
+  let cells="";
+  for(let i=0;i<42;i++){ const dn=i-startDay+1; let y=calY,m=calM,d=dn,other=false;
+   if(dn<1){ d=dpm+dn; m=calM-1; if(m<1){ m=12; y--; } other=true; }
+   else if(dn>dim){ d=dn-dim; m=calM+1; if(m>12){ m=1; y++; } other=true; }
+   const evs=evList(y,m,d), isT=(y===ty&&m===tm&&d===td), isS=selD&&selD[0]===y&&selD[1]===m&&selD[2]===d;
+   const bg=isT?"background:#e03a31;color:#fff;border-radius:50%":(isS?"background:#e9e9ee;border-radius:50%":"");
+   const dow=new Date(y,m-1,d).getDay();
+   const col=other?"color:#c7c7cc":(dow===0?"color:#e03a31":dow===6?"color:#2b6de8":"color:#111");
+   cells+='<div class="v395-day" data-y="'+y+'" data-m="'+m+'" data-d="'+d+'" style="text-align:center;padding:3px 0;cursor:pointer">'
+    +'<span style="display:inline-flex;width:34px;height:34px;align-items:center;justify-content:center;font-size:16.5px;'+col+';'+bg+'">'+d+'</span>'
+    +'<span style="display:block;height:5px;font-size:5px;line-height:5px;color:'+(evs.length?(evs.some(e=>e.mine)?"#2b6de8":"#9a9aa0"):"transparent")+'">●</span></div>'; }
+  const evs=selD?evList(selD[0],selD[1],selD[2]):[];
+  const wd=selD?WD[new Date(selD[0],selD[1]-1,selD[2]).getDay()]:"";
+  let detail='<div style="padding:10px 16px 4px;background:#fff"><div style="font-size:13px;color:#8e8e93">カレンダー</div>'
+   +'<div style="font-size:16px;font-weight:700;margin:2px 0 6px">'+(selD?selD[1]+"月"+selD[2]+"日（"+wd+"）":"")+'</div>';
+  if(!evs.length) detail+='<div style="color:#aeaeb2;font-size:13.5px;padding:2px 0 8px">予定なし</div>';
+  evs.forEach(e=>{ detail+='<div style="display:flex;gap:9px;align-items:center;padding:7px 0;border-top:1px solid #f2f2f7">'
+   +'<span style="width:4px;align-self:stretch;border-radius:2px;background:'+(e.mine?"#2b6de8":"#e03a31")+'"></span>'
+   +'<span style="font-size:14.5px">'+esc(e.t)+'<span style="display:block;font-size:11.5px;color:#8e8e93">終日</span></span>'
+   +(e.mine?'<button class="v395-evdel" data-d="'+e.d+'" data-t="'+esc(e.t)+'" style="margin-left:auto;border:none;background:none;color:#e03a31;font-size:12.5px;cursor:pointer">削除</button>':"")+'</div>'; });
+  detail+='</div>';
+  const ups=SEV.filter(e=>e[4]());
+  let upHtml='<div style="padding:12px 16px 18px;background:#fff;border-top:8px solid #f2f2f7"><div style="font-size:13px;color:#8e8e93;margin-bottom:4px">二人の予定・記録</div>';
+  if(!ups.length) upHtml+='<div style="color:#aeaeb2;font-size:13.5px">まだ何もない</div>';
+  ups.forEach(e=>{ upHtml+='<div class="v395-up" data-y="'+e[0]+'" data-m="'+e[1]+'" data-d="'+e[2]+'" style="display:flex;gap:10px;padding:7px 0;border-top:1px solid #f2f2f7;cursor:pointer;font-size:14.5px"><span style="color:#8e8e93;font-size:13px;min-width:44px">'+e[1]+'/'+e[2]+'</span>'+esc(e[3])+'</div>'; });
+  upHtml+='</div>';
+  openSheet('<div style="background:#fff;min-height:100%">'
+   + head("カレンダー", '<button id="v395-add" style="border:none;background:none;color:#e03a31;font-size:25px;cursor:pointer;line-height:1">＋</button>')
+   + '<div style="display:flex;align-items:center;padding:2px 16px 4px;background:#fff"><b style="font-size:25px">'+calM+'月</b><span style="color:#e03a31;font-size:15px;margin-left:7px">'+calY+'年</span>'
+   + '<span style="margin-left:auto"><button id="v395-prev" style="border:none;background:none;font-size:19px;color:#e03a31;cursor:pointer;padding:4px 9px">‹</button><button id="v395-next" style="border:none;background:none;font-size:19px;color:#e03a31;cursor:pointer;padding:4px 9px">›</button></span></div>'
+   + '<div style="display:grid;grid-template-columns:repeat(7,1fr);padding:0 8px;background:#fff;border-bottom:1px solid #eee">'
+   + WD.map((w,i)=>'<div style="text-align:center;font-size:11.5px;padding:3px 0;color:'+(i===0?"#e03a31":i===6?"#2b6de8":"#8e8e93")+'">'+w+'</div>').join("") + '</div>'
+   + '<div style="display:grid;grid-template-columns:repeat(7,1fr);padding:2px 8px 6px;background:#fff">'+cells+'</div>'
+   + detail + upHtml + '</div>');
+  wireCal(); }
+ function wireCal(){ $q(".v395-x").addEventListener("click",closeSheet);
+  $q("#v395-prev").addEventListener("click",()=>{ calM--; if(calM<1){ calM=12; calY--; } renderCal(); });
+  $q("#v395-next").addEventListener("click",()=>{ calM++; if(calM>12){ calM=1; calY++; } renderCal(); });
+  $q("#v395-add").addEventListener("click",renderCalForm);
+  panel.querySelectorAll(".v395-day").forEach(c=>c.addEventListener("click",()=>{ selD=[+c.dataset.y,+c.dataset.m,+c.dataset.d]; calY=selD[0]; calM=selD[1]; renderCal(); }));
+  panel.querySelectorAll(".v395-up").forEach(c=>c.addEventListener("click",()=>{ selD=[+c.dataset.y,+c.dataset.m,+c.dataset.d]; calY=selD[0]; calM=selD[1]; renderCal(); }));
+  panel.querySelectorAll(".v395-evdel").forEach(b=>b.addEventListener("click",()=>{ saveCal(loadCal().filter(e=>!(e.d===b.dataset.d&&e.t===b.dataset.t))); renderCal(); })); }
+ function renderCalForm(){ const dstr=selD?selD[0]+"年"+selD[1]+"月"+selD[2]+"日":"";
+  openSheet('<div style="background:#fff;min-height:100%">'+head("新規イベント","")
+   +'<div style="padding:14px 16px"><div style="font-size:13px;color:#8e8e93;margin-bottom:5px">タイトル</div>'
+   +'<input id="v395-et" type="text" placeholder="イベント名" style="width:100%;box-sizing:border-box;border:1px solid #e3e3e8;border-radius:10px;padding:11px;font-size:16px">'
+   +'<div style="font-size:13px;color:#8e8e93;margin:14px 0 5px">日付</div><div style="font-size:15.5px">'+dstr+'（終日）</div>'
+   +'<button id="v395-esave" style="margin-top:20px;width:100%;background:#e03a31;color:#fff;border:none;border-radius:11px;padding:12px;font-size:15.5px;cursor:pointer">追加する</button>'
+   +'<button id="v395-eback" style="margin-top:9px;width:100%;background:#f2f2f7;color:#111;border:none;border-radius:11px;padding:12px;font-size:15.5px;cursor:pointer">やめる</button></div></div>');
+  $q(".v395-x").addEventListener("click",closeSheet);
+  $q("#v395-eback").addEventListener("click",renderCal);
+  $q("#v395-esave").addEventListener("click",()=>{ const v=$q("#v395-et").value.trim(); if(!v) return;
+   const a=loadCal(); a.push({d:selD[0]+"-"+String(selD[1]).padStart(2,"0")+"-"+String(selD[2]).padStart(2,"0"), t:v}); saveCal(a); renderCal(); }); }
+ /* ---------- Notes ---------- */
+ const HIS=[["9/27 飲み会。なおって子、おもろかった","2025/9/27",()=>state.chapter>=1],["カフェオレ、覚えた","2025/10/4",()=>state.chapter>=2],["言えた。……震えたけど","2025/10/12",()=>state.chapter>=3],["お揃い、つけてくれてるかな","2025/10/18",()=>state.chapter>=4],["普通の日が、いちばんええ","2025/11/1",()=>state.chapter>=5],["守る。決めた","2025/11/2",()=>state.phase==="scandal"||!!state.act2],["これからも、普通に","2025/11/3",()=>!!state.act2]];
+ const LETTER="なおへ。\nもう隠さなくてええって、変な感じやな。\nでも、悪くないわ。\n次は堂々と、カフェオレ飲みに行こ。";
+ const NKEY="hb_notes_v1";
+ const loadNotes=()=>{ try{ return JSON.parse(localStorage.getItem(NKEY)||"[]"); }catch(e){ return []; } };
+ const saveNotes=a=>{ try{ localStorage.setItem(NKEY,JSON.stringify(a)); }catch(e){} };
+ let noteQuery="";
+ function noteRows(){ const mine=loadNotes().slice().sort((a,b)=>b.t-a.t); const list=[];
+  mine.forEach(n=>{ if(noteQuery&&!n.x.includes(noteQuery)) return;
+   const lines=n.x.split("\n"), first=lines[0]||"新規メモ", rest=lines.slice(1).join(" ").trim();
+   const dt=new Date(n.t), ds=dt.getFullYear()+"/"+(dt.getMonth()+1)+"/"+dt.getDate();
+   list.push('<div class="v395-nrow" data-kind="mine" data-id="'+n.id+'" style="padding:11px 16px 11px 20px;border-bottom:1px solid #f0f0f3;cursor:pointer"><div style="font-size:15.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+esc(first)+'</div><div style="font-size:12.5px;color:#8e8e93;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+ds+(rest?"　"+esc(rest):"　追加のテキストなし")+'</div></div>'); });
+  if(state.act2 && (!noteQuery||LETTER.includes(noteQuery)))
+   list.push('<div class="v395-nrow" data-kind="letter" style="padding:11px 16px 11px 20px;border-bottom:1px solid #f0f0f3;cursor:pointer;background:#fffbe8"><div style="font-size:15.5px;font-weight:700">✉️ ひろとからのメモ</div><div style="font-size:12.5px;color:#8e8e93;margin-top:2px">2025/11/3　もう隠さなくてええって、変な感じやな</div></div>');
+  HIS.filter(h=>h[2]()).forEach(h=>{ if(noteQuery&&!h[0].includes(noteQuery)) return;
+   list.push('<div class="v395-nrow" data-kind="his" data-t="'+esc(h[0])+'" style="padding:11px 16px 11px 20px;border-bottom:1px solid #f0f0f3;cursor:pointer"><div style="font-size:15.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+esc(h[0])+'</div><div style="font-size:12.5px;color:#8e8e93;margin-top:2px">'+h[1]+'　追加のテキストなし</div></div>'); });
+  return list.length?list.join(""):'<div style="padding:26px;text-align:center;color:#aeaeb2;font-size:14px">メモがありません</div>'; }
+ function renderNotes(){ const total=loadNotes().length+HIS.filter(h=>h[2]()).length+(state.act2?1:0);
+  openSheet('<div style="background:#fff;min-height:100%">'
+   + head("メモ", '<button id="v395-new" style="border:none;background:none;color:#d9a400;font-size:21px;cursor:pointer;line-height:1">✎</button>')
+   + '<div style="padding:2px 16px 8px;background:#fff"><b style="font-size:29px">メモ</b></div>'
+   + '<div style="padding:0 16px 10px;background:#fff"><div style="background:#f2f2f7;border-radius:10px;padding:8px 11px;display:flex;gap:6px;align-items:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8e8e93" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.8-3.8"/></svg><input id="v395-nq" type="text" placeholder="検索" value="'+esc(noteQuery)+'" style="border:none;background:none;outline:none;font-size:15px;flex:1;color:#111"></div></div>'
+   + '<div id="v395-nlist" style="background:#fff">'+noteRows()+'</div>'
+   + '<div style="text-align:center;color:#8e8e93;font-size:12px;padding:12px;background:#fff">'+total+'件のメモ</div></div>');
+  $q(".v395-x").addEventListener("click",closeSheet);
+  $q("#v395-new").addEventListener("click",()=>{ const a=loadNotes(); const n={id:"n"+Date.now(),x:"",t:Date.now()}; a.unshift(n); saveNotes(a); renderEditor(n.id); });
+  const q=$q("#v395-nq"); q.addEventListener("input",()=>{ noteQuery=q.value; $q("#v395-nlist").innerHTML=noteRows(); bindRows(); });
+  bindRows(); }
+ function bindRows(){ panel.querySelectorAll(".v395-nrow").forEach(r=>r.addEventListener("click",()=>{
+   if(r.dataset.kind==="mine") renderEditor(r.dataset.id);
+   else if(r.dataset.kind==="letter") renderViewer("ひろとからのメモ","2025年11月3日",LETTER);
+   else { const h=HIS.find(x=>x[0]===r.dataset.t); if(h){ const p=h[1].split("/"); renderViewer(h[0],p[0]+"年"+(+p[1])+"月"+(+p[2])+"日",h[0]); } } })); }
+ function renderViewer(title,date,body){
+  openSheet('<div style="background:#fff;min-height:100%">'+head("メモ","","v395-back")
+   +'<div style="text-align:center;color:#8e8e93;font-size:12px;padding:8px 0 2px">'+date+'</div>'
+   +'<div style="padding:10px 20px;font-size:16px;line-height:1.85;white-space:pre-wrap;color:#111">'+esc(body)+'</div></div>');
+  $q(".v395-back").addEventListener("click",renderNotes); }
+ function renderEditor(id){ const a=loadNotes(); const n=a.find(x=>x.id===id); if(!n){ renderNotes(); return; }
+  const dt=new Date(n.t), ds=dt.getFullYear()+"年"+(dt.getMonth()+1)+"月"+dt.getDate()+"日 "+String(dt.getHours()).padStart(2,"0")+":"+String(dt.getMinutes()).padStart(2,"0");
+  openSheet('<div style="background:#fff;min-height:100%">'+head("メモ",'<button id="v395-ndel" style="border:none;background:none;color:#e03a31;font-size:13.5px;cursor:pointer">削除</button>',"v395-back")
+   +'<div style="text-align:center;color:#8e8e93;font-size:12px;padding:8px 0 2px">'+ds+'</div>'
+   +'<textarea id="v395-nta" style="width:100%;box-sizing:border-box;border:none;outline:none;resize:none;padding:10px 20px;font-size:16px;line-height:1.8;min-height:46vh;background:#fff;color:#111" placeholder="メモを入力">'+esc(n.x)+'</textarea></div>');
+  $q(".v395-back").addEventListener("click",()=>{ const ta=$q("#v395-nta"); const arr=loadNotes(); const nn=arr.find(x=>x.id===id);
+   if(ta&&nn){ if(ta.value.trim()===""&&nn.x===""){ saveNotes(arr.filter(x=>x.id!==id)); } else { nn.x=ta.value; nn.t=Date.now(); saveNotes(arr); } }
+   renderNotes(); });
+  $q("#v395-ndel").addEventListener("click",()=>{ saveNotes(loadNotes().filter(x=>x.id!==id)); renderNotes(); if(typeof toast==="function") toast("メモを削除したよ"); }); }
+ /* ---------- entry ---------- */
+ const home=document.querySelector("#v-home"); if(!home) return;
+ home.addEventListener("click",e=>{ const b=e.target.closest("[data-hp]"); if(!b) return;
+  if(b.dataset.hp==="cal"){ e.stopPropagation(); if(calY===null){ const st=storyToday(); calY=st[0]; calM=st[1]; selD=st; } renderCal(); }
+  else if(b.dataset.hp==="memo"){ e.stopPropagation(); renderNotes(); }
+ },true);
 })();
 
 /* ===== v41: individual friend chats (yui / misaki / rina) ===== */
