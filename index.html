@@ -737,7 +737,7 @@ input,textarea{font-size:16px!important}
 <div class="setrow"><span>📞 通話した回数</span><span style="color:#8e8e93;font-size:12.5px" id="set-calls">0回</span></div>
 <button class="btn-main" style="background:#ff3b30;color:#fff;width:100%;margin:6px 0 12px" onclick="location.reload()">🔁 物語を最初からやり直す</button>
 <div style="font-size:13px;font-weight:800;margin:2px 2px 8px">📞 通話履歴</div><div id="set-calllog" style="background:#fff;border-radius:12px;padding:6px 14px;margin-bottom:6px"><div style="font-size:12.5px;color:#8e8e93;padding:8px 0">まだ通話はない</div></div><button id="calllog-clear" style="background:none;border:none;color:#8e8e93;font-size:12px;cursor:pointer;font-family:inherit;padding:2px 2px 12px">通話履歴を消す</button>
-<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v390</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
+<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v391</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
 </div>
 </section>
 
@@ -7157,6 +7157,210 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
  leaf("#v-tiktok","🔗",'<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="vertical-align:-1px"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>');
  leaf("#v-news","☁",'<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" style="vertical-align:-2px"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>');
  leaf("#v-hisig","👤",'<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="vertical-align:-2px"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>');
+})();
+
+
+/* ===== v391: LINE pack ported from the Tinder edition - swipe actions (its v901), stamp tray (its v902 form), real tab pages (its v894-898 line) ===== */
+(function(){
+ "use strict";
+ /* ---- A: talk-list swipe actions ---- */
+ if(!window.__v391a){ window.__v391a=true;
+  var W=222;
+  var stA=document.createElement("style");
+  stA.textContent="#line-list{position:relative}"
+   +"#line-list>[id^='talk-']{position:relative;z-index:1;background:#fff;touch-action:pan-y}"
+   +"#line-list>[id^='talk-'] *{touch-action:pan-y}"
+   +".v391-act{position:absolute;right:0;z-index:0;display:flex;width:222px}"
+   +".v391-act button{flex:1;border:none;cursor:pointer;color:#fff;font-family:inherit;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:10.5px;font-weight:700}"
+   +".v391-pin{background:#b6bcc4}.v391-mute{background:#8e959e}.v391-del{background:#ff3b30}";
+  document.head.appendChild(stA);
+  var IC={
+   pin:'<svg viewBox="0 0 24 24" width="21" height="21" fill="#fff"><path d="M14.8 3.2l6 6-2.3.7-2.6 2.6.1 3.1-1.7 1.7-2.9-2.9-3.9 3.9H5.6v-2.5l3.9-3.9-2.9-2.9 1.7-1.7 3.1.1 2.6-2.6.8-2.2z"/></svg>',
+   mute:'<svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M18.5 5.5a7.5 7.5 0 0 1 0 13M15 9.5a3.8 3.8 0 0 1 0 5M4 10v4h3l4 4V6l-4 4H4z" fill="#fff" stroke="none"/><path d="M16 9l6 6M22 9l-6 6"/></svg>',
+   del:'<svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6.5h16M9.5 6V4.8A.8.8 0 0 1 10.3 4h3.4a.8.8 0 0 1 .8 1.2V6M6.5 6.5l.9 12A2 2 0 0 0 9.4 20h5.2a2 2 0 0 0 2-1.5l.9-12"/></svg>' };
+  var guardEl=null, guardT=0;
+  document.addEventListener("click",function(e){ if(guardEl && Date.now()-guardT<350 && guardEl.contains(e.target)){ e.stopPropagation(); e.preventDefault(); } },true);
+  function closeRow(row){ if(!row) return; row.style.transition="transform .22s"; row.style.transform=""; row.dataset.v391open=""; }
+  function bindRow(row){
+   if(row.dataset.v391) return; row.dataset.v391="1";
+   var act=document.createElement("div"); act.className="v391-act";
+   act.innerHTML='<button type="button" class="v391-pin">'+IC.pin+'<span>ピン留め</span></button><button type="button" class="v391-mute">'+IC.mute+'<span>通知オフ</span></button><button type="button" class="v391-del">'+IC.del+'<span>削除</span></button>';
+   row.parentNode.insertBefore(act,row); row._v391act=act;
+   function layout(){ act.style.top=row.offsetTop+"px"; act.style.height=row.offsetHeight+"px"; }
+   layout(); row._v391layout=layout;
+   [[".v391-pin","ピン留め"],[".v391-mute","通知オフ"],[".v391-del","削除"]].forEach(function(pr){
+    act.querySelector(pr[0]).addEventListener("click",function(){ closeRow(row); if(typeof toast==="function") toast(pr[1]+"は物語では使わないよ"); }); });
+   var sx=0, sy=0, base=0, mode=null, pid=null;
+   row.addEventListener("pointerdown",function(e){ sx=e.clientX; sy=e.clientY; pid=e.pointerId; mode=null; base=row.dataset.v391open? -W:0; });
+   row.addEventListener("pointermove",function(e){
+    if(pid===null||e.pointerId!==pid) return;
+    var mx=e.clientX-sx, my=e.clientY-sy;
+    if(mode===null && (Math.abs(mx)>9||Math.abs(my)>9)) mode=Math.abs(mx)>Math.abs(my)?"h":"v";
+    if(mode==="h"){ var nx=Math.max(-W,Math.min(0,base+mx)); row.style.transition="none"; row.style.transform="translateX("+nx+"px)"; row._v391nx=nx; if(e.cancelable) e.preventDefault(); } });
+   function end(e){
+    if(pid===null||e.pointerId!==pid) return; pid=null;
+    if(mode==="h"){ var nx=row._v391nx||0, open=base<0? nx<-160 : nx<-60;
+     row.style.transition="transform .22s"; row.style.transform=open?"translateX(-"+W+"px)":""; row.dataset.v391open=open?"1":"";
+     guardEl=row; guardT=Date.now();
+     if(open){ document.querySelectorAll("#line-list>[id^='talk-']").forEach(function(r){ if(r!==row) closeRow(r); }); }
+    } else if(row.dataset.v391open){ closeRow(row); guardEl=row; guardT=Date.now(); } }
+   row.addEventListener("pointerup",end); row.addEventListener("pointercancel",end);
+  }
+  function setupA(){ var list=document.getElementById("line-list"); if(!list) return false; var rows=list.querySelectorAll("[id^='talk-']"); if(!rows.length) return false; rows.forEach(bindRow); return true; }
+  if(!setupA()){ var ivA=setInterval(function(){ if(setupA()) clearInterval(ivA); },600); }
+  setInterval(function(){ document.querySelectorAll("#line-list>[id^='talk-']").forEach(function(r){ if(!r.dataset.v391) bindRow(r); if(r._v391layout && r._v391act){ var t=r.offsetTop+"px", h=r.offsetHeight+"px"; if(r._v391act.style.top!==t) r._v391act.style.top=t; if(r._v391act.style.height!==h) r._v391act.style.height=h; } }); },1500);
+ }
+ /* ---- B: stamp tray ---- */
+ var stB=document.createElement("style");
+ stB.textContent="#line-chat .stk-panel{display:none!important}#stamp-bar{display:none!important}"
+  +".v391-tray{background:#f7f7f9;border-top:1px solid #ececf0;padding:6px 8px 10px}"
+  +".v391-tabs{display:flex;gap:4px;align-items:center;padding:2px 2px 8px}"
+  +".v391-tab{border:none;background:none;cursor:pointer;font-family:inherit;font-size:12.5px;font-weight:700;color:#8e8e93;padding:5px 10px;border-radius:999px}"
+  +".v391-tab.act{background:#fff;color:#111;box-shadow:0 1px 4px rgba(0,0,0,.10)}"
+  +".v391-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px}"
+  +".v391-grid button{border:none;background:none;cursor:pointer;padding:5px 0;border-radius:10px}"
+  +".v391-grid button:active{background:#ececf0}"
+  +".v391-grid button svg{width:44px;height:44px;display:block;margin:auto}"
+  +".v391-foot{display:flex;justify-content:flex-end;padding-top:6px}"
+  +".v391-bs{border:none;background:#fff;cursor:pointer;width:52px;height:34px;border-radius:9px;box-shadow:0 1px 3px rgba(0,0,0,.08);display:flex;align-items:center;justify-content:center}";
+ document.head.appendChild(stB);
+ var tray=null;
+ function stampPairs(){
+  var out=[], seen={};
+  document.querySelectorAll("#stamp-bar button, #line-chat .stk-panel .stk-btn").forEach(function(b){
+   var em=b.dataset.em||b.textContent.trim(); if(!em||seen[em]) return; seen[em]=1;
+   var svg=b.querySelector("svg"); out.push([em, svg? svg.outerHTML : null]); });
+  return out; }
+ function sendStamp(em){
+  var chat=document.querySelector("#chat"); if(!chat) return;
+  var d=document.createElement("div"); d.className="msg me";
+  d.innerHTML='<span style="font-size:38px;line-height:1.1">'+em+'</span><span class="meta pr" data-t="'+nowTime()+'">'+nowTime()+'</span>';
+  chat.appendChild(d); chat.scrollTop=chat.scrollHeight;
+  var pv=document.querySelector("#line-preview"); if(pv) pv.textContent=em;
+  clearTimeout(state._replyT); state._replyT=setTimeout(function(){ himReply(em); },1100); }
+ function buildTray(){
+  var chatEl=document.querySelector("#line-chat"); if(!chatEl) return null;
+  var inputBar=chatEl.querySelector(".line-input"); if(!inputBar) return null;
+  var t=document.createElement("div"); t.className="v391-tray"; t.style.display="none";
+  var pairs=stampPairs();
+  var tabs=document.createElement("div"); tabs.className="v391-tabs";
+  tabs.innerHTML='<button type="button" class="v391-tab act">スタンプ</button><button type="button" class="v391-tab">よく使う</button>';
+  var grid=document.createElement("div"); grid.className="v391-grid";
+  function fill(list){ grid.innerHTML=""; list.forEach(function(pr){ var b=document.createElement("button"); b.type="button";
+    b.innerHTML=pr[1]||('<span style="font-size:34px">'+pr[0]+'</span>');
+    b.addEventListener("click",function(){ t.style.display="none"; sendStamp(pr[0]); }); grid.appendChild(b); }); }
+  fill(pairs);
+  var tabBtns=tabs.querySelectorAll(".v391-tab");
+  tabBtns[0].addEventListener("click",function(){ tabBtns[0].classList.add("act"); tabBtns[1].classList.remove("act"); fill(pairs); });
+  tabBtns[1].addEventListener("click",function(){ tabBtns[1].classList.add("act"); tabBtns[0].classList.remove("act");
+   fill(pairs.filter(function(pr){ return ["❤️","👍","🥺","😆","✨","🙏","😎","🫶"].indexOf(pr[0])>=0; })); });
+  var foot=document.createElement("div"); foot.className="v391-foot";
+  foot.innerHTML='<button type="button" class="v391-bs"><svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="#555" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 6H8.5L3 12l5.5 6H21a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1z"/><path d="M17 9.5l-5 5M12 9.5l5 5"/></svg></button>';
+  foot.querySelector(".v391-bs").addEventListener("click",function(){ var inp=chatEl.querySelector(".line-input input"); if(inp){ inp.value=inp.value.slice(0,-1); inp.dispatchEvent(new Event("input",{bubbles:true})); } });
+  t.appendChild(tabs); t.appendChild(grid); t.appendChild(foot);
+  inputBar.parentNode.insertBefore(t,inputBar);
+  return t; }
+ var inputBarEl=document.querySelector("#line-chat .line-input");
+ if(inputBarEl){ inputBarEl.addEventListener("click",function(e){
+   var plus=inputBarEl.querySelector(":scope > span");
+   if(plus && (e.target===plus || plus.contains(e.target))){ e.stopPropagation(); e.preventDefault();
+    if(!tray) tray=buildTray();
+    if(tray) tray.style.display=tray.style.display==="none"?"block":"none"; }
+  },true); }
+ /* ---- C: LINE tab panel (home / points / menu) ---- */
+ var stC=document.createElement("style");
+ stC.textContent="#line-tab-panel{position:absolute;inset:0;background:#fff;z-index:60;display:none;flex-direction:column;color:#111}"
+  +"#line-tab-panel .ltp-head{display:flex;align-items:center;padding:58px 20px 10px}"
+  +"#line-tab-panel .ltp-head b{font-size:20px;font-weight:800}"
+  +"#ltp-x{margin-left:auto;background:#f2f2f7;width:34px;height:34px;border:none;border-radius:50%;font-size:14px;color:#55555c;cursor:pointer}"
+  +"#line-tab-panel .ltp-scroll{flex:1;overflow-y:auto}"
+  +".ltp-prof{display:flex;align-items:center;gap:12px;padding:8px 20px 14px}"
+  +".ltp-prof img{width:52px;height:52px;border-radius:50%;object-fit:cover}"
+  +".ltp-ptcard{margin:2px 16px 6px;background:#f7f9f7;border:1px solid #e6f2e6;border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:10px;cursor:pointer;width:calc(100% - 32px);font-family:inherit;text-align:left}"
+  +".ltp-sec{font-weight:800;font-size:15px;margin:18px 20px 6px}"
+  +".ltp-frow{display:flex;align-items:center;gap:12px;padding:9px 20px}"
+  +".ltp-frow img{width:44px;height:44px;border-radius:50%;object-fit:cover}"
+  +".ltp-svc{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:4px 16px}"
+  +".ltp-svc button{border:none;background:none;cursor:pointer;font-family:inherit;font-size:11px;color:#333;display:flex;flex-direction:column;align-items:center;gap:6px;padding:8px 0}"
+  +".ltp-svc .tic{width:46px;height:46px;border-radius:14px;display:flex;align-items:center;justify-content:center}"
+  +".ltp-mrow{display:flex;align-items:center;gap:12px;padding:14px 20px;border-bottom:1px solid #f2f2f4;font-size:15px;width:100%;background:none;border-top:none;border-left:none;border-right:none;cursor:pointer;font-family:inherit;text-align:left}";
+ document.head.appendChild(stC);
+ var panel=null;
+ var COIN='<span style="width:26px;height:26px;border-radius:50%;background:#06c755;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:13.5px">P</span>';
+ var HIST=[["キャンペーン参加","+500","11/1","#e8f9ee","#06a647","M5 12h14M12 5l7 7-7 7-7-7z"],
+           ["コンビニでお買い物","+12","10/30","#eaf2ff","#2f6fd0","M5.5 8h13l-1.1 11.1a1.6 1.6 0 0 1-1.6 1.4H8.2a1.6 1.6 0 0 1-1.6-1.4L5.5 8zM9 8V6.5a3 3 0 0 1 6 0V8"],
+           ["アンケート回答","+30","10/28","#f1ecff","#6d4fd0","M5.5 4.5h13v16h-13zM9 9h6M9 13h6"],
+           ["スタンプ購入","-120","10/25","#fff6d9","#a88900","M12 21a9 9 0 1 1 0-18 9 9 0 0 1 0 18zM9 10.4h.01M15 10.4h.01M9.5 15.5q2.5 1.8 5 0"]];
+ function svcIcon(bg,path){ return '<span class="tic" style="background:'+bg+'"><svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="'+path+'"/></svg></span>'; }
+ function renderPanel(mode){
+  if(!panel) return;
+  var title=panel.querySelector(".ltp-head b"), scroll=panel.querySelector(".ltp-scroll");
+  if(mode==="points"){ title.textContent="LINEポイント";
+   scroll.innerHTML='<div style="padding:18px 20px 20px">'
+    +'<div style="display:flex;align-items:center;gap:7px">'+COIN+'<span style="font-size:14px;font-weight:700">LINEポイント</span></div>'
+    +'<div style="margin-top:8px"><span style="font-size:40px;font-weight:800">1,240</span> <span style="font-size:16px;font-weight:700">pt</span></div>'
+    +'<div style="display:inline-flex;align-items:center;gap:6px;background:#fff4e0;border-radius:999px;padding:6px 11px;margin-top:10px"><span style="font-size:12.5px;color:#8a5a00;font-weight:600">有効期限：2026年3月31日まで</span></div>'
+    +'<div style="display:flex;gap:10px;margin-top:18px">'
+    +'<button type="button" class="ltp-act" data-m="ためる方法" style="flex:1;border:none;background:#06c755;color:#fff;font-size:15px;font-weight:700;border-radius:12px;padding:13px 0;cursor:pointer;font-family:inherit">ためる</button>'
+    +'<button type="button" class="ltp-act" data-m="つかい道" style="flex:1;background:#fff;color:#06a647;font-size:15px;font-weight:700;border-radius:12px;padding:13px 0;cursor:pointer;font-family:inherit;box-shadow:inset 0 0 0 1.5px #06c755">つかう</button>'
+    +'</div></div>'
+    +'<div style="height:8px;background:#f4f4f6"></div>'
+    +'<div style="font-weight:800;font-size:16px;margin:20px 20px 4px">履歴</div>'
+    +HIST.map(function(h){ var plus=h[1].charAt(0)==="+";
+      return '<div style="display:flex;align-items:center;gap:13px;padding:12px 20px;border-bottom:1px solid #f2f2f4">'
+       +'<span style="width:46px;height:46px;border-radius:50%;background:'+h[3]+';display:flex;align-items:center;justify-content:center;flex:none"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="'+h[4]+'" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="'+h[5]+'"/></svg></span>'
+       +'<div style="min-width:0"><div style="font-size:15px;font-weight:600">'+h[0]+'</div><div style="font-size:12.5px;color:#9a9aa0;margin-top:2px">'+h[2]+'</div></div>'
+       +'<span style="margin-left:auto;font-size:15px;font-weight:800;color:'+(plus?"#06a647":"#e60012")+'">'+h[1]+' pt</span></div>'; }).join("")
+    +'<div style="height:16px"></div>';
+   scroll.querySelectorAll(".ltp-act").forEach(function(b){ b.addEventListener("click",function(){ if(typeof toast==="function") toast("ポイントの"+b.dataset.m+"はこの世界にはないよ"); }); });
+   return; }
+  if(mode==="menu"){ title.textContent="その他";
+   scroll.innerHTML=[["プロフィール","home"],["設定","settings"],["お知らせ","toast"],["ヘルプ","toast"]].map(function(r){
+     return '<button type="button" class="ltp-mrow" data-go="'+r[1]+'"><span>'+r[0]+'</span><span style="margin-left:auto;color:#c7c7cc">›</span></button>'; }).join("");
+   scroll.querySelectorAll(".ltp-mrow").forEach(function(b){ b.addEventListener("click",function(){
+     if(b.dataset.go==="settings"){ panel.style.display="none"; show("settings"); }
+     else if(b.dataset.go==="home"){ renderPanel("home"); }
+     else if(typeof toast==="function") toast("いまは開けないよ"); }); });
+   return; }
+  title.textContent="ホーム";
+  var hisStatus=""; var sb=document.querySelector("#hiroto-prof-btn .s"); if(sb) hisStatus=sb.textContent.trim();
+  var friends=[["ひろと","assets/line-avatar.jpg",hisStatus],["ゆい","assets/fr-yui.jpg",""],["みさき","assets/fr-misaki.jpg",""],["りな","assets/fr-rina.jpg",""],["ゆうた","assets/fr-yuta.jpg",""],["かず","assets/fr-kazu2.jpg",""]];
+  scroll.innerHTML='<div class="ltp-prof"><img src="assets/nao-avatar4.jpg" alt=""><div><div style="font-weight:800;font-size:16px">なお</div><div style="font-size:12.5px;color:#8e8e93">🍻 金曜は梅田！　楽しみ〜</div></div></div>'
+   +'<button type="button" class="ltp-ptcard" id="ltp-ptcard">'+COIN+'<span style="font-size:14.5px;font-weight:700">1,240 pt</span><span style="margin-left:auto;color:#c7c7cc;font-size:17px">›</span></button>'
+   +'<div class="ltp-sec">サービス</div><div class="ltp-svc">'
+   +'<button type="button" data-go="news">'+svcIcon("#3b82c4","M4 22h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0V9M18 14h-8M15 18h-5M10 6h8v4h-8z")+'ニュース</button>'
+   +'<button type="button" data-go="photos">'+svcIcon("#f59e0b","M4 5h16v14H4zM4 15l5-5 3 3 3-3 5 5M9 9.5h.01")+'写真</button>'
+   +'<button type="button" data-go="ig">'+svcIcon("linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888)","M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zM12 16.5a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9zM17.8 6.2h.01")+'Instagram</button>'
+   +'<button type="button" data-go="settings">'+svcIcon("#8e959e","M12 15a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4zM19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06A1.7 1.7 0 0 0 15 19.4a1.7 1.7 0 0 0-1 1.55V21a2 2 0 1 1-4 0v-.09A1.7 1.7 0 0 0 9 19.4a1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.55-1H3a2 2 0 1 1 0-4h.09A1.7 1.7 0 0 0 4.6 9a1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-1.55V3a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1 1.51 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.4 9c.23.6.86 1 1.51 1H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.51 1z")+'設定</button>'
+   +'</div>'
+   +'<div class="ltp-sec">友だち</div>'
+   +friends.map(function(f){ return '<div class="ltp-frow" data-talk="'+f[0]+'" style="cursor:pointer"><img src="'+f[1]+'" alt=""><div style="min-width:0"><div style="font-weight:700;font-size:14.5px">'+f[0]+'</div>'+(f[2]?'<div style="font-size:12px;color:#8e8e93;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+f[2].replace(/</g,"&lt;")+'</div>':'')+'</div></div>'; }).join("")
+   +'<div style="height:14px"></div>';
+  var pc=scroll.querySelector("#ltp-ptcard"); if(pc) pc.addEventListener("click",function(){ renderPanel("points"); });
+  scroll.querySelectorAll(".ltp-frow").forEach(function(r){ r.addEventListener("click",function(){ var nm=r.dataset.talk; var map={"ひろと":"#talk-hiroto","ゆい":"#talk-yui","みさき":"#talk-misaki","りな":"#talk-rina","ゆうた":"#talk-yuta","かず":"#talk-kazu"}; var t=document.querySelector(map[nm]||""); panel.style.display="none"; if(t) t.click(); }); });
+  scroll.querySelectorAll(".ltp-svc button").forEach(function(b){ b.addEventListener("click",function(){ panel.style.display="none"; show(b.dataset.go); }); });
+ }
+ function buildPanel(){
+  var v=document.querySelector("#v-line"); if(!v) return null;
+  var old=document.querySelector("#line-tab-panel"); if(old) old.remove();
+  var p=document.createElement("div"); p.id="line-tab-panel";
+  p.innerHTML='<div class="ltp-head"><b>ホーム</b><button type="button" id="ltp-x">✕</button></div><div class="ltp-scroll"></div>';
+  v.appendChild(p);
+  p.querySelector("#ltp-x").addEventListener("click",function(){ p.style.display="none"; });
+  return p; }
+ function openPanel(mode){ if(!panel) panel=buildPanel(); if(!panel) return; renderPanel(mode); panel.style.display="flex"; }
+ var listEl=document.querySelector("#line-list");
+ if(listEl){ listEl.addEventListener("click",function(e){
+   var t=e.target.closest(".ltab"); if(!t) return;
+   var label=t.textContent.trim();
+   if(label.indexOf("ポイント")>=0){ e.stopPropagation(); e.preventDefault(); openPanel("points"); }
+   else if(label.indexOf("その他")>=0){ e.stopPropagation(); e.preventDefault(); openPanel("menu"); }
+   else if(t.dataset.nav==="home"){ e.stopPropagation(); e.preventDefault(); openPanel("home"); }
+   else if(label.indexOf("トーク")>=0){ if(panel) panel.style.display="none"; }
+  },true); }
+ setInterval(function(){ if(!panel||panel.style.display==="none") return;
+  var inChat=["#line-chat","#group-chat","#friend-chat","#party-chat"].some(function(sel){ var el=document.querySelector(sel); return el && el.style.display==="flex"; });
+  if(inChat) panel.style.display="none"; },800);
 })();
 
 /* ===== v41: individual friend chats (yui / misaki / rina) ===== */
