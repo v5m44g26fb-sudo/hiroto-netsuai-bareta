@@ -737,7 +737,7 @@ input,textarea{font-size:16px!important}
 <div class="setrow"><span>📞 通話した回数</span><span style="color:#8e8e93;font-size:12.5px" id="set-calls">0回</span></div>
 <button class="btn-main" style="background:#ff3b30;color:#fff;width:100%;margin:6px 0 12px" onclick="location.reload()">🔁 物語を最初からやり直す</button>
 <div style="font-size:13px;font-weight:800;margin:2px 2px 8px">📞 通話履歴</div><div id="set-calllog" style="background:#fff;border-radius:12px;padding:6px 14px;margin-bottom:6px"><div style="font-size:12.5px;color:#8e8e93;padding:8px 0">まだ通話はない</div></div><button id="calllog-clear" style="background:none;border:none;color:#8e8e93;font-size:12px;cursor:pointer;font-family:inherit;padding:2px 2px 12px">通話履歴を消す</button>
-<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v388</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
+<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v389</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
 </div>
 </section>
 
@@ -6786,9 +6786,25 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
   news:'<path d="M4 22h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0V9"/><path d="M18 14h-8M15 18h-5M10 6h8v4h-8z"/>',
   gift:'<polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>',
   gear:'<circle cx="12" cy="12" r="3.2"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06A1.7 1.7 0 0 0 15 19.4a1.7 1.7 0 0 0-1 1.55V21a2 2 0 1 1-4 0v-.09A1.7 1.7 0 0 0 9 19.4a1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.55-1H3a2 2 0 1 1 0-4h.09A1.7 1.7 0 0 0 4.6 9a1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-1.55V3a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1 1.51 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.4 9c.23.6.86 1 1.51 1H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.51 1z"/>',
+  mute:'<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M23 9l-6 6M17 9l6 6"/>',
+  speaker:'<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>',
+  video:'<polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/>',
+  mail:'<path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/><path d="M22 6l-10 7L2 6"/>',
+  sun:'<circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M2 12h2.5M19.5 12H22M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/>',
+  cloud:'<path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/>',
+  chart:'<path d="M23 6l-9.5 9.5-5-5L1 18"/><path d="M17 6h6v6"/>',
+  trash:'<path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>',
+  trophy:'<path d="M8 21h8M12 17v4M7 4h10v6a5 5 0 0 1-10 0z"/><path d="M7 6H4a2 2 0 0 0 0 4h3M17 6h3a2 2 0 0 1 0 4h-3"/>',
+  coffee:'<path d="M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4z"/><path d="M6 1v3M10 1v3M14 1v3"/>',
+  type:'<path d="M5 7V4h14v3M12 4v16M9 20h6"/>',
+  necklace:'<path d="M4 3q8 10 16 0"/><circle cx="12" cy="13.5" r="3.2"/><path d="M12 16.7l-1.6 4.3h3.2z"/>',
+  vibrate:'<rect x="7" y="2" width="10" height="20" rx="2.5"/><path d="M2.5 9v6M21.5 9v6"/>',
+  magnet:'<path d="M6 3v8a6 6 0 0 0 12 0V3"/><path d="M6 3h4v5H6zM14 3h4v5h-4z"/>',
+  floppy:'<path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8"/>',
+  flag:'<path d="M4 22V4c4-2.2 8 2.2 12 0v10c-4 2.2-8-2.2-12 0"/>',
   beer:'<path d="M5 9h11v10a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2z"/><path d="M16 11h2.2a2.7 2.7 0 0 1 0 5.4H16"/><path d="M5 9c-.6-2 .8-3.4 2.4-3.2C8 4.2 9.6 3.4 11 4c1.4-.6 3-.1 3.6 1.4 1.2.1 2 1.2 1.9 2.6"/>'
  };
- const EMAP={"❤":"heart","♥":"heart","♡":"heart","💬":"comment","✈":"share","↗":"share","🔖":"bookmark","🔁":"repost","🏠":"home","🎬":"reels","🔍":"search","📷":"camera","📸":"camera","🌼":"image","🖼":"image","⚙":"gear","📞":"phone","🧭":"compass","🎵":"music","♪":"music","🔥":"flame","🔔":"bell","🔒":"lock","📌":"pin","🔗":"link","👁":"eye","📖":"book","👥":"users","📅":"calendar","🗓":"calendar","📝":"edit","✏":"edit","👍":"thumb","☑":"badge","🎓":"award","💘":"heart","📩":"share","🐦":"edit","🚫":"ban","👤":"user","🎨":"palette","✔":"badge","🍺":"beer","🍻":"beer","🗞":"news","📰":"news","🎁":"gift"};
+ const EMAP={"❤":"heart","♥":"heart","♡":"heart","💬":"comment","✈":"share","↗":"share","🔖":"bookmark","🔁":"repost","🏠":"home","🎬":"reels","🔍":"search","📷":"camera","📸":"camera","🌼":"image","🖼":"image","⚙":"gear","📞":"phone","🧭":"compass","🎵":"music","♪":"music","🔥":"flame","🔔":"bell","🔒":"lock","📌":"pin","🔗":"link","👁":"eye","📖":"book","👥":"users","📅":"calendar","🗓":"calendar","📝":"edit","✏":"edit","👍":"thumb","☑":"badge","🎓":"award","💘":"heart","📩":"share","🐦":"edit","🚫":"ban","👤":"user","🎨":"palette","✔":"badge","🍺":"beer","🍻":"beer","🗞":"news","📰":"news","🎁":"gift","🔇":"mute","🔊":"speaker","📹":"video","✉":"mail","☀":"sun","☁":"cloud","📈":"chart","🗑":"trash","🏆":"trophy","☕":"coffee","🔤":"type","📿":"necklace","📳":"vibrate","💭":"comment","💌":"mail","🌅":"sun","🧲":"magnet","💾":"floppy","🏅":"award","🏁":"flag"};
  const svgFor=n=>'<svg class="ic ic-'+n+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+P[n]+'</svg>';
  const css=document.createElement("style");
  css.textContent="svg.ic{width:1.18em;height:1.18em;vertical-align:-0.2em}"+
@@ -6826,7 +6842,7 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
   const nodes=[]; while(tw.nextNode()) nodes.push(tw.currentNode);
   nodes.forEach(swapText);
  }
- const SEL=".appicon .ic,#ig-bnav button,#his-bnav button,.ig-post .acts>span,.ig-post .acts>b,.feed-card>div:first-child,.ph,.like-btn,.rp-btn,.save-btn,.tt-likes,.tt-cmt-open,.cmt-like,.toast,#push-ic,.setrow,[data-ti],.call-btns .cb,#ig-sheet button,.post-menu>div,#nao-story-viewers,.page-head h1,#w-title,#line-call-btn,.mt>span,.mt>b,.vw-n,#v-ig button,#v-hisig button,.line-head,.lh-acts,#album-tabs button,.ltab,.talkrow .nm";
+ const SEL=".appicon .ic,#ig-bnav button,#his-bnav button,.ig-post .acts>span,.ig-post .acts>b,.feed-card>div:first-child,.ph,.like-btn,.rp-btn,.save-btn,.tt-likes,.tt-cmt-open,.cmt-like,.toast,#push-ic,.setrow,[data-ti],.call-btns .cb,#ig-sheet button,.post-menu>div,#nao-story-viewers,.page-head h1,#w-title,#line-call-btn,.mt>span,.mt>b,.vw-n,#v-ig button,#v-hisig button,.line-head,.lh-acts,#album-tabs button,.ltab,.talkrow .nm,#x-nav button,.verified,#ach-list,#set-endings,.widget,.btn-main,#v-settings .scroll>div,#home-quote";
  function process(root){
   if(!root||root.nodeType!==1) return;
   const els=new Set();
@@ -6837,7 +6853,7 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
  process(document.body);
  let queued=false; const pending=[];
  new MutationObserver(ms=>{ ms.forEach(m=>{ if(m.type==="characterData"){ if(m.target.parentElement) pending.push(m.target.parentElement); return; }
-   m.addedNodes.forEach(n=>{ if(n.nodeType===1) pending.push(n); else if(n.nodeType===3&&n.parentElement) pending.push(n.parentElement); }); });
+   m.addedNodes.forEach(n=>{ if(n.nodeType===1){ pending.push(n); if(n.parentElement) pending.push(n.parentElement); } else if(n.nodeType===3&&n.parentElement) pending.push(n.parentElement); }); });
   if(queued) return; queued=true;
   requestAnimationFrame(()=>{ queued=false; const list=[...new Set(pending.splice(0))]; list.forEach(process); });
  }).observe(document.body,{childList:true,subtree:true,characterData:true});
@@ -7119,6 +7135,28 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
   si.style.backgroundRepeat="no-repeat"; si.style.backgroundPosition="11px center"; si.style.backgroundSize="15px 15px"; si.style.paddingLeft="33px"; }
  document.querySelectorAll("#line-list span").forEach(sp=>{ if(sp.children.length===0&&(sp.textContent||"").trim()==="🎵"){
   sp.innerHTML='<svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="#3a3a3c" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>'; } });
+})();
+
+
+/* ===== v389: home search icon, his-IG tag button, IG menu glyph ===== */
+(function(){
+ "use strict";
+ const hp=document.querySelector(".hp-search");
+ if(hp){ hp.placeholder="検索";
+  hp.style.backgroundImage='url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%238e8e93\' stroke-width=\'2.4\' stroke-linecap=\'round\'%3E%3Ccircle cx=\'11\' cy=\'11\' r=\'7\'/%3E%3Cpath d=\'M21 21l-4.3-4.3\'/%3E%3C/svg%3E")';
+  hp.style.backgroundRepeat="no-repeat"; hp.style.backgroundPosition="11px center"; hp.style.backgroundSize="15px 15px"; hp.style.paddingLeft="33px"; }
+ document.querySelectorAll("#v-hisig button").forEach(b=>{ if((b.textContent||"").trim()==="👤"){
+  b.innerHTML='<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>'; } });
+ document.querySelectorAll("#v-ig *").forEach(el=>{ if(el.children.length===0&&(el.textContent||"").trim()==="☰"){
+  el.innerHTML='<svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>'; } });
+
+ /* v389b: home search pill + stray leaf icons in his IG / TikTok / news */
+ document.querySelectorAll(".hp-search").forEach(sp=>{ sp.innerHTML='<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" style="vertical-align:-1px"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg> 検索'; });
+ const leaf=(rootSel,em,svg)=>{ document.querySelectorAll(rootSel+" *").forEach(el=>{ if(el.children.length===0&&(el.textContent||"").includes(em)){ el.innerHTML=el.innerHTML.replace(em,svg); } }); };
+ leaf("#v-hisig","📈",'<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px"><path d="M23 6l-9.5 9.5-5-5L1 18"/><path d="M17 6h6v6"/></svg>');
+ leaf("#v-tiktok","🔗",'<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="vertical-align:-1px"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>');
+ leaf("#v-news","☁",'<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" style="vertical-align:-2px"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>');
+ leaf("#v-hisig","👤",'<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="vertical-align:-2px"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>');
 })();
 
 /* ===== v41: individual friend chats (yui / misaki / rina) ===== */
