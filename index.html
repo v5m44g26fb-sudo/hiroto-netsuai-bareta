@@ -737,7 +737,7 @@ input,textarea{font-size:16px!important}
 <div class="setrow"><span>📞 通話した回数</span><span style="color:#8e8e93;font-size:12.5px" id="set-calls">0回</span></div>
 <button class="btn-main" style="background:#ff3b30;color:#fff;width:100%;margin:6px 0 12px" onclick="location.reload()">🔁 物語を最初からやり直す</button>
 <div style="font-size:13px;font-weight:800;margin:2px 2px 8px">📞 通話履歴</div><div id="set-calllog" style="background:#fff;border-radius:12px;padding:6px 14px;margin-bottom:6px"><div style="font-size:12.5px;color:#8e8e93;padding:8px 0">まだ通話はない</div></div><button id="calllog-clear" style="background:none;border:none;color:#8e8e93;font-size:12px;cursor:pointer;font-family:inherit;padding:2px 2px 12px">通話履歴を消す</button>
-<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v349</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
+<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v350</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
 </div>
 </section>
 
@@ -6612,9 +6612,10 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
   const acts=post.querySelector(".acts");
   if(acts&&acts.contains(e.target)){
    const t=(e.target.textContent||"").trim();
-   if(t==="💬"){ const inp=post.querySelector('input[placeholder^="コメント"]');
+   const di=e.target.closest("[data-icon]")?e.target.closest("[data-icon]").dataset.icon:null;
+   if(t==="💬"||di==="comment"){ const inp=post.querySelector('input[placeholder^="コメント"]');
     if(inp){ inp.scrollIntoView({behavior:"smooth",block:"center"}); setTimeout(()=>inp.focus(),350); } return; }
-   if(t==="✈"||t==="✈️"){ sheet.style.display="block"; return; }
+   if(t==="✈"||t==="✈️"||di==="share"){ sheet.style.display="block"; return; }
    const lb=e.target.closest(".like-btn");
    if(lb&&lb===acts.querySelector(".like-btn")){
     const cap=post.querySelector(".cap");
@@ -6739,6 +6740,94 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
   if(id==="ig"){ buildFeed(); if(prev&&prev.id==="v-home") setMode("feed"); } return r; };
  setMode("feed");
  setTimeout(buildFeed,1600);
+})();
+/* ===== v350: every UI icon is SVG now (no emoji glyphs in chrome) ===== */
+(function(){
+ "use strict";
+ const P={
+  heart:'<path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21.2l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.8z"/>',
+  comment:'<path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>',
+  share:'<path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/>',
+  bookmark:'<path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>',
+  repost:'<path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/>',
+  home:'<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/>',
+  reels:'<rect x="3" y="4" width="18" height="16" rx="3"/><path d="M10 9.2l5 2.8-5 2.8z" fill="currentColor" stroke="none"/>',
+  search:'<circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>',
+  camera:'<path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/>',
+  image:'<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/>',
+  sliders:'<path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3"/><path d="M1 14h6M9 8h6M17 16h6"/>',
+  phone:'<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/>',
+  compass:'<circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>',
+  music:'<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>',
+  flame:'<path d="M12 22c4.4 0 7-2.8 7-6.5 0-3.2-2.1-5.4-3.5-7C14 7.6 13 6 13 4c-3 2-5.5 5-5.5 8-1-.5-1.7-1.3-2.3-2.5C4.4 11.3 5 13.6 5 15.5 5 19.2 7.6 22 12 22z"/>',
+  bell:'<path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>',
+  lock:'<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
+  pin:'<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>',
+  link:'<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>',
+  eye:'<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>',
+  book:'<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',
+  users:'<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+  calendar:'<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>',
+  edit:'<path d="M17 3a2.83 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5z"/>',
+  thumb:'<path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/>',
+  badge:'<circle cx="12" cy="12" r="10" fill="currentColor" stroke="none"/><path d="M8 12.5l2.5 2.5L16 9.5" stroke="#fff"/>',
+  award:'<circle cx="12" cy="8" r="6"/><path d="M15.5 13 17 22l-5-3-5 3 1.5-9"/>',
+  ban:'<circle cx="12" cy="12" r="10"/><path d="M4.9 4.9l14.2 14.2"/>',
+  user:'<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>'
+ };
+ const EMAP={"❤":"heart","♥":"heart","♡":"heart","💬":"comment","✈":"share","↗":"share","🔖":"bookmark","🔁":"repost","🏠":"home","🎬":"reels","🔍":"search","📷":"camera","📸":"camera","🌼":"image","🖼":"image","⚙":"sliders","📞":"phone","🧭":"compass","🎵":"music","♪":"music","🔥":"flame","🔔":"bell","🔒":"lock","📌":"pin","🔗":"link","👁":"eye","📖":"book","👥":"users","📅":"calendar","🗓":"calendar","📝":"edit","✏":"edit","👍":"thumb","☑":"badge","🎓":"award","💘":"heart","📩":"share","🐦":"edit","🚫":"ban","👤":"user"};
+ const svgFor=n=>'<svg class="ic ic-'+n+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+P[n]+'</svg>';
+ const css=document.createElement("style");
+ css.textContent="svg.ic{width:1.18em;height:1.18em;vertical-align:-0.2em}"+
+  ".liked svg.ic-heart path{fill:currentColor}"+
+  ".cmt-like.on svg.ic-heart path{fill:currentColor}"+
+  "#push-ic svg.ic{width:20px;height:20px;color:#fff}"+
+  ".page-head h1 svg.ic{color:#ff5a2a}"+
+  ".acts svg.ic{width:21px;height:21px}"+
+  "#ig-bnav svg.ic,#his-bnav svg.ic{width:24px;height:24px}";
+ document.head.appendChild(css);
+ function swapText(tn){
+  const txt=tn.nodeValue; if(!txt) return;
+  const chars=[...txt]; let hit=false, prevMap=false;
+  const frag=document.createDocumentFragment(); let buf="";
+  const flush=()=>{ if(buf){ frag.appendChild(document.createTextNode(buf)); buf=""; } };
+  for(const ch of chars){
+   if(ch==="️"){ if(prevMap){ prevMap=false; continue; } buf+=ch; continue; }
+   const name=EMAP[ch];
+   if(name){ hit=true; prevMap=true; flush();
+    const d=document.createElement("span"); d.innerHTML=svgFor(name); frag.appendChild(d.firstChild);
+   } else { prevMap=false; buf+=ch; }
+  }
+  if(!hit) return;
+  flush();
+  if(tn.parentNode) tn.parentNode.replaceChild(frag,tn);
+ }
+ function tagIcon(el){
+  if(el.dataset&&el.dataset.icon) return;
+  const t=el.textContent||"";
+  for(const ch of t){ const n=EMAP[ch]; if(n){ el.dataset.icon=n; return; } }
+ }
+ function processEl(el){
+  tagIcon(el);
+  const tw=document.createTreeWalker(el,NodeFilter.SHOW_TEXT,{acceptNode:n=>(n.parentElement&&n.parentElement.closest("svg"))?NodeFilter.FILTER_REJECT:NodeFilter.FILTER_ACCEPT});
+  const nodes=[]; while(tw.nextNode()) nodes.push(tw.currentNode);
+  nodes.forEach(swapText);
+ }
+ const SEL=".appicon .ic,#ig-bnav button,#his-bnav button,.ig-post .acts>span,.ig-post .acts>b,.feed-card>div:first-child,.ph,.like-btn,.rp-btn,.save-btn,.tt-likes,.tt-cmt-open,.cmt-like,.toast,#push-ic,.setrow,[data-ti],.call-btns .cb,#ig-sheet button,.post-menu>div,#nao-story-viewers,.page-head h1,#w-title,#line-call-btn,.mt>span,.mt>b,.vw-n,#v-ig button,#v-hisig button";
+ function process(root){
+  if(!root||root.nodeType!==1) return;
+  const els=new Set();
+  if(root.matches&&root.matches(SEL)) els.add(root);
+  if(root.querySelectorAll) root.querySelectorAll(SEL).forEach(e=>els.add(e));
+  els.forEach(processEl);
+ }
+ process(document.body);
+ let queued=false; const pending=[];
+ new MutationObserver(ms=>{ ms.forEach(m=>{ if(m.type==="characterData"){ if(m.target.parentElement) pending.push(m.target.parentElement); return; }
+   m.addedNodes.forEach(n=>{ if(n.nodeType===1) pending.push(n); else if(n.nodeType===3&&n.parentElement) pending.push(n.parentElement); }); });
+  if(queued) return; queued=true;
+  requestAnimationFrame(()=>{ queued=false; const list=[...new Set(pending.splice(0))]; list.forEach(process); });
+ }).observe(document.body,{childList:true,subtree:true,characterData:true});
 })();
 /* ===== v41: individual friend chats (yui / misaki / rina) ===== */
 const FCHATS={
