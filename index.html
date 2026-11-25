@@ -737,7 +737,7 @@ input,textarea{font-size:16px!important}
 <div class="setrow"><span>📞 通話した回数</span><span style="color:#8e8e93;font-size:12.5px" id="set-calls">0回</span></div>
 <button class="btn-main" style="background:#ff3b30;color:#fff;width:100%;margin:6px 0 12px" onclick="location.reload()">🔁 物語を最初からやり直す</button>
 <div style="font-size:13px;font-weight:800;margin:2px 2px 8px">📞 通話履歴</div><div id="set-calllog" style="background:#fff;border-radius:12px;padding:6px 14px;margin-bottom:6px"><div style="font-size:12.5px;color:#8e8e93;padding:8px 0">まだ通話はない</div></div><button id="calllog-clear" style="background:none;border:none;color:#8e8e93;font-size:12px;cursor:pointer;font-family:inherit;padding:2px 2px 12px">通話履歴を消す</button>
-<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v387</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
+<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v388</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
 </div>
 </section>
 
@@ -942,7 +942,7 @@ const X_POSTS=[
 {n:"ロットダン💙",h:"@rottdan_love",t:"正直ショックはある。でもステージでずっと頑張ってきた大翔が、プライベートで笑える相手がいるなら…複雑やけど応援したい",m:["💬 903","🔁 4,102","❤️ 18,930"]},
 {n:"ゆん",h:"@yun_o0",t:"裏切られた気持ち。ファンミのあの笑顔はなんだったの？　返金してほしいくらいモヤる",m:["💬 2,311","🔁 1,540","❤️ 3,208"]},
 {n:"特定班",h:"@tokutei_work",t:"①カフェの内装が本人の昨日の投稿と一致 ②ネックレスがお揃いっぽい ③「このまま時間が止まればいいのに」←誰との時間？匂わせだった？",m:["💬 5,671","🔁 21,340","❤️ 9,876"]},
-{n:"さくらの推し活",h:"@sakura_act",t:"24歳の大人に恋愛するなは無理があると思う。叩く方向じゃなくて、本人コメント待とうよ",m:["💬 432","🔁 3,987","❤️ 22,150"]},
+{n:"さくらの推し活",h:"@sakura_act",t:"23歳の大人に恋愛するなは無理があると思う。叩く方向じゃなくて、本人コメント待とうよ",m:["💬 432","🔁 3,987","❤️ 22,150"]},
 {n:"まとめ速報",h:"@matome_soku",t:"事務所コメント「プライベートは本人に任せております」＝事実上認めたと話題に #大翔熱愛",m:["💬 3,020","🔁 18,442","❤️ 7,650"]},
 ];
 function avaTxt(name){let h=0;for(const c of name)h=(h*31+c.charCodeAt(0))%360;return `<span class="ava-txt" style="background:hsl(${h},55%,55%)">${name.trim()[0]||"？"}</span>`}
@@ -1460,11 +1460,11 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
 /* ===== v43: news - tappable calm articles + comments on the scandal article ===== */
 (function(){
   const CALM_ARTS=[
-   {h:"人気アイドル、ワールドツアーの追加公演を発表　チケット争奪戦へ",m:"エンタメ通信 ・ 18:20配信",img:"assets/stage.jpg",body:`<p>人気アイドル・井汲大翔（24）のワールドツアーに追加公演が発表された。大阪と東京での2公演で、ファンクラブ先行は来週から受け付ける。</p><div class="box">本人コメント「待っててくれてありがとう。絶対に来てよかったって思えるステージにします」</div><p>前回のツアーは全公演が完売。今回もチケットの争奪戦が予想される。</p>`},
+   {h:"人気アイドル、ワールドツアーの追加公演を発表　チケット争奪戦へ",m:"エンタメ通信 ・ 18:20配信",img:"assets/stage.jpg",body:`<p>人気アイドル・井汲大翔（23）のワールドツアーに追加公演が発表された。大阪と東京での2公演で、ファンクラブ先行は来週から受け付ける。</p><div class="box">本人コメント「待っててくれてありがとう。絶対に来てよかったって思えるステージにします」</div><p>前回のツアーは全公演が完売。今回もチケットの争奪戦が予想される。</p>`},
    {h:"ファンミーティングで見せた“王子様衣装”がSNSで話題に",m:"芸能デスク ・ 17:05配信",img:"assets/crown.jpg",body:`<p>週末に開催されたファンミーティングで井汲大翔が披露した白い王子様衣装が、SNSで大きな話題になっている。投稿された写真は数時間で数万件のいいねを集めた。</p><div class="box">ファンの声「似合いすぎて現実味がない」「この衣装で登場した瞬間、会場の空気が変わった」</div><p>ファンミーティングは今後も各地で開催予定だという。</p>`}
   ];
   $$("#news-list .newsrow").forEach((r,i)=>{ const A=CALM_ARTS[i]; if(!A) return; r.style.cursor="pointer"; r.addEventListener("click",()=>{ $("#news-list").style.display="none"; const a=$("#news-article"); a.style.display="block"; a.innerHTML=`<div class="article"><button class="btn-main" style="background:#f2f2f7;width:auto;padding:7px 14px;margin:0 0 12px" onclick="newsBack()">‹ 一覧に戻る</button><h2>${A.h}</h2><div class="m">${A.m}</div><img src="${A.img}" alt="" style="width:100%;border-radius:12px;margin:6px 0 12px">${A.body}</div>`; $("#news-scroll").scrollTop=0; }); });
-  const NC=[["手つなぎは決定的すぎる…","3,204"],["24歳、大人同士の恋愛なら良くない？","5,891"],["ネックレスお揃いは、匂わせだったのか","1,102"],["ファンミで見たあの笑顔、彼女に向けられてたのかな","2,468"],["活動は続けてほしい。事務所の対応待ち","4,317"]];
+  const NC=[["手つなぎは決定的すぎる…","3,204"],["23歳、大人同士の恋愛なら良くない？","5,891"],["ネックレスお揃いは、匂わせだったのか","1,102"],["ファンミで見たあの笑顔、彼女に向けられてたのかな","2,468"],["活動は続けてほしい。事務所の対応待ち","4,317"]];
   const _oa=openArticle; openArticle=function(){ _oa(); const art=$("#news-article .article"); if(art&&!art.querySelector(".nc-wrap")){ const w=document.createElement("div"); w.className="nc-wrap"; w.innerHTML=`<h3 style="margin-top:22px;font-size:15.5px">コメント <span style="color:#8e8e93;font-size:12.5px">8,412件</span></h3>`+NC.map(c=>`<div style="padding:10px 0;border-bottom:1px solid #f2f2f7"><div style="font-size:14px;line-height:1.75">${c[0]}</div><div style="font-size:12.5px;color:#8e8e93;margin-top:3px"><span class="nc-like" style="cursor:pointer">♡ ${c[1]}</span> ・ 返信</div></div>`).join(""); art.appendChild(w); } };
   document.addEventListener("click",e=>{ const l=e.target.closest(".nc-like"); if(!l) return; const on=l.dataset.on==="1"; const num=parseInt(l.textContent.replace(/[^0-9]/g,""))||0; l.textContent=(on?"♡ ":"❤️ ")+(on?Math.max(0,num-1):num+1).toLocaleString("ja-JP"); l.dataset.on=on?"":"1"; l.style.color=on?"":"#e0245e"; l.style.fontWeight=on?"":"700"; });
 })();
@@ -6782,9 +6782,13 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
   award:'<circle cx="12" cy="8" r="6"/><path d="M15.5 13 17 22l-5-3-5 3 1.5-9"/>',
   ban:'<circle cx="12" cy="12" r="10"/><path d="M4.9 4.9l14.2 14.2"/>',
   user:'<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',
-  palette:'<path d="M12 3a9 9 0 1 0 0 18c1.4 0 2-.9 2-1.8 0-.7-.4-1.2-.4-2 0-1 .8-1.7 1.9-1.7H18a3.5 3.5 0 0 0 3.5-3.5C21.5 6.6 17.2 3 12 3z"/><circle cx="7.5" cy="10.5" r="1.4" fill="currentColor" stroke="none"/><circle cx="12" cy="7.3" r="1.4" fill="currentColor" stroke="none"/><circle cx="16.5" cy="10.5" r="1.4" fill="currentColor" stroke="none"/>'
+  palette:'<path d="M12 3a9 9 0 1 0 0 18c1.4 0 2-.9 2-1.8 0-.7-.4-1.2-.4-2 0-1 .8-1.7 1.9-1.7H18a3.5 3.5 0 0 0 3.5-3.5C21.5 6.6 17.2 3 12 3z"/><circle cx="7.5" cy="10.5" r="1.4" fill="currentColor" stroke="none"/><circle cx="12" cy="7.3" r="1.4" fill="currentColor" stroke="none"/><circle cx="16.5" cy="10.5" r="1.4" fill="currentColor" stroke="none"/>',
+  news:'<path d="M4 22h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0V9"/><path d="M18 14h-8M15 18h-5M10 6h8v4h-8z"/>',
+  gift:'<polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>',
+  gear:'<circle cx="12" cy="12" r="3.2"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06A1.7 1.7 0 0 0 15 19.4a1.7 1.7 0 0 0-1 1.55V21a2 2 0 1 1-4 0v-.09A1.7 1.7 0 0 0 9 19.4a1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.55-1H3a2 2 0 1 1 0-4h.09A1.7 1.7 0 0 0 4.6 9a1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-1.55V3a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1 1.51 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.4 9c.23.6.86 1 1.51 1H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.51 1z"/>',
+  beer:'<path d="M5 9h11v10a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2z"/><path d="M16 11h2.2a2.7 2.7 0 0 1 0 5.4H16"/><path d="M5 9c-.6-2 .8-3.4 2.4-3.2C8 4.2 9.6 3.4 11 4c1.4-.6 3-.1 3.6 1.4 1.2.1 2 1.2 1.9 2.6"/>'
  };
- const EMAP={"❤":"heart","♥":"heart","♡":"heart","💬":"comment","✈":"share","↗":"share","🔖":"bookmark","🔁":"repost","🏠":"home","🎬":"reels","🔍":"search","📷":"camera","📸":"camera","🌼":"image","🖼":"image","⚙":"sliders","📞":"phone","🧭":"compass","🎵":"music","♪":"music","🔥":"flame","🔔":"bell","🔒":"lock","📌":"pin","🔗":"link","👁":"eye","📖":"book","👥":"users","📅":"calendar","🗓":"calendar","📝":"edit","✏":"edit","👍":"thumb","☑":"badge","🎓":"award","💘":"heart","📩":"share","🐦":"edit","🚫":"ban","👤":"user","🎨":"palette","✔":"badge"};
+ const EMAP={"❤":"heart","♥":"heart","♡":"heart","💬":"comment","✈":"share","↗":"share","🔖":"bookmark","🔁":"repost","🏠":"home","🎬":"reels","🔍":"search","📷":"camera","📸":"camera","🌼":"image","🖼":"image","⚙":"gear","📞":"phone","🧭":"compass","🎵":"music","♪":"music","🔥":"flame","🔔":"bell","🔒":"lock","📌":"pin","🔗":"link","👁":"eye","📖":"book","👥":"users","📅":"calendar","🗓":"calendar","📝":"edit","✏":"edit","👍":"thumb","☑":"badge","🎓":"award","💘":"heart","📩":"share","🐦":"edit","🚫":"ban","👤":"user","🎨":"palette","✔":"badge","🍺":"beer","🍻":"beer","🗞":"news","📰":"news","🎁":"gift"};
  const svgFor=n=>'<svg class="ic ic-'+n+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+P[n]+'</svg>';
  const css=document.createElement("style");
  css.textContent="svg.ic{width:1.18em;height:1.18em;vertical-align:-0.2em}"+
@@ -6822,7 +6826,7 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
   const nodes=[]; while(tw.nextNode()) nodes.push(tw.currentNode);
   nodes.forEach(swapText);
  }
- const SEL=".appicon .ic,#ig-bnav button,#his-bnav button,.ig-post .acts>span,.ig-post .acts>b,.feed-card>div:first-child,.ph,.like-btn,.rp-btn,.save-btn,.tt-likes,.tt-cmt-open,.cmt-like,.toast,#push-ic,.setrow,[data-ti],.call-btns .cb,#ig-sheet button,.post-menu>div,#nao-story-viewers,.page-head h1,#w-title,#line-call-btn,.mt>span,.mt>b,.vw-n,#v-ig button,#v-hisig button,.line-head,.lh-acts,#album-tabs button";
+ const SEL=".appicon .ic,#ig-bnav button,#his-bnav button,.ig-post .acts>span,.ig-post .acts>b,.feed-card>div:first-child,.ph,.like-btn,.rp-btn,.save-btn,.tt-likes,.tt-cmt-open,.cmt-like,.toast,#push-ic,.setrow,[data-ti],.call-btns .cb,#ig-sheet button,.post-menu>div,#nao-story-viewers,.page-head h1,#w-title,#line-call-btn,.mt>span,.mt>b,.vw-n,#v-ig button,#v-hisig button,.line-head,.lh-acts,#album-tabs button,.ltab,.talkrow .nm";
  function process(root){
   if(!root||root.nodeType!==1) return;
   const els=new Set();
@@ -7073,6 +7077,48 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
   const sb=row.querySelector(".sendbtn");
   if(sb){ sb.innerHTML=PLANE; sb.setAttribute("aria-label","送信"); sb.style.width="38px"; sb.style.height="38px"; sb.style.display="grid"; sb.style.placeItems="center"; sb.style.padding="0"; sb.style.flex="none"; }
  });
+})();
+
+
+/* ===== v388: group + party chats get sticker bars too; member panel clears the status bar ===== */
+(function(){
+ "use strict";
+ const css=document.createElement("style");
+ css.textContent="#phone #member-panel .line-head{padding-top:58px!important}"+
+ ".g-stamp-bar{display:none;flex-wrap:wrap;gap:6px;padding:10px 12px;background:#f7f7f9;border-top:1px solid #ececf0}"+
+ ".g-stamp-bar.on{display:flex}";
+ document.head.appendChild(css);
+ const EMS=["❤️","😆","🥺","👍","🍺","✨","😎","🙏"];
+ function wire(chatSel,boxSel,react){
+  const view=document.querySelector(chatSel); if(!view) return;
+  const row=view.querySelector(".line-input"); const box=document.querySelector(boxSel);
+  if(!row||!box) return;
+  const bar=document.createElement("div"); bar.className="g-stamp-bar";
+  EMS.forEach(em=>{ const b=document.createElement("button"); b.className="stk-btn"; b.textContent=em;
+   b.addEventListener("click",()=>{ bar.classList.remove("on");
+    const d=document.createElement("div"); d.className="msg me";
+    d.innerHTML='<span style="font-size:38px;line-height:1.1">'+em+'</span><span class="meta pr">'+nowTime()+'</span>';
+    box.appendChild(d); box.scrollTop=box.scrollHeight;
+    if(react&&Math.random()<0.55) setTimeout(()=>react(),1300+Math.random()*900);
+   }); bar.appendChild(b); });
+  row.parentNode.insertBefore(bar,row);
+  const plus=row.querySelector(":scope > span");
+  if(plus){ plus.style.cursor="pointer"; plus.addEventListener("click",()=>bar.classList.toggle("on")); }
+ }
+ wire("#group-chat","#gchat",()=>{ try{ const n=["ゆい","みさき","りな"][Math.floor(Math.random()*3)]; gMsg(n,["😆","❤️","👍","🍺"][Math.floor(Math.random()*4)]); }catch(e){} });
+ wire("#party-chat","#pchat",()=>{ try{ const n=["ゆい","みさき","りな","ゆうた","かず"][Math.floor(Math.random()*5)]; const b=document.querySelector("#pchat"); const d=document.createElement("div"); d.className="msg him"; d.innerHTML=(typeof GPHOTO!=="undefined"&&GPHOTO[n]?'<img class="avatar" src="'+GPHOTO[n]+'" width="34" height="34" alt="">':'')+'<div><div class="who">'+n+'</div><span class="bub">'+["😆","❤️","👍","🍻"][Math.floor(Math.random()*4)]+'</span></div><span class="meta">'+nowTime()+'</span>'; b.appendChild(d); b.scrollTop=b.scrollHeight; }catch(e){} });
+})();
+
+
+/* ===== v388b: search field gets a real icon; her profile-music note is SVG ===== */
+(function(){
+ "use strict";
+ const si=document.querySelector("#line-search");
+ if(si){ si.placeholder="トークを検索";
+  si.style.backgroundImage='url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%238e8e93\' stroke-width=\'2.4\' stroke-linecap=\'round\'%3E%3Ccircle cx=\'11\' cy=\'11\' r=\'7\'/%3E%3Cpath d=\'M21 21l-4.3-4.3\'/%3E%3C/svg%3E")';
+  si.style.backgroundRepeat="no-repeat"; si.style.backgroundPosition="11px center"; si.style.backgroundSize="15px 15px"; si.style.paddingLeft="33px"; }
+ document.querySelectorAll("#line-list span").forEach(sp=>{ if(sp.children.length===0&&(sp.textContent||"").trim()==="🎵"){
+  sp.innerHTML='<svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="#3a3a3c" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>'; } });
 })();
 
 /* ===== v41: individual friend chats (yui / misaki / rina) ===== */
