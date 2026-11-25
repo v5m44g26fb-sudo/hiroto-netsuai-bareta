@@ -399,12 +399,8 @@ input,textarea{font-size:16px!important}
 </head>
 <body>
 <header class="page-head">
-<div class="ph-kicker">スマホ風 SNSゲーム</div>
 <h1><svg class="ph-flame" viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="tg352" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#fa7e1e"/><stop offset="1" stop-color="#ff2e63"/></linearGradient></defs><path d="M12 22c4.4 0 7-2.8 7-6.5 0-3.2-2.1-5.4-3.5-7C14 7.6 13 6 13 4c-3 2-5.5 5-5.5 8-1-.5-1.7-1.3-2.3-2.5C4.4 11.3 5 13.6 5 15.5 5 19.2 7.6 22 12 22z" fill="url(#tg352)"/></svg><span>熱愛バレた件</span></h1>
-<div class="ph-romaji">NETSUAI BARETA KEN</div>
-<div class="ph-rule"></div>
 <p>アイドル・ひろととの熱愛がスクープされた日。Xとインスタが爆発して、炎上して、彼からLINEがくる——スマホ風SNSゲーム。</p>
-<div class="ph-meta">創作フィクション ／ 全6話 ＋ 炎上編・翌朝編</div>
 <p class="src">土台メモ：iPhone枠は GitHub の MIT ライセンス系モック（<a href="https://github.com/c2prods/Project-Tyson" target="_blank" rel="noopener">c2prods/Project-Tyson</a> 等）の構造を参考に自作し、アプリ群の作りは自作ゲーム『キープ管理中！』の方式を流用。写真はなおが送ってくれたものだけを使用。これは創作フィクションです。</p>
 </header>
 
@@ -741,7 +737,7 @@ input,textarea{font-size:16px!important}
 <div class="setrow"><span>📞 通話した回数</span><span style="color:#8e8e93;font-size:12.5px" id="set-calls">0回</span></div>
 <button class="btn-main" style="background:#ff3b30;color:#fff;width:100%;margin:6px 0 12px" onclick="location.reload()">🔁 物語を最初からやり直す</button>
 <div style="font-size:13px;font-weight:800;margin:2px 2px 8px">📞 通話履歴</div><div id="set-calllog" style="background:#fff;border-radius:12px;padding:6px 14px;margin-bottom:6px"><div style="font-size:12.5px;color:#8e8e93;padding:8px 0">まだ通話はない</div></div><button id="calllog-clear" style="background:none;border:none;color:#8e8e93;font-size:12px;cursor:pointer;font-family:inherit;padding:2px 2px 12px">通話履歴を消す</button>
-<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v352</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
+<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v353</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
 </div>
 </section>
 
@@ -6889,17 +6885,14 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
  "use strict";
  const css=document.createElement("style");
  css.textContent=
- ".page-head{padding:26px 16px 15px;position:relative}"+
- ".page-head::before{content:'';position:absolute;inset:0;background:radial-gradient(360px 160px at 50% 16%,rgba(214,41,118,.22),transparent 70%);pointer-events:none}"+
- ".ph-kicker{display:inline-block;font-size:10px;letter-spacing:.34em;text-indent:.34em;color:#ff8fab;border:1px solid rgba(255,143,171,.5);border-radius:999px;padding:4px 11px;background:rgba(214,41,118,.08);margin-bottom:12px;position:relative}"+
- ".page-head h1{font-size:31px;font-weight:900;letter-spacing:.05em;display:flex;align-items:center;justify-content:center;gap:8px;text-shadow:0 2px 20px rgba(255,46,99,.35);position:relative}"+
- ".page-head h1 .ph-flame{width:29px;height:29px;flex:none}"+
- ".ph-romaji{margin-top:6px;font-size:9.5px;letter-spacing:.52em;text-indent:.52em;color:#8b93a7;position:relative}"+
- ".ph-rule{width:56px;height:2px;border-radius:2px;margin:13px auto 0;background:linear-gradient(90deg,#fa7e1e,#d62976);position:relative}"+
- ".page-head p{font-size:12.5px;color:#c3c9d6;line-height:1.75;margin-top:11px;position:relative}"+
- ".ph-meta{margin-top:9px;font-size:10.5px;letter-spacing:.14em;color:#7d8595;position:relative}"+
- ".page-head .src{margin-top:10px}"+
- "@media (max-width:430px){.phone{height:calc(100dvh - 176px)}.page-head{padding:15px 14px 9px}.page-head h1{font-size:26px}.page-head h1 .ph-flame{width:25px;height:25px}.page-head p{font-size:11.5px;margin-top:8px}.ph-rule{margin-top:9px}.ph-meta{display:none}}";
+ "body::before{content:'';position:fixed;inset:0;background:linear-gradient(rgba(9,10,15,.38),rgba(9,10,15,.62)),url('assets/crown.jpg') center 22%/cover no-repeat;filter:blur(9px) saturate(1.2);transform:scale(1.07);z-index:-1}"+
+ ".page-head{padding:22px 16px 12px;position:relative;background:linear-gradient(rgba(9,10,15,.44),rgba(9,10,15,.74)),url('assets/crown.jpg') center 42%/cover no-repeat;width:100%}"+
+ ".page-head::before{content:none}"+
+ ".page-head h1{font-size:29px;font-weight:900;letter-spacing:.05em;display:flex;align-items:center;justify-content:center;gap:8px;text-shadow:0 2px 16px rgba(0,0,0,.55)}"+
+ ".page-head h1 .ph-flame{width:27px;height:27px;flex:none;filter:drop-shadow(0 2px 8px rgba(255,46,99,.45))}"+
+ ".page-head p{font-size:12.5px;color:#dde3ee;line-height:1.75;margin-top:9px;text-shadow:0 1px 8px rgba(0,0,0,.6)}"+
+ ".page-head .src{margin-top:9px;color:#a7b0c2}"+
+ "@media (max-width:430px){.phone{height:calc(100dvh - 110px)}.page-head{padding:14px 14px 8px}.page-head h1{font-size:25px}.page-head h1 .ph-flame{width:23px;height:23px}.page-head p{font-size:11.5px;margin-top:7px}}";
  document.head.appendChild(css);
  /* Instagram's real app icon wherever a notification shows one */
  const IGMINI='<svg viewBox="0 0 58 58" style="width:100%;height:100%;display:block"><defs><linearGradient id="igm352" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#feda75"/><stop offset=".35" stop-color="#fa7e1e"/><stop offset=".62" stop-color="#d62976"/><stop offset=".85" stop-color="#962fbf"/><stop offset="1" stop-color="#4f5bd5"/></linearGradient></defs><rect width="58" height="58" fill="url(#igm352)"/><g fill="none" stroke="#fff" stroke-width="3.6"><rect x="14" y="14" width="30" height="30" rx="9"/><circle cx="29" cy="29" r="7.6"/></g><circle cx="40.6" cy="17.4" r="2.4" fill="#fff"/></svg>';
