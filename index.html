@@ -737,7 +737,7 @@ input,textarea{font-size:16px!important}
 <div class="setrow"><span>📞 通話した回数</span><span style="color:#8e8e93;font-size:12.5px" id="set-calls">0回</span></div>
 <button class="btn-main" style="background:#ff3b30;color:#fff;width:100%;margin:6px 0 12px" onclick="location.reload()">🔁 物語を最初からやり直す</button>
 <div style="font-size:13px;font-weight:800;margin:2px 2px 8px">📞 通話履歴</div><div id="set-calllog" style="background:#fff;border-radius:12px;padding:6px 14px;margin-bottom:6px"><div style="font-size:12.5px;color:#8e8e93;padding:8px 0">まだ通話はない</div></div><button id="calllog-clear" style="background:none;border:none;color:#8e8e93;font-size:12px;cursor:pointer;font-family:inherit;padding:2px 2px 12px">通話履歴を消す</button>
-<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v391</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
+<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v392</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
 </div>
 </section>
 
@@ -7361,6 +7361,99 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
  setInterval(function(){ if(!panel||panel.style.display==="none") return;
   var inChat=["#line-chat","#group-chat","#friend-chat","#party-chat"].some(function(sel){ var el=document.querySelector(sel); return el && el.style.display==="flex"; });
   if(inChat) panel.style.display="none"; },800);
+})();
+
+
+/* ===== v392: IG pack in the Tinder edition's line - story chrome (its v652), activity navigation + follow-back (its v970/977), followers sheet (its v643), persistent saves (its v1036) ===== */
+(function(){
+ "use strict";
+ var css=document.createElement("style");
+ css.textContent=".story-chrome{position:absolute;left:0;right:0;top:74px;display:flex;align-items:center;gap:9px;padding:0 14px;z-index:6;pointer-events:none}"
+  +".story-chrome img{width:32px;height:32px;border-radius:50%;object-fit:cover;border:1.5px solid rgba(255,255,255,.7)}"
+  +".story-chrome .snm{color:#fff;font-weight:700;font-size:13.5px;text-shadow:0 1px 4px rgba(0,0,0,.45)}"
+  +".story-chrome .stm{color:rgba(255,255,255,.75);font-size:12.5px;text-shadow:0 1px 4px rgba(0,0,0,.45)}"
+  +".story-reply{position:absolute;left:0;right:0;bottom:0;display:flex;align-items:center;gap:11px;padding:12px 14px 26px;z-index:6;background:linear-gradient(transparent,rgba(0,0,0,.42))"
+  +"}"
+  +".story-reply input{flex:1;background:transparent;border:1.5px solid rgba(255,255,255,.75);border-radius:999px;padding:11px 15px;color:#fff;font-size:13.5px;font-family:inherit;outline:none}"
+  +".story-reply input::placeholder{color:rgba(255,255,255,.85)}"
+  +".story-reply button{background:none;border:none;cursor:pointer;display:flex;align-items:center;padding:2px}"
+  +"#fw-sheet{position:absolute;inset:0;background:#fff;z-index:330;display:none;flex-direction:column;color:#111}"
+  +"#fw-sheet .fw-head{display:flex;align-items:center;padding:58px 16px 10px;border-bottom:1px solid #efefef}"
+  +"#fw-sheet .fw-list{flex:1;overflow-y:auto;padding:6px 0}"
+  +".fw-row{display:flex;align-items:center;gap:11px;padding:8px 16px}"
+  +".fw-row img{width:44px;height:44px;border-radius:50%;object-fit:cover}"
+  +".fw-btn{margin-left:auto;border:none;border-radius:9px;padding:7px 13px;font-size:12.5px;font-weight:700;cursor:pointer;font-family:inherit;flex:none}"
+  +".act-fb{margin-left:auto;border:none;border-radius:8px;padding:6px 11px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;flex:none}";
+ document.head.appendChild(css);
+ var HEART='<svg viewBox="0 0 24 24" width="27" height="27" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.7C6.4 17 3 13.6 3 9.9 3 7.2 5 5 7.7 5c1.7 0 3.3.9 4.3 2.4C13 5.9 14.6 5 16.3 5 19 5 21 7.2 21 9.9c0 3.7-3.4 7.1-9 10.8z"/></svg>';
+ var HEART_ON='<svg viewBox="0 0 24 24" width="27" height="27" fill="#ff3040" stroke="#ff3040" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.7C6.4 17 3 13.6 3 9.9 3 7.2 5 5 7.7 5c1.7 0 3.3.9 4.3 2.4C13 5.9 14.6 5 16.3 5 19 5 21 7.2 21 9.9c0 3.7-3.4 7.1-9 10.8z"/></svg>';
+ var SHARE='<svg viewBox="0 0 24 24" width="25" height="25" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg>';
+ function chrome(view,ava,name,time){
+  if(!view||view.querySelector(".story-chrome")) return;
+  var h=document.createElement("div"); h.className="story-chrome";
+  h.innerHTML='<img src="'+ava+'" alt=""><span class="snm">'+name+'</span><span class="stm">'+time+'</span>';
+  view.appendChild(h);
+  var r=document.createElement("div"); r.className="story-reply";
+  r.innerHTML='<input type="text" placeholder="メッセージを送信…" maxlength="60"><button type="button" class="sr-heart">'+HEART+'</button><button type="button" class="sr-share">'+SHARE+'</button>';
+  r.addEventListener("pointerdown",function(e){ e.stopPropagation(); });
+  r.addEventListener("click",function(e){ e.stopPropagation(); });
+  var inp=r.querySelector("input");
+  r.querySelector(".sr-heart").addEventListener("click",function(){ var b=this; var on=b.dataset.on==="1"; b.dataset.on=on?"":"1"; b.innerHTML=on?HEART:HEART_ON; });
+  r.querySelector(".sr-share").addEventListener("click",function(){ if(typeof toast==="function") toast("シェアはこの世界ではできないよ"); });
+  inp.addEventListener("keydown",function(e){ if(e.key==="Enter"&&inp.value.trim()){ if(typeof toast==="function") toast("メッセージを送ったよ"); inp.value=""; inp.blur(); } });
+  view.appendChild(r); }
+ chrome(document.querySelector("#story-view"),"assets/line-avatar.jpg","193.hiroto_jixiang","2時間前");
+ chrome(document.querySelector("#nao-story-view"),"assets/nao-avatar4.jpg","nao_0324","5時間前");
+ /* activity: like row navigates to her post; follow row gains follow-back */
+ var actList=document.querySelector("#act-list");
+ if(actList){ actList.querySelectorAll(".act-row").forEach(function(row){
+   if(row.textContent.includes("いいね")){ row.style.cursor="pointer";
+    row.addEventListener("click",function(){ var p=document.querySelector("#ig-activity"); if(p) p.classList.remove("on");
+     var sc=document.querySelector("#ig-scroll"); var post=document.querySelector("#v-ig .ig-post");
+     if(sc&&post) sc.scrollTop=Math.max(0,post.offsetTop-70); }); }
+   if(row.textContent.includes("フォローし始めました")&&!row.querySelector(".act-fb")){
+    var b=document.createElement("button"); b.type="button"; b.className="act-fb"; b.textContent="フォローバック";
+    b.style.background="#0095f6"; b.style.color="#fff";
+    b.addEventListener("click",function(e){ e.stopPropagation(); var on=b.dataset.on==="1"; b.dataset.on=on?"":"1";
+     b.textContent=on?"フォローバック":"フォロー中"; b.style.background=on?"#0095f6":"#efefef"; b.style.color=on?"#fff":"#111"; });
+    row.appendChild(b); } }); }
+ /* followers sheet */
+ var sheet=null;
+ var FANS=[["wish_osaka","assets/default-avatar.svg"],["rottodan_23","assets/default-avatar.svg"],["hiroto_daily","assets/default-avatar.svg"],["saku_fan88","assets/default-avatar.svg"],["osaka_live","assets/default-avatar.svg"],["jixiang_jp","assets/default-avatar.svg"],["marron_papa","assets/default-avatar.svg"],["tasty_hiro","assets/default-avatar.svg"]];
+ var HERS=[["ゆい","assets/fr-yui.jpg"],["みさき","assets/fr-misaki.jpg"],["りな","assets/fr-rina.jpg"],["ゆうた","assets/fr-yuta.jpg"],["かず","assets/fr-kazu2.jpg"],["yui_s","assets/default-avatar.svg"],["sauna_m","assets/default-avatar.svg"]];
+ function buildSheet(){
+  var phone=document.querySelector("#phone"); if(!phone) return null;
+  var s=document.createElement("div"); s.id="fw-sheet";
+  s.innerHTML='<div class="fw-head"><b style="font-size:16px">フォロワー</b><button type="button" id="fw-x" style="margin-left:auto;background:none;border:none;font-size:19px;cursor:pointer">✕</button></div><div class="fw-list"></div>';
+  phone.appendChild(s);
+  s.querySelector("#fw-x").addEventListener("click",function(){ s.style.display="none"; });
+  return s; }
+ function openSheet(rows){
+  if(!sheet) sheet=buildSheet(); if(!sheet) return;
+  var list=sheet.querySelector(".fw-list");
+  list.innerHTML=rows.map(function(r){ return '<div class="fw-row"><img src="'+r[1]+'" alt=""><div style="min-width:0"><div style="font-weight:700;font-size:13.5px">'+r[0]+'</div></div><button type="button" class="fw-btn" style="background:#efefef;color:#111">フォロー中</button></div>'; }).join("");
+  list.querySelectorAll(".fw-btn").forEach(function(b){ b.addEventListener("click",function(){ var on=b.textContent==="フォローバック"; b.textContent=on?"フォロー中":"フォローバック"; b.style.background=on?"#efefef":"#0095f6"; b.style.color=on?"#111":"#fff"; }); });
+  sheet.style.display="flex"; }
+ function wireStats(viewSel,rows){
+  var v=document.querySelector(viewSel); if(!v) return;
+  v.querySelectorAll(".ig-stats > div, .ig-stats .stat").forEach(function(d){
+   if(d.textContent.includes("フォロワー")&&!d.dataset.fw){ d.dataset.fw="1"; d.style.cursor="pointer";
+    d.addEventListener("click",function(){ openSheet(rows); }); } }); }
+ wireStats("#v-hisig",FANS);
+ wireStats("#v-ig",HERS);
+ setTimeout(function(){ wireStats("#v-hisig",FANS); wireStats("#v-ig",HERS); },2500);
+ /* persistent saves */
+ var KEY="hb_igsave_v1";
+ function loadSet(){ try{ return new Set(JSON.parse(localStorage.getItem(KEY)||"[]")); }catch(e){ return new Set(); } }
+ function postKey(btn){ var post=btn.closest(".ig-post"); if(!post) return null; var img=post.querySelector("img.pimg, .pimg, img.ph-img"); if(!img) img=post.querySelector("img"); return img? (img.getAttribute("src")||"") : null; }
+ document.addEventListener("click",function(e){
+  var s=e.target.closest? e.target.closest(".save-btn"): null; if(!s) return;
+  setTimeout(function(){ var k=postKey(s); if(!k) return; var set=loadSet();
+   if(s.classList.contains("save-on")) set.add(k); else set.delete(k);
+   try{ localStorage.setItem(KEY,JSON.stringify([...set])); }catch(err){} },60); },true);
+ function applySaves(){ var set=loadSet(); if(!set.size) return;
+  document.querySelectorAll(".save-btn").forEach(function(s){ var k=postKey(s); if(k&&set.has(k)&&!s.classList.contains("save-on")) s.classList.add("save-on"); }); }
+ applySaves(); setTimeout(applySaves,1800); setTimeout(applySaves,4000);
 })();
 
 /* ===== v41: individual friend chats (yui / misaki / rina) ===== */
