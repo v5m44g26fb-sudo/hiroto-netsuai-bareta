@@ -787,7 +787,7 @@ input,textarea{font-size:16px!important}
 <div class="setrow"><span>📞 通話した回数</span><span style="color:#8e8e93;font-size:12.5px" id="set-calls">0回</span></div>
 <button class="btn-main" style="background:#ff3b30;color:#fff;width:100%;margin:6px 0 12px" onclick="location.reload()">🔁 物語を最初からやり直す</button>
 <div style="font-size:13px;font-weight:800;margin:2px 2px 8px">📞 通話履歴</div><div id="set-calllog" style="background:#fff;border-radius:12px;padding:6px 14px;margin-bottom:6px"><div style="font-size:12.5px;color:#8e8e93;padding:8px 0">まだ通話はない</div></div><button id="calllog-clear" style="background:none;border:none;color:#8e8e93;font-size:12px;cursor:pointer;font-family:inherit;padding:2px 2px 12px">通話履歴を消す</button>
-<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v408</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
+<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v409</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
 </div>
 </section>
 
@@ -1024,7 +1024,7 @@ function floodMentions(){const list=$("#x-men-list"); MENTIONS.forEach((m,i)=>la
 const IG_CMTS=[
 ["yun_o0","あんたなの？　大翔の相手って"],["rottdan_a","複雑だけど…大翔をよろしくお願いします"],["tokutei_jp","このカフェ、昨日の彼の投稿と同じ店だよね"],["m_support","炎上してるけど応援してます！"],["pass_fan","フォロワー3万超えおめでとう（違う）"],["hiro_wife（自称）","返して…とは言わない。幸せにして"],["yui_s","なお！？　これなおのアカウントだよね！？"],["geino_otaku","匂わせじゃなくて偶然だと思いたい"],["sakura_act","コメント欄荒れてるけど、あなたの日常はあなたのものだよ"],["anti_01","説明がほしい。ファンは泣いてるよ"],["canvas_mama","娘がファンで…複雑だけど、嘘のない二人でいてね"],["neutral_jp","騒ぎすぎ。そっとしておこうよ"],["hiro_gachi","大翔の笑顔が本物なら、それが答えだと思う"],["watcher_x","通知が止まらないアカウント、初めて見た"]
 ];
-function floodComments(){IG_CMTS.forEach((c,i)=>later(()=>{const d=document.createElement("div");d.className="cmt";d.innerHTML=`<b>${c[0]}</b>${c[1]}<span class="tm">今</span>`;$("#ig-cmts").appendChild(d);state.igCmt++;$("#ig-cmt-n").textContent=state.igCmt;$("#ig-bell").textContent="•";bump("ig");const h=document.createElement("div");h.className="cmt";if(i%3===0){h.innerHTML=`<b>${c[0]}</b>例の投稿、掘り返されてるよ…`;$("#his-cmts").appendChild(h)}},4000+i*6500))}
+function floodComments(){IG_CMTS.forEach((c,i)=>later(()=>{const d=document.createElement("div");d.className="cmt";d.innerHTML=`<b>${c[0]}</b>${c[1]}<span class="tm">今</span>`;$("#ig-cmts").appendChild(d);state.igCmt++;$("#ig-cmt-n").textContent=state.igCmt;$("#ig-bell").textContent="•";bump("ig");const h=document.createElement("div");h.className="cmt";if(i%3===0){const SUB=["例の投稿、掘り返されてるよ…","この写真、またバズってる","コメント欄すごいことになってる","過去の投稿まで見られてるね","通知、止まらなそう"];h.innerHTML=`<b>${c[0]}</b>`+SUB[(i/3)|0];$("#his-cmts").appendChild(h)}},4000+i*6500))}
 const DMS=[
 ["yun_o0","話聞かせて？　本当なの？"],["geino_scoop","週刊デジタルです。コメントいただけませんか"],["m_support","味方もいるからね"],["tokutei_jp","ネックレスのブランド教えて"],["yui_s","なお電話出て！！"],["hiro_fan_88","大翔の好きなところ教えてください"]
 ];
@@ -1276,7 +1276,7 @@ function genContent(){ if(state._genN>=16) return; state._genN=(state._genN||0)+
 }
 /* ===== v2: LINE free send + his auto replies ===== */
 const REPLY_RULES=[
- [/好き|大好き|すき/,["俺もやで。……何回聞いても、うれしい","なおに言われると、特別やねん"]],
+ [/大好き|好きやで|好きだよ|好きになっちゃった|ひろとが好き|大翔が好き/,["俺もやで。……何回聞いても、うれしい","なおに言われると、特別やねん"]],
  [/大丈夫/,["ほんまに大丈夫なん？","嘘やったら、顔見たらわかるで"]],
  [/ごめん/,["なんで謝るん","謝らんでいいとこで謝るの、なおの癖やな"]],
  [/会いたい|あいたい/,["俺も会いたい。予定、空けとく","もうちょいだけ、待ってな"]],
@@ -1285,10 +1285,10 @@ const REPLY_RULES=[
  [/電話|声/,["俺から、かけよか","なおの声聞くと、ほっとする"]],
  [/おはよ/,["おはよ。起きれたんや","朝のなお、レアやな"]],
  [/おやすみ/,["おやすみ。ええ夢見いや","明日もLINEするわ"]],
- [/炎上|ニュース|X|インスタ/,["嫌なんは、見んくていい","俺の隣は、静かやから"]],
+ [/炎上|ニュース|X|インスタ/,["嫌なんは、見んくていい","俺とのLINEは、いつも通りでええから"]],
 ];
-const REPLY_FREE=["聞いてるよ","もっと聞かせて","なおの話し方、すきやわ","へえ","ほんまに？","続き、気になる"];
-const REPLY_CALM=["うん、聞いてる","今日のなお、どんな日やった？","カフェオレ、飲みたくなってきた","ふふ"];
+const REPLY_FREE=["聞いてるよ","もっと聞かせて","なおの話し方、すきやわ","へえ","ほんまに？","続き、気になる","うんうん","それで？","なおの話、聞くのすきやねん","へえ、知らんかった","たしかに","わかるわ、それ","もうちょっと聞かせて"];
+const REPLY_CALM=["うん、聞いてる","今日のなお、どんな日やった？","カフェオレ、飲みたくなってきた","ふふ","のんびりしよな","無理せんでええ日も、必要やで","なおのペースでええよ","今日はゆっくりな日？","おつかれさま、ほんまに"];
 let replyIdx=0;
 function himReply(text,cb){ const _hdone=()=>{ if(typeof cb==="function") cb(); }; if(state.act2&&!state._vmA2){ state._vmA2=true; (async()=>{ await himVoice("assets/vm-act2free.mp3","0:06"); _hdone(); })(); return; }
   if(!state.started&&state.phase==="prologue"&&state.chapter>=6&&!state._vmCalm){ state._vmCalm=true; (async()=>{ await himVoice("assets/vm-calmfree.mp3","0:04"); _hdone(); })(); return; }
@@ -1319,7 +1319,7 @@ const VOICE_SCHED=[
 let _cv1=null,_cv2=null;
 function startCallVoice(){
   stopCallVoice();
-  state._callN=(state._callN||0)+1; const useD=!!state.act2&&state._callN>=4; const useC=!useD&&state._callN>=3; const useB=!useD&&!useC&&(state.act2||state._callN>1); const sched=useD?VOICE_SCHED_D:(useC?VOICE_SCHED_C:(useB?VOICE_SCHED_B:VOICE_SCHED));
+  state._callN=(state._callN||0)+1; const useD=!!state.act2&&state._callN>=4; const useB=!useD&&!!state.act2&&state._callN<=2; const useA=!useD&&!useB&&!!state.started&&!state.act2&&state._callN===1; const useC=!useD&&!useB&&!useA; const sched=useD?VOICE_SCHED_D:(useC?VOICE_SCHED_C:(useB?VOICE_SCHED_B:VOICE_SCHED));
   _cv1=new Audio(useD?"assets/call-d1.mp3":(useC?"assets/vm-callc1.mp3":(useB?"assets/voice-b1.mp3":"assets/voice-1.mp3"))); _cv2=new Audio(useD?"assets/call-d2.mp3":(useC?"assets/vm-callc2.mp3":(useB?"assets/voice-b2.mp3":"assets/voice-2.mp3")));
   _cv1.volume=1; _cv2.volume=1;
   sched.forEach(([ms,txt])=>{ timers.push(setTimeout(()=>{ const el=$("#call-sub"); if(el&&$("#v-call").classList.contains("on")) el.textContent=txt; },ms)); });
@@ -1334,7 +1334,7 @@ function showIncomingCall(caller){ state.caller=caller||"hiroto"; const mgr=stat
   $("#call-inc-img").src=mgr?"assets/default-avatar.svg":"assets/line-avatar.jpg";
   $("#call-inc-sub").textContent=mgr?"事務所からの着信。何の話だろう…":"ドキドキの着信。応答する？";
   show("call"); $("#call-incoming").style.display="flex"; $("#call-active").style.display="none"; ringStart(); }
-const MGR_LINES=["「…もしもし、なおさんですか」","「彼は今、事務所で待機しています」","「今日はどうか、静かに過ごしてください」","「彼のことは、私たちが守ります」","「…彼が『心配させるな』って、うるさくて」"];
+const MGR_LINES=["「…もしもし、なおさんですか」","「彼は今、事務所で待機しています」","「今日はどうか、静かに過ごしてください」","「彼のことは、私たちが守ります」","「…彼が『心配させるな』と、何度も言うものですから」"];
 $("#call-answer").addEventListener("click",()=>{ ringStop(); $("#call-incoming").style.display="none"; $("#call-active").style.display="flex"; const mgr=state.caller==="manager";
   $("#call-act-name").textContent=mgr?"マネージャー（事務所）":"ひろと"; $("#call-act-img").src=mgr?"assets/default-avatar.svg":"assets/line-avatar.jpg";
   startCall(mgr?MGR_LINES:null); state._answered=true; state._callWho=mgr?"マネージャー（事務所）":"ひろと"; });
@@ -1446,10 +1446,10 @@ function vib(p){ if(state.vib===false) return; try{ navigator.vibrate(p); }catch
 
 /* ===== v11: voice expansion ===== */
 const VOICE_SCHED_C=[
- [0,"もしもし。……寝る前に、声聞きたくなって"],
- [4200,"……今日さ、なおのこと考えとった"],
- [9200,"今日もおつかれさま。……早く寝えや、なお"],
- [14800,"……おやすみ。また明日な"]];
+ [0,"「もしもし。……寝る前に、声聞きたくなって」"],
+ [4200,"「……今日さ、なおのこと考えとった」"],
+ [9200,"「今日もおつかれさま。……早く寝えや、なお」"],
+ [14800,"「……おやすみ。また明日な」"]];
 const VOICE_SCHED_B=[
  [0,"「…おはよ、なお」"],
  [2100,"「昨日はほんまにごめんな」"],
@@ -2299,7 +2299,7 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
  const _hr=himReply;
  himReply=async function(t,cb){ const r=await _hr(t,cb);
   if((state._vmCalm||state._vmA2)&&!state._fuWait&&Math.random()<0.18){ state._fuWait=true;
-   const FU=["…なんて","いや、なんでもない","…もうちょっとだけ、話そ","寝る前にもっかい、声聞かせてや"];
+   const FU=["…なんて","いや、なんでもない","…もうちょっとだけ、話そ","もっかい、声聞かせてや"];
    setTimeout(()=>{ state._fuWait=false; himMsg(FU[Math.floor(Math.random()*FU.length)]); },2800); }
   return r; };
 })();
@@ -2488,7 +2488,7 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
    "りな":[["f","ねえ、土曜わたし新しい服で行く！"],["f","写真たくさん撮ろ"]],
    "ゆうた":[["f","そういえば、ひろとくんとは会ってるん？"],["f","……俺とも遊んでな"]],
    "かず":[["f","ゆうた、なおちゃんの話ばっかやで"],["f","平常心、平常心笑"]]};
-  const CALM={"ゆい":["幹事は大変やで笑","金曜、遅刻したら罰ゲームな"],
+  const CALM={"ゆい":["幹事は大変やで笑","土曜、遅刻したら罰ゲームな"],
    "みさき":["たまには早く寝なよ","その話、今度カフェで聞く"],
    "りな":["え、まじ！？","写真送って写真！"],
    "ゆうた":["なおちゃん、声聞きたいな","電話する？　……なんて"],
@@ -2507,7 +2507,7 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
     const G=(h>=5&&h<11)?["おはよう、なお","今日も頑張ろな"]:(h>=11&&h<17)?["お昼、食べた？","ちょっと休憩中"]:(h>=17&&h<23)?["おつかれさま","今日どうやった？"]:["まだ起きとるん？","夜更かしはほどほどに、な"];
     const g=G[Math.floor(Math.random()*G.length)];
     setTimeout(()=>{ if(!state.started) himMsg(g); },900); } }; }
- const AMB={2:[["yui","デートどうやった！？"]],3:[["rina","で、告白は！？"]],4:[["misaki","ネックレスの写真、見せて"]],5:[["yui","金曜の店、決めたよ！"]]};
+ const AMB={2:[["yui","今日のデート、楽しんできてね！？"]],3:[["rina","今日、なんかありそうじゃない！？"]],4:[["misaki","ネックレスの写真、見せて"]],5:[["yui","金曜の店、決めたよ！"]]};
  setInterval(()=>{ if(state.started||state.phase!=="prologue"||state.chapter<2) return;
   const lv=document.querySelector("#v-line"); if(lv&&lv.classList.contains("on")) return;
   state._amb=state._amb||{}; if(state._amb[state.chapter]) return;
@@ -3023,7 +3023,7 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
   ["☕ 初デートに行った", state.chapter>=2],
   ["💌 告白を受けた", state.chapter>=3],
   ["📿 お揃いのネックレス", state.chapter>=4],
-  ["🔥 炎上を生き延びた", state.phase==="scandal"||state.act2],
+  ["🔥 炎上を生き延びた", state.ended||!!state.act2],
   ["🌅 翌朝を迎えた", !!state.act2],
   ["👥 フォロワー1万人突破", num((document.querySelector("#ig-fol-n")||{}).textContent)>=10000],
   ["🖼 アルバム40枚", document.querySelectorAll("#ph-grid figure").length>=40],
@@ -3108,7 +3108,7 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
  const TOPICS=[
   [/サウナ|温泉|整い|整う/,["サウナ、俺も行きたい","今度、感想聞かせて","整いたい……"]],
   [/仕事|練習|レッスン|収録|ダンス練/,["今日はレッスンやった","今、休憩中","終わったらLINEするな"]],
-  [/ごはん|食べ|麺|ラーメン|カフェ|コーヒー|オレ/,["その店、気になる","カフェオレは甘め派やろ、なお","今度、連れてって"]],
+  [/ごはん|食べ|麺|ラーメン|カフェ|コーヒー/,["その店、気になる","カフェオレは甘め派やろ、なお","今度、連れてって"]],
   [/ライブ|ステージ|歌|ダンス/,["次のライブ、来てくれる？","今日のダンス、見てほしかった","歌、練習中"]],
   [/好き|会いたい|あいたい/,["俺も","……ありがとう、なお","照れるわ"]],
   [/犬|マロン|わんこ/,["マロン、元気やで","実家、帰りたいわ","マロンにも会わせたい"]],
@@ -3122,7 +3122,7 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
   if(state.phase==="scandal"&&!state.act2){ sub.textContent="既読にならない…"; sub.style.color="#999";
    setTimeout(()=>add(false,SLOW[ri++%SLOW.length]),2600); }
   else { sub.textContent="入力中…"; sub.style.color="#999";
-   setTimeout(()=>{ let r=null; for(const [re,pool] of TOPICS){ if(re.test(t)){ r=pool[Math.floor(Math.random()*pool.length)]; break; } } add(false,r||REPLIES[ri++%REPLIES.length]); sub.textContent="オンライン"; sub.style.color="#06c755"; },1700); } };
+   setTimeout(()=>{ let r=null; for(const [re,pool] of TOPICS){ if(re.source==="クリスマス"&&!state.act2) continue; if(re.test(t)){ r=pool[Math.floor(Math.random()*pool.length)]; break; } } add(false,r||REPLIES[ri++%REPLIES.length]); sub.textContent="オンライン"; sub.style.color="#06c755"; },1700); } };
  dm.querySelector("#hdm-send").addEventListener("click",send);
  dm.querySelector("#hdm-in").addEventListener("keydown",e=>{ if(e.key==="Enter") send(); });
  dm.querySelector("#hdm-x").addEventListener("click",()=>dm.style.display="none");
@@ -3963,7 +3963,7 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
 /* ===== v158: her IG feels alive - likes creep up and realistic comments drift in ===== */
 (function(){
  const view=document.querySelector("#v-ig"); if(!view) return;
- const CMTS=[["sauna_m","その写真、雰囲気すき"],["m2326","どこのカフェですか？"],["yui_s","また行こ〜！"],["hana_07","色味がきれい"],["k___na","なおちゃんの投稿いつも癒される"]];
+ const CMTS=[["sauna_m","その写真、雰囲気すき"],["m2326","その麺、私も食べたい"],["yui_s","また行こ〜！"],["hana_07","色味がきれい"],["k___na","なおちゃんの投稿いつも癒される"]];
  let n=0;
  setInterval(()=>{ if(!view.classList.contains("on")) return;
   const like=document.querySelector("#nao-like-n");
@@ -4132,7 +4132,7 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
  const _hr5=himReply;
  const TOPICS=[
   [/プリン/,["そういえばプリン、結局買ったん？","プリンの話すると、なお思い出すわ"]],
-  [/カフェ|コーヒー|カフェオレ/,["この前行ったカフェ、また行きたいな","カフェオレ、飲みたくなってきた"]],
+  [/カフェ|コーヒー|カフェオレ/,["この前行ったカフェ、また行きたいな","カフェオレの話すると、飲みたくなるわ"]],
   [/サウナ/,["サウナ、最近行けてる？","整った？　ちゃんと休めてたらええけど"]],
   [/エビ|からあげ/,["エビの話、聞いたら腹減ってきた","からあげは揚げたてが一番やな"]],
   [/旅行|釜山|韓国/,["釜山の話すると、行きたくなるな","次の旅行、計画しよ"]],
@@ -4571,12 +4571,12 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
   [/かっこいい|イケメン/, "……急に言うなや。照れるやろ"],
   [/かわいい/, "かわいいは、なおのほうやろ"],
   [/声/, "声が好きって言われると、いちばん嬉しいかも"],
-  [/手/, "手、大きいやろ。……繋いだ時の、覚えてる？"],
-  [/結婚/, "……まだ早いやろ。でも、考えてへんわけちゃうで"],
-  [/ひろと|大翔/, "名前で呼ばれるの、なおだけやで。……もっと呼んで"]];
+  [/手つな|手を|手が|手、/, "手、大きいやろ。……繋いだ時の、覚えてる？", ()=>state.chapter>=2],
+  [/結婚/, "……まだ早いやろ。でも、考えてへんわけちゃうで", ()=>state.chapter>=4],
+  [/ひろと|大翔/, "名前で呼んでくれるの、やっぱ嬉しいわ。……もっと呼んで"]];
  const prev=himReply;
  himReply=function(t,cb){ const done=()=>{ if(typeof cb==="function") cb();
-   const hit=RULES.find(r=>r[0].test(t||""));
+   const hit=RULES.find(r=>r[0].test(t||"")&&(!r[2]||r[2]()));
    if(hit&&Math.random()<0.65) setTimeout(()=>{ try{ himMsg(hit[1]); }catch(e){} },1500); };
   return prev.call(this,t,done); };
 })();
@@ -5993,9 +5993,6 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
  const prev=himReply;
  himReply=function(t,cb){ const done=()=>{ if(typeof cb==="function") cb();
    try{ const s2=t||"";
-    if(/サクヤ|WISH|うぃしゅ|ウィッシュ/.test(s2)&&Math.random()<0.65){
-     const pool=["サクヤくん、か。……負けてられへんな、俺も","へえ、そんなに好きなんや。……ちょっとだけ、妬けるな","その話する時のなお、楽しそうやな。……うん、ええと思う"];
-     setTimeout(()=>himMsg(pool[Math.floor(Math.random()*pool.length)]),900); return; }
     if(/いくみん/.test(s2)&&Math.random()<0.6){
      setTimeout(()=>himMsg("……その呼び方、ファンの子らが使うやつやんな。なおに言われると、なんか変な感じするわ"),900); return; }
    }catch(e){} };
