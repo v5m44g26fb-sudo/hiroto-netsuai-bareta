@@ -671,9 +671,9 @@ input,textarea{font-size:16px!important}
           <div class="msg him"><img class="avatar" src="assets/fr-yui.jpg" width="34" height="34" alt=""><span><div class="gname">ゆい</div><span class="bub">次の飲みいつにする？</span></span></div>
           <div class="msg him"><img class="avatar" src="assets/fr-rina.jpg" width="34" height="34" alt=""><span><div class="gname">りな</div><span class="bub">私いつでも！！</span></span></div>
           <div class="msg him"><img class="avatar" src="assets/fr-misaki.jpg" width="34" height="34" alt=""><span><div class="gname">みさき</div><span class="bub">なおの予定次第じゃない？</span></span></div>
-          <div class="msg me"><span class="bub">来週の金曜なら空いてる！</span><span class="meta">既読 3<br>21:04</span></div>
-          <div class="msg him"><img class="avatar" src="assets/fr-yui.jpg" width="34" height="34" alt=""><span><div class="gname">ゆい</div><span class="bub">じゃあ金曜19時、梅田のあの店とっとくね🍻</span></span></div>
-          <div class="msg him"><img class="avatar" src="assets/fr-yui.jpg" width="34" height="34" alt=""><span><div class="gname">ゆい</div><span class="bub" style="background:#fff8e1">📝 ノートを作成しました<br>「金曜19時〜 梅田・海鮮の店🐟 予約：ゆい」</span></span></div>
+          <div class="msg me"><span class="bub">来週の土曜なら空いてる！</span><span class="meta">既読 3<br>21:04</span></div>
+          <div class="msg him"><img class="avatar" src="assets/fr-yui.jpg" width="34" height="34" alt=""><span><div class="gname">ゆい</div><span class="bub">じゃあ土曜19時、梅田のあの店とっとくね🍻</span></span></div>
+          <div class="msg him"><img class="avatar" src="assets/fr-yui.jpg" width="34" height="34" alt=""><span><div class="gname">ゆい</div><span class="bub" style="background:#fff8e1">📝 ノートを作成しました<br>「土曜19時〜 梅田・海鮮の店🐟 予約：ゆい」</span></span></div>
           <div class="msg him"><img class="avatar" src="assets/fr-misaki.jpg" width="34" height="34" alt=""><span><div class="gname">みさき</div><span class="bub" style="padding:5px"><img src="assets/nao-hl-20.jpg" style="width:150px;border-radius:8px;display:block" alt=""></span></span></div>
           <div class="msg him"><img class="avatar" src="assets/fr-misaki.jpg" width="34" height="34" alt=""><span><div class="gname">みさき</div><span class="bub">この前のチキン、また食べたい</span></span></div>
           <div class="msg him"><img class="avatar" src="assets/fr-rina.jpg" width="34" height="34" alt=""><span><div class="gname">りな</div><span class="bub" style="font-size:30px;background:none;box-shadow:none;padding:0">🍻</span></span></div>
@@ -787,7 +787,7 @@ input,textarea{font-size:16px!important}
 <div class="setrow"><span>📞 通話した回数</span><span style="color:#8e8e93;font-size:12.5px" id="set-calls">0回</span></div>
 <button class="btn-main" style="background:#ff3b30;color:#fff;width:100%;margin:6px 0 12px" onclick="location.reload()">🔁 物語を最初からやり直す</button>
 <div style="font-size:13px;font-weight:800;margin:2px 2px 8px">📞 通話履歴</div><div id="set-calllog" style="background:#fff;border-radius:12px;padding:6px 14px;margin-bottom:6px"><div style="font-size:12.5px;color:#8e8e93;padding:8px 0">まだ通話はない</div></div><button id="calllog-clear" style="background:none;border:none;color:#8e8e93;font-size:12px;cursor:pointer;font-family:inherit;padding:2px 2px 12px">通話履歴を消す</button>
-<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v409</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
+<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v410</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
 </div>
 </section>
 
@@ -961,7 +961,7 @@ addNewsHero(); addArticleDefault(); bump("news");
 setHeat(35);
 animateCount($("#ig-fol-n"),342,52814,26000); animateCount($("#w-ig"),342,52814,26000);
 animateCount($("#x-fol-n"),189,38427,26000); animateCount($("#w-x"),189,38427,26000);
-animateCount($("#his-fol-n"),81476,77900,26000,v=>(v/10000).toFixed(1)+"万");
+animateCount($("#his-fol-n"),81476,84900,26000,v=>(v/10000).toFixed(1)+"万");
 buildTrends(); buildTimeline(); toast("🔥 <b>炎上度上昇中</b>：トレンド1位を獲得");
 floodComments(); floodMentions(); floodDms(); every(genContent,15000); every(genAct,13000); every(bumpTrends,8000);
   state._imp=312; every(()=>{ if(state._imp<1480){ state._imp+=Math.floor(Math.random()*26+7); const el=$("#imp-n"); if(el) el.textContent=state._imp.toLocaleString("ja-JP")+"万"; } },3000);
@@ -1022,7 +1022,7 @@ const MENTIONS=[
 function floodMentions(){const list=$("#x-men-list"); MENTIONS.forEach((m,i)=>later(()=>{const d=document.createElement("div");d.className="post";d.innerHTML=`${avaTxt(m[0])}<span style="min-width:0"><span class="nm">${m[0].split("@")[0]}</span> <span class="hd">@${m[0].split("@")[1]||""} ・ 今</span><div class="tx">${m[1]}</div><div class="mt"><span>💬</span><span>🔁</span><span>❤️</span></div></span>`;list.prepend(d);bump("x");},5000+i*7000))}
 /* ============ Instagram floods ============ */
 const IG_CMTS=[
-["yun_o0","あんたなの？　大翔の相手って"],["rottdan_a","複雑だけど…大翔をよろしくお願いします"],["tokutei_jp","このカフェ、昨日の彼の投稿と同じ店だよね"],["m_support","炎上してるけど応援してます！"],["pass_fan","フォロワー3万超えおめでとう（違う）"],["hiro_wife（自称）","返して…とは言わない。幸せにして"],["yui_s","なお！？　これなおのアカウントだよね！？"],["geino_otaku","匂わせじゃなくて偶然だと思いたい"],["sakura_act","コメント欄荒れてるけど、あなたの日常はあなたのものだよ"],["anti_01","説明がほしい。ファンは泣いてるよ"],["canvas_mama","娘がファンで…複雑だけど、嘘のない二人でいてね"],["neutral_jp","騒ぎすぎ。そっとしておこうよ"],["hiro_gachi","大翔の笑顔が本物なら、それが答えだと思う"],["watcher_x","通知が止まらないアカウント、初めて見た"]
+["yun_o0","あんたなの？　大翔の相手って"],["rottdan_a","複雑だけど…大翔をよろしくお願いします"],["tokutei_jp","このカフェ、昨日の彼の投稿と同じ店だよね"],["m_support","炎上してるけど応援してます！"],["pass_fan","フォロワー爆増おめでとう（すごい）"],["hiro_wife（自称）","返して…とは言わない。幸せにして"],["yui_s","なお！？　これなおのアカウントだよね！？"],["geino_otaku","匂わせじゃなくて偶然だと思いたい"],["sakura_act","コメント欄荒れてるけど、あなたの日常はあなたのものだよ"],["anti_01","説明がほしい。ファンは泣いてるよ"],["canvas_mama","娘がファンで…複雑だけど、嘘のない二人でいてね"],["neutral_jp","騒ぎすぎ。そっとしておこうよ"],["hiro_gachi","大翔の笑顔が本物なら、それが答えだと思う"],["watcher_x","通知が止まらないアカウント、初めて見た"]
 ];
 function floodComments(){IG_CMTS.forEach((c,i)=>later(()=>{const d=document.createElement("div");d.className="cmt";d.innerHTML=`<b>${c[0]}</b>${c[1]}<span class="tm">今</span>`;$("#ig-cmts").appendChild(d);state.igCmt++;$("#ig-cmt-n").textContent=state.igCmt;$("#ig-bell").textContent="•";bump("ig");const h=document.createElement("div");h.className="cmt";if(i%3===0){const SUB=["例の投稿、掘り返されてるよ…","この写真、またバズってる","コメント欄すごいことになってる","過去の投稿まで見られてるね","通知、止まらなそう"];h.innerHTML=`<b>${c[0]}</b>`+SUB[(i/3)|0];$("#his-cmts").appendChild(h)}},4000+i*6500))}
 const DMS=[
@@ -1218,7 +1218,7 @@ function findLikeBtn(img){ let el=img; for(let k=0;k<4;k++){ el=el.nextElementSi
   const wrap=img.parentElement; if(wrap&&!wrap.classList.contains("scroll")){ const lb2=wrap.querySelector(".like-btn"); if(lb2) return lb2; } return null; }
 /* segmented stories */
 function buildSegs(){ if(state.started) return [{img:"assets/ig-food.jpg",txt:"食べまくってる🍚"},{img:null,txt:"驚かせてしまって、ごめんね。\nいつも本当にありがとう。"}];
-  if(state.phase==="prologue"&&state.chapter>=4) return [{img:"assets/roses.jpg",txt:"内緒やけど、\n幸せやねん"}];
+  if(state.phase==="prologue"&&state.chapter>=4) return [{img:"assets/roses.jpg",txt:"ええ日やった🌹"}];
   return [{img:"assets/ig-drink.jpg",txt:"今日もありがとう😎"},{img:"assets/ig-sushi.jpg",txt:"🍣 また行こ"}]; }
 let storySegs=[], storyIdx=0;
 function storyShow(i){ storyIdx=i; const sg=storySegs[i]; const img=$("#story-img"),txt=$("#story-txt");
@@ -2859,10 +2859,10 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
  const v=document.querySelector("#v-hisig"); if(!v) return;
  const row=v.querySelector(".stories"); if(!row) return;
  const HLS=[
-  ["🍚 ごはん","assets/ig-meal.jpg",[["assets/ig-meal.jpg","カフェの彼☕"],["assets/ig-sushi.jpg","寿司🍣"],["assets/cafe3.jpg","カフェで腕組み"]]],
+  ["🍚 ごはん","assets/ig-meal.jpg",[["assets/ig-meal.jpg","カフェ☕"],["assets/ig-sushi.jpg","寿司🍣"],["assets/cafe3.jpg","カフェで腕組み"]]],
   ["🎤 ライブ","assets/stage.jpg",[["assets/stage.jpg","ステージ"],["assets/crown.jpg","ファンミの日🤴"],["assets/crown-full.jpg","保存用"]]],
-  ["🌙 日常","assets/night.jpg",[["assets/night.jpg","夜の散歩"],["assets/glasses.jpg","メガネの日"],["assets/selfie.jpg","送ってくれた自撮り"]]],
-  ["☕ カフェ","assets/cafe3.jpg",[["assets/cafe3.jpg","カフェで腕組み"],["assets/hoodie.jpg","フーディ彼氏"],["assets/ig-drink.jpg","本人の投稿🥤"]]]];
+  ["🌙 日常","assets/night.jpg",[["assets/night.jpg","夜の散歩"],["assets/glasses.jpg","メガネの日"],["assets/selfie.jpg","自撮り"]]],
+  ["☕ カフェ","assets/cafe3.jpg",[["assets/cafe3.jpg","カフェで腕組み"],["assets/hoodie.jpg","フーディの日"],["assets/ig-drink.jpg","本人の投稿🥤"]]]];
  const player=document.createElement("div"); player.id="hl-player";
  player.style.cssText="position:absolute;inset:0;z-index:90;background:#000;display:none;flex-direction:column";
  player.innerHTML='<div id="hl-bars" style="display:flex;gap:4px;padding:52px 10px 8px"></div>'+
@@ -3701,7 +3701,7 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
  const sc=document.querySelector("#v-settings .scroll"); const vs=document.querySelector("#v-settings");
  if(!sc||!vs) return;
  const EPS=[
-  {t:"幕間 ― 雨の日の傘", sub:"第3話と第4話のあいだ", un:()=>state.chapter>=3, lines:[
+  {t:"幕間 ― 雨の日の傘", sub:"第3話と第4話のあいだ", un:()=>state.chapter>=4, lines:[
    ["n","告白の帰り道。駅が見えてきた頃、ぽつりと雨が落ちてきた。"],
    ["him","あ、降ってきた"],
    ["him","傘、1本しか持ってないねん"],
@@ -3730,8 +3730,8 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
    ["him","カフェオレの店な"],
    ["him","決まりや"],
    ["n","焦げた目玉焼きと、カフェオレの朝。何でもない朝が、特別だった。"]]},
-  {t:"幕間 ― 首もとの秘密", sub:"第4話と第5話のあいだ", un:()=>state.chapter>=4, lines:[
-   ["n","お揃いのネックレスを買った帰り道。胸元で、それが小さく光っていた。"],
+  {t:"幕間 ― 首もとの秘密", sub:"第4話と第5話のあいだ", un:()=>state.chapter>=5, lines:[
+   ["n","お揃いのネックレスをもらった日。帰り道、胸元でそれが小さく光っていた。"],
    ["him","なお、それ"],
    ["me","ん？　ネックレス？"],
    ["him","表に出して歩いたら、あかんで"],
@@ -3746,20 +3746,20 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
    ["me","……ありがと"],
    ["n","二人だけの秘密が、首もとで小さく光った。"]]},
   {t:"その後 ― クリスマスの相談", sub:"翌朝編のあと", un:()=>!!state.act2, lines:[
-   ["n","11月3日の夜。帰り道の電話で、彼の声が少しだけ弾んでいた。"],
+   ["n","11月3日の夜。帰り道の電話で、朝の約束の続きの話になった。"],
    ["him","なあ、なお"],
-   ["him","クリスマス、どう過ごしたい？"],
+   ["him","なあ、朝約束したクリスマスやけど"],
    ["me","え、急にどうしたの"],
    ["him","……聞いただけや"],
-   ["him","予定、空けといてくれたら嬉しいな、って"],
+   ["him","なおの希望、聞いときたくて"],
    ["me","もしかして、何か考えてる？"],
    ["him","内緒"],
    ["him","期待しててええよ"],
    ["n","電話の向こうで、彼が笑った気がした。"],
    ["him","……絶対、楽しませるから"],
    ["n","冬の約束が、ひとつ増えた。"]]},
-  {t:"その後 ― はじめての鍋パ", sub:"エピローグのあと", un:()=>!!state._act2MorningDone, lines:[
-   ["n","約束の土曜日。いつメンの鍋パに、彼も来た。"],
+  {t:"その後 ― はじめての鍋パ", sub:"年明け", un:()=>!!state._act2MorningDone, lines:[
+   ["n","年明けの土曜日。新年会の鍋パに、彼も来た。"],
    ["him","……なんか、緊張するな"],
    ["me","みんな、いい子たちだよ"],
    ["him","なおの大事な人らやからな"],
@@ -4306,7 +4306,7 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
   ["フリートークを送った回数",(state._fvTurns||0)+"回"],
   ["彼が覚えている話題",((state._mem||[]).length)+"個"],
   ["お気に入りの写真",((state._favs||[]).length)+"枚"],
-  ["解放済みのおまけ話",((state.chapter>=3?1:0)+(state.chapter>=4?1:0)+(state.act2?2:0)+(state._act2MorningDone?1:0))+" / 5本"],
+  ["解放済みのおまけ話",((state.chapter>=4?1:0)+(state.chapter>=5?1:0)+(state.act2?2:0)+(state._act2MorningDone?1:0))+" / 5本"],
   ["通話した回数",(state._callN||0)+"回"]];
  row.addEventListener("click",()=>{ panel.innerHTML='<div style="padding:58px 16px 10px;display:flex;align-items:center"><b style="font-size:16.5px">🏅 ふたりの記録</b><button id="rec-x" style="margin-left:auto;border:none;background:none;font-size:19px;cursor:pointer">✕</button></div>'+
   '<div style="overflow-y:auto;padding:8px 16px">'+rows().map(r=>'<div style="background:#fff;border-radius:13px;padding:13px 15px;margin-bottom:9px;display:flex;align-items:center"><span style="font-size:13.5px;color:#555">'+r[0]+'</span><b style="margin-left:auto;font-size:14.5px">'+r[1]+'</b></div>').join("")+
@@ -4517,7 +4517,7 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
  const vis=sel=>{ const el=document.querySelector(sel); return el&&el.style.display!=="none"&&!!el.offsetParent; };
  setInterval(()=>{ if(state.phase==="scandal") return;
   if(vis("#group-chat")&&!state._gNabe2&&((state.chapter||0)>=2||state.act2)){ state._gNabe2=true;
-   const seq=[["ゆい","鍋パ、来週の土曜で確定したよ！"],["ゆい","なおは締めの雑炊、担当ね"]];
+   const seq=[["ゆい","鍋パ、やること決まったよ！　日程はまた詰めよ"],["ゆい","なおは締めの雑炊、担当ね"]];
    seq.forEach((m,i)=>setTimeout(()=>{ try{ gMsg(m[0],m[1]); }catch(e){} },1200+i*1900)); }
   if(vis("#party-chat")&&!state._pBook2&&((state.chapter||0)>=2||state.act2)){ state._pBook2=true;
    const seq=[["かず","この前の店、来月も予約取れたよ"],["りな","楽しみ！なお、ひろとくんの話も聞かせてね"]];
@@ -4795,7 +4795,7 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
 (function(){
  if(state._v219k) return; state._v219k=true;
  const RULES=[
-  [/日プ|オーディション|練習生/, "日プの時は16歳で、ダンス未経験やった。……よく残った方やと思う"],
+  [/日プ|オーディション|練習生/, "日プの時は17歳で、ダンス未経験やった。……よく残った方やと思う"],
   [/創造営|中国/, "中国の番組、中国語ゼロから行った。ほんま必死やったわ"],
   [/ボイプラ|韓国/, "韓国も行ったな。最後の最後まで、悔しかった"],
   [/マロン|犬|わんこ/, "マロン？ 実家の犬。……会いたいな、今"],
@@ -4826,7 +4826,7 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
 (function(){
  const vline=document.querySelector("#v-line"); if(!vline) return;
  const EXTRA=[
-  ["16歳の自分に言いたい。今の俺、悪くないで",()=>state.chapter>=4],
+  ["17歳の自分に言いたい。今の俺、悪くないで",()=>state.chapter>=4],
   ["次は、デビューって言える場所で会いたい",()=>!!state.act2]];
  const inject=()=>{ const p=document.querySelector("#note-panel"); if(!p||p.querySelector("#note-extra3")) return;
   const sc=p.querySelector('div[style*="overflow-y"]'); if(!sc) return;
@@ -4843,7 +4843,7 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
   {n:"ロットダンの端くれ",h:"@rottodan_life",t:"井汲大翔、日プで36位で落ちた子が今やソロデビューよ？ 人生何があるか分からん",m:["18","96","2,148"]},
   {n:"ロットダンの端くれ",h:"@rottodan_life",t:"創造営の『Lover Boy 88』、中国語ゼロから個人票1位って今見ても鳥肌",m:["26","141","3,204"]},
   {n:"さくらの推し活",h:"@sakura_act",t:"ボイプラ21位の悔しさを知ってるから、今の笑顔が眩しいんよ…",m:["9","63","1,487"]},
-  {n:"ロットダンの端くれ",h:"@rottodan_life",t:"『皆さんの心をロックします』って自己紹介、16歳の頃から言ってたのエモすぎ",m:["31","188","4,092"]}];
+  {n:"ロットダンの端くれ",h:"@rottodan_life",t:"『皆さんの心をロックします』って自己紹介、17歳の頃から言ってたのエモすぎ",m:["31","188","4,092"]}];
  setInterval(()=>{ try{
   if(state.phase==="scandal"||state.ended) return;
   const tl=document.querySelector("#x-pane-tl"); if(!tl||!tl.offsetParent) return;
@@ -6259,7 +6259,7 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
  const IG_SAFE='<span class="p-ic" '+PIC+'>📷</span><span><b>Instagram</b> ・ 今日<br>193.hiroto_jixiang がストーリーを追加しました</span>';
  const IG_POST='<span class="p-ic" '+PIC+'>📷</span><span><b>Instagram</b> ・ 今日<br>193.hiroto_jixiang が投稿しました「このまま時間が止まればいいのに🙃」</span>';
  const G0=ns[0].innerHTML;
- const G1='<span class="p-ic" style="background:#f59e0b">🍻</span><span><b>いつメン🍻</b> ・ 今日<br>ゆい：じゃあ金曜19時、梅田のあの店とっとくね🍻</span>';
+ const G1='<span class="p-ic" style="background:#f59e0b">🍻</span><span><b>いつメン🍻</b> ・ 今日<br>ゆい：じゃあ土曜19時、梅田のあの店とっとくね🍻</span>';
  const G3='<span class="p-ic" style="background:#f59e0b">🍻</span><span><b>いつメン🍻</b> ・ 今日<br>みさき：例の彼とは、どうなってるの？</span>';
  ns[1].innerHTML=IG_SAFE;
  const upd=()=>{ if(state.phase!=="prologue") return;
@@ -8108,6 +8108,24 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
  },450);
 })();
 
+/* ===== v410: his cafe highlights unlock after the first date (ch2), same lock style as v247 ===== */
+(function(){
+ const ok=()=> (state.chapter||0)>=2;
+ const paint=()=>{ document.querySelectorAll("#v-hisig .stories > button").forEach(b=>{
+   const t=b.textContent||""; if(!/ごはん|カフェ/.test(t)) return;
+   const locked=!ok();
+   b.style.opacity=locked?".45":""; b.style.filter=locked?"grayscale(.6)":"";
+   let tag=b.querySelector(".hl-lock");
+   if(locked&&!tag){ tag=document.createElement("span"); tag.className="hl-lock"; tag.textContent="🔒"; tag.style.cssText="font-size:10px;margin-top:-2px"; b.appendChild(tag); }
+   if(!locked&&tag) tag.remove();
+ }); };
+ setInterval(paint,1500); paint();
+ document.addEventListener("click",e=>{ const b=e.target.closest&&e.target.closest("#v-hisig .stories > button");
+   if(!b) return; const t=b.textContent||""; if(!/ごはん|カフェ/.test(t)) return;
+   if(!ok()){ e.stopPropagation(); e.preventDefault(); try{ toast("初デート（第2話）のあとで見れるようになるよ"); }catch(_){} }
+ },true);
+})();
+
 /* ===== v41: individual friend chats (yui / misaki / rina) ===== */
 const FCHATS={
  yui:{name:"ゆい",ini:"ゆ",color:"#e879a0",sub:"幹事担当🍻",log:[["f","次の飲み会の店、候補3つ絞ったよ！"],["f","なおの分も一緒に予約しとくね？"]],calm:["店はまかせて、私が押さえる！","それ採用〜","今度はサウナも行こ"],scandalLog:["なお、ニュース見た……あれ、なおのことやんな？","私たちは味方やからね"],scandal:["味方はここにおるよ","夜中でも、電話していいからね"]},
@@ -8270,7 +8288,7 @@ const HL_SETS={
  trip:[["assets/nao-hl-17.jpg","韓屋の街並み"],["assets/nao-hl-08.jpg","釜山の景色🌊"],["assets/nao-hl-03.jpg","森の小道🌿"]],
  oshi:[["assets/nao-hl-06.jpg","会社のオンニと遠征行けると思って無かった😭"]],
  dog:[["assets/nao-hl-09.jpg","サモエド🤍"]],
- fanmi:[["assets/fanmeet-1.jpg","3年前、大翔とズハオの合同ファンミ🎤"],["assets/fanmeet-2.jpg","スローガン持って参戦した日"],["assets/fanmeet-3.jpg","LOCK YOUR HEART, JUST DO IT!"]]};
+ fanmi:[["assets/fanmeet-1.jpg","2年前、大翔とズハオの合同ファンミ🎤"],["assets/fanmeet-2.jpg","スローガン持って参戦した日"],["assets/fanmeet-3.jpg","LOCK YOUR HEART, JUST DO IT!"]]};
 let hlSegs=[],hlIdx=0,hlTimer=null;
 function hlShow(i){ hlIdx=i; const sg=hlSegs[i]; $("#hl-img").src=sg[0]; $("#hl-txt").textContent=sg[1];
   const bars=$("#hl-bars"); bars.innerHTML=""; hlSegs.forEach((_,j)=>{ const b=document.createElement("i"); if(j<i)b.className="done"; if(j===i)b.className="act"; b.innerHTML="<b></b>"; bars.appendChild(b); });
