@@ -785,7 +785,7 @@ input,textarea{font-size:16px!important}
 <div class="setrow"><span>📞 通話した回数</span><span style="color:#8e8e93;font-size:12.5px" id="set-calls">0回</span></div>
 <button class="btn-main" style="background:#ff3b30;color:#fff;width:100%;margin:6px 0 12px" onclick="hbReset();location.reload()">🔁 物語を最初からやり直す</button>
 <div style="font-size:13px;font-weight:800;margin:2px 2px 8px">📞 通話履歴</div><div id="set-calllog" style="background:#fff;border-radius:12px;padding:6px 14px;margin-bottom:6px"><div style="font-size:12.5px;color:#8e8e93;padding:8px 0">まだ通話はない</div></div><button id="calllog-clear" style="background:none;border:none;color:#8e8e93;font-size:12px;cursor:pointer;font-family:inherit;padding:2px 2px 12px">通話履歴を消す</button>
-<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v424</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
+<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v425</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
 </div>
 </section>
 
@@ -8337,6 +8337,74 @@ window.hbReset=function(){ try{ Object.keys(localStorage).filter(function(k){ re
   const st = document.createElement("style");
   st.textContent = "#nao-story-view .story-reply{display:none !important}";
   document.body.appendChild(st);
+})();
+
+/* ===== v425: resume -- snapshot state + chat DOM at every chapter/phase boundary; title gains a "つづきから" button ===== */
+(function(){
+  const KEY = "hb_save_v1";
+  const $q = s => document.querySelector(s);
+  const domIds = { chat: "#chat", gchat: "#gchat", pchat: "#pchat", fchat: "#fchat", news: "#news-list", photos: "#ph-grid" };
+  const clean = (k, v) => {
+    if (typeof v === "function") return undefined;
+    if (v instanceof Set) return { __set: [...v] };
+    if (v && typeof v === "object" && v.nodeType) return undefined;
+    return v;
+  };
+  function snapshot(target) {
+    try {
+      const dom = {};
+      for (const k in domIds) { const el = $q(domIds[k]); if (el) dom[k] = el.innerHTML; }
+      const prev = {};
+      ["#g-preview", "#p-preview"].forEach(s => { const el = $q(s); if (el) prev[s] = el.textContent; });
+      localStorage.setItem(KEY, JSON.stringify({ v: 1, at: Date.now(), target, state: JSON.parse(JSON.stringify(state, clean)), dom, prev }));
+    } catch (e) { /* quota etc: keep the previous save */ }
+  }
+  if (typeof chapter === "function") { const o = chapter; chapter = function(n){ snapshot({ kind: "ch", n }); return o(n); }; }
+  if (typeof toScandal === "function") { const o = toScandal; toScandal = function(){ snapshot({ kind: "scandal" }); return o(); }; }
+  if (typeof startAct2 === "function") { const o = startAct2; startAct2 = function(){ snapshot({ kind: "act2" }); return o(); }; }
+  if (typeof ending === "function") { const o = ending; ending = function(kind){ snapshot({ kind: "ended", end: kind }); return o(kind); }; }
+  const loadSave = () => { try { return JSON.parse(localStorage.getItem(KEY)); } catch (e) { return null; } };
+  const label = t => !t ? "" : t.kind === "ch" ? ({ 1: "第1話『出会い』", 2: "第2話『初デート』", 3: "第3話『告白』", 4: "第4話『付き合い始め』", 5: "第5話『何気ない日常』" })[t.n] || ("第" + t.n + "話")
+    : t.kind === "scandal" ? "第6話『バレた日』" : t.kind === "act2" ? "翌朝編" : "エピローグ";
+  function resumeNow(sv) {
+    if (!sv || !sv.state) return;
+    const st = sv.state;
+    Object.keys(st).forEach(k => { const v = st[k]; if (v && typeof v === "object" && Array.isArray(v.__set)) st[k] = new Set(v.__set); });
+    Object.assign(state, st);
+    state._proStarted = true;
+    for (const k in domIds) { const el = $q(domIds[k]); if (el && sv.dom && sv.dom[k] != null) el.innerHTML = sv.dom[k]; }
+    if (sv.prev) Object.keys(sv.prev).forEach(s => { const el = $q(s); if (el) el.textContent = sv.prev[s]; });
+    const lock = $q("#v-lock");
+    if (lock && !lock.classList.contains("on")) lock.classList.add("on");
+    if (typeof unlock === "function") unlock();
+    if (typeof show === "function") show("home");
+    if (state.phase === "prologue" && !state.started) { const sb = $q("#skip-btn"); if (sb) sb.style.display = "inline-block"; }
+    const t = sv.target || { kind: "ch", n: 1 };
+    setTimeout(() => {
+      if (t.kind === "ch") chapter(t.n);
+      else if (t.kind === "scandal") toScandal();
+      else if (t.kind === "act2") startAct2();
+      else if (t.kind === "ended") ending(t.end);
+    }, 900);
+  }
+  const ts = $q("#title-screen");
+  if (ts) {
+    const startBtn = ts.querySelector("#ts-start");
+    if (startBtn) startBtn.addEventListener("click", () => { if (!window._hbResuming) { try { localStorage.removeItem(KEY); } catch (e) {} } });
+    const save = loadSave();
+    if (save && save.state && startBtn && startBtn.parentNode) {
+      const b = document.createElement("button");
+      b.id = "ts-resume";
+      b.textContent = "つづきから（" + label(save.target) + "）";
+      b.style.cssText = "display:block;margin:12px auto 0;padding:13px 34px;border-radius:999px;border:1.5px solid rgba(255,255,255,.85);background:rgba(0,0,0,.32);color:#fff;font-size:15px;font-weight:700;font-family:inherit;cursor:pointer;backdrop-filter:blur(3px)";
+      startBtn.parentNode.insertBefore(b, startBtn.nextSibling);
+      b.addEventListener("click", () => {
+        window._hbResuming = save;
+        if (startBtn) startBtn.click();
+        setTimeout(() => resumeNow(save), 720);
+      });
+    }
+  }
 })();
 
 /* ===== v41: individual friend chats (yui / misaki / rina) ===== */
