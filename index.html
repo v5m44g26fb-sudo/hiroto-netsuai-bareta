@@ -656,7 +656,7 @@ input,textarea{font-size:16px!important}
 </button>
 </div>
 <div id="line-chat" style="display:none;flex:1;flex-direction:column;min-height:0">
-<div class="line-head" style="padding-top:56px"><button class="back" id="line-back" style="border:none;background:none;font-size:19px;cursor:pointer">‹</button><button id="hiroto-prof-btn" style="display:flex;gap:8px;align-items:center;background:none;border:none;cursor:pointer;text-align:left;padding:0"><img loading="lazy" decoding="async" class="avatar" src="assets/line-avatar.jpg" width="32" height="32" alt=""><span><span class="t" style="font-size:15.5px;font-weight:800;display:block">ひろと</span><span class="s" style="font-size:10.5px;color:#8e8e93">ISFPの本音は短い。言葉より行動で示す。</span></span></button><button id="line-call-btn" style="margin-left:auto;font-size:18px;background:none;border:none;cursor:pointer">📞</button></div>
+<div class="line-head" style="padding-top:56px"><button class="back" id="line-back" style="border:none;background:none;font-size:19px;cursor:pointer">‹</button><button id="hiroto-prof-btn" style="display:flex;gap:8px;align-items:center;background:none;border:none;cursor:pointer;text-align:left;padding:0"><img loading="lazy" decoding="async" class="avatar" src="assets/line-avatar.jpg" width="32" height="32" alt=""><span><span class="t" style="font-size:15.5px;font-weight:800;display:block">ひろと</span><span class="s" style="font-size:10.5px;color:#8e8e93">言葉より行動で示す。</span></span></button><button id="line-call-btn" style="margin-left:auto;font-size:18px;background:none;border:none;cursor:pointer">📞</button></div>
 <div class="chat-scroll" id="chat">
 <div class="daychip">9月27日（土）</div>
 </div>
@@ -785,7 +785,7 @@ input,textarea{font-size:16px!important}
 <div class="setrow"><span>📞 通話した回数</span><span style="color:#8e8e93;font-size:12.5px" id="set-calls">0回</span></div>
 <button class="btn-main" style="background:#ff3b30;color:#fff;width:100%;margin:6px 0 12px" onclick="hbReset();location.reload()">🔁 物語を最初からやり直す</button>
 <div style="font-size:13px;font-weight:800;margin:2px 2px 8px">📞 通話履歴</div><div id="set-calllog" style="background:#fff;border-radius:12px;padding:6px 14px;margin-bottom:6px"><div style="font-size:12.5px;color:#8e8e93;padding:8px 0">まだ通話はない</div></div><button id="calllog-clear" style="background:none;border:none;color:#8e8e93;font-size:12px;cursor:pointer;font-family:inherit;padding:2px 2px 12px">通話履歴を消す</button>
-<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v426</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
+<div style="background:#fff;border-radius:12px;padding:14px;font-size:12.5px;line-height:1.9;color:#3a3a3c">『熱愛バレた件』 <b>v427</b><br>※ この作品は創作フィクションです。<br>※ 通話の声はAI生成音声（AnyVoice）を使用しています。<br>※ フォロワー数などは物語上の演出です。</div>
 </div>
 </section>
 
@@ -890,7 +890,7 @@ async function ch2(t){ addDayChip("10月4日（土）"); setChapterWidget("第2�
   await himMsg("一週間、長かった……やっと土曜",700); if(!alive(t))return; await himMsg("なおが好きそうな店、目星つけといた");
   if(!alive(t))return; askChoices("なおの返信を選んで",[
     {label:"私も、ずっと楽しみだった",fn:async()=>{ if(!alive(t))return; await himMsg("ほんま？　……じゃあ今日、時間気にせんといてな"); ch2after(t); }},
-    {label:"どんな店？ 楽しみ",fn:async()=>{ if(!alive(t))return; await himMsg("カフェオレ、甘めで頼んどく。……好み、合うといいけど"); ch2after(t); }},
+    {label:"どんな店？ 楽しみ",fn:async()=>{ if(!alive(t))return; await himMsg("カフェオレ、甘めで頼んどく。……好みに合うといいけど"); ch2after(t); }},
   ]); }
 async function ch2after(t){ later(()=>{ addPhoto("assets/ig-drink.jpg","初デート☕️"); push("写真","#8e8e93","🌼","思い出が追加されました","初デートの写真 —— タップで写真へ",()=>show("photos")); },9000); later(async()=>{ if(!alive(t))return; await himMsg("もう帰る時間か。……早すぎやろ"); if(!alive(t))return; await himMsg("カフェオレは甘め。……なおの好み、覚えた"); if(!alive(t))return; await himVoice("assets/vm-date.mp3","0:03");
     if(!alive(t))return; askChoices("なおの返信を選んで",[
@@ -974,7 +974,7 @@ later(()=>{addNewsRow("assets/insta-post.jpg","「時間が止まればいいの
 /* ============ NEWS ============ */
 function addNewsHero(){const d=document.createElement("div");d.className="news-hero";d.innerHTML=`<img loading="lazy" decoding="async" src="assets/stage.jpg" alt=""><div class="in"><span class="tag">速報</span><h3>人気アイドル・井汲大翔、一般女性と“手つなぎデート”撮 —— 週刊誌が決定的写真を配信</h3><p>昨夜、大阪のカフェから出てきた二人は人目を気にしながらも手を繋ぎ…。お相手女性のSNSも特定が進んでいる模様。</p></div>`;d.style.cursor="pointer";d.addEventListener("click",openArticle);$("#news-list").prepend(d)}
 function newsBack(){ $("#news-article").style.display="none"; $("#news-list").style.display="block"; $("#news-scroll").scrollTop=0}
-function openArticle(){ $("#news-list").style.display="none"; const a=$("#news-article"); a.style.display="block"; a.innerHTML=`<div class="article"><button class="btn-main" style="background:#f2f2f7;width:auto;padding:7px 14px;margin:0 0 12px" onclick="newsBack()">‹ 一覧に戻る</button><button class="btn-main" style="background:#111;color:#fff;width:auto;padding:7px 14px;margin:0 0 12px 6px" onclick="toast('🔗 <b>記事のリンクをコピーしました</b>')">共有</button><h2>人気アイドル、一般女性と手つなぎデート　「お揃いネックレス」も</h2><div class="m">週刊デジタル ・ 20:49配信</div><img loading="lazy" decoding="async" src="assets/crown-full.jpg" alt="" style="width:100%;border-radius:12px;margin:6px 0 12px"><p>人気上昇中のアイドル・井汲大翔（23）が、一般女性と大阪市内のカフェでデートする様子をキャッチした。店を出た二人は、周囲を気にしながらも自然に手をつなぎ、同じ方向の駅へ消えたという。</p><div class="box">目撃者「帽子もマスクもしてたけど、背格好と声でバレバレでした。女性のほうがちょっと緊張してて、彼がずっと笑わせてたのが印象的でした」</div><p>ネットでは早くもお相手のSNS特定が進み、本人のInstagramには数時間で数万件のフォローとコメントが殺到。昨日の投稿「お昼の麺が美味しすぎた日」が“同じ店では”と掘り起こされている。</p><p>所属事務所は取材に対し「担当者が不在のため、確認中」と回答している。</p></div>`; $("#news-scroll").scrollTop=0}
+function openArticle(){ $("#news-list").style.display="none"; const a=$("#news-article"); a.style.display="block"; a.innerHTML=`<div class="article"><button class="btn-main" style="background:#f2f2f7;width:auto;padding:7px 14px;margin:0 0 12px" onclick="newsBack()">‹ 一覧に戻る</button><button class="btn-main" style="background:#111;color:#fff;width:auto;padding:7px 14px;margin:0 0 12px 6px" onclick="toast('🔗 <b>記事のリンクをコピーしました</b>')">共有</button><h2>人気アイドル、一般女性と手つなぎデート　「お揃いネックレス」も</h2><div class="m">週刊デジタル ・ 20:49配信</div><img loading="lazy" decoding="async" src="assets/crown-full.jpg" alt="" style="width:100%;border-radius:12px;margin:6px 0 12px"><p>人気上昇中のアイドル・井汲大翔（23）が、一般女性と大阪市内のカフェでデートする様子をキャッチした。店を出た二人は、周囲を気にしながらも自然に手をつなぎ、同じ方向の駅へ消えたという。</p><div class="box">目撃者「帽子もマスクもしてたけど、背格好と声でバレバレでした。女性のほうがちょっと緊張してて、彼がずっと笑わせてたのが印象的でした」</div><p>ネットでは早くもお相手のSNS特定が進み、本人のInstagramには数時間で数万件のフォローとコメントが殺到。昨日の投稿「お昼の麺が美味しすぎた日」が“同じ店だ”と掘り起こされている。</p><p>所属事務所は取材に対し「担当者が不在のため、確認中」と回答している。</p></div>`; $("#news-scroll").scrollTop=0}
 function addArticleDefault(){}
 function openStatement(){ $("#news-list").style.display="none"; const a=$("#news-article"); a.style.display="block"; a.innerHTML=`<div class="article"><button class="btn-main" style="background:#f2f2f7;width:auto;padding:7px 14px;margin:0 0 12px" onclick="newsBack()">‹ 一覧に戻る</button><button class="btn-main" style="background:#111;color:#fff;width:auto;padding:7px 14px;margin:0 0 12px 6px" onclick="toast('🔗 <b>記事のリンクをコピーしました</b>')">共有</button><h2>事務所がコメント発表「プライベートは本人に任せております」</h2><div class="m">芸能デスク ・ たった今</div><img loading="lazy" decoding="async" src="assets/stage.jpg" alt="" style="width:100%;border-radius:12px;margin:6px 0 12px"><p>所属事務所は報道について、次のようにコメントした。</p><div class="box">「一部報道について、プライベートな事柄は本人に任せております。今後の活動に変更はありません」</div><p>交際を否定しないコメントに、SNSでは「認めたってこと？」「活動続けるのは安心」と賛否が割れている。本人の口から何が語られるのか、注目が集まる。</p><h3 style="margin-top:20px;font-size:15.5px">コメント <span style="color:#8e8e93;font-size:12.5px">12,408件</span></h3>
 <div class="ycmt"><div class="yh"><span class="ava-txt" style="width:26px;height:26px;font-size:11px;background:#7a9cc6">a</span> aaa***さん</div><div class="yt">否定しないってことは認めてるようなもの。活動に変更なしが一番安心した</div><div class="yb"><span class="like-btn">👍 そう思う 4,208</span><span>返信 312件</span></div></div>
@@ -5155,7 +5155,7 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
   {re:/チムジルバン|サウナ|釜山|韓国/, posts:[
    {n:"サウナ女子",h:"@sauna_joshi",tm:"3時間",t:"釜山のチムジルバン行ってきた🧖 アカスリ最高…また行きたい",m:["💬 8","🔁 22","❤️ 204"]},
    {n:"ゆい",h:"@yui_days",tm:"5時間",t:"次の釜山、チムジルバンでアカスリ絶対する",m:["💬 2","🔁 1","❤️ 31"]},
-   {n:"韓国旅行メモ",h:"@korea_memo",tm:"9時間",t:"釜山のチムジルバンは24時間営業のところが多くて、夜着でも入れるのが助かる",m:["💬 14","🔁 96","❤️ 412"]}]},
+   {n:"韓国旅行メモ",h:"@korea_memo",tm:"9時間",t:"釜山のチムジルバンは24時間営業のところが多くて、夜遅くても入れるのが助かる",m:["💬 14","🔁 96","❤️ 412"]}]},
   {re:/神戸カフェ|カフェ/, posts:[
    {n:"神戸グルメ",h:"@kobe_gourmet",tm:"8時間",t:"三宮でカフェ開拓中。カフェオレが美味しいお店、教えてください☕",m:["💬 27","🔁 51","❤️ 486"]},
    {n:"カフェ巡り",h:"@cafe_hop",tm:"12時間",t:"神戸のカフェ、坂の上のお店が優勝だった。窓からの景色が反則",m:["💬 6","🔁 18","❤️ 233"]}]}];
@@ -8191,7 +8191,7 @@ document.addEventListener("click",e=>{ if(e.target.closest("#v-tiktok")) return;
   list.style.display="none"; a.style.display="block";
   var SPECIAL=[["匂わせ",'<p>火種は、彼の過去の投稿だった。11月1日の投稿「このまま時間が止まればいいのに🙃」に写るカフェが、彼女の投稿と同じ店だと指摘され、“匂わせ”だとして掘り起こされている。</p><div class="box">ネットの声「偶然にしては出来すぎ」「二人とも悪くないのに」</div><p>過去の投稿まで遡る動きは止まらず、関連ワードがトレンド入り。事務所のコメントは、まだ出ていない。</p>'],
    ["本人の言葉でコメント",'<p>一夜明けて、井汲大翔（23）が自身の言葉でコメントを発表した。</p><div class="box">「驚かせてしまった方、悲しい気持ちにさせてしまった方、本当にごめんなさい。ステージに立てるのは、皆さんがいてくれるからで、その気持ちは毎日、毎日変わりません」</div><p>SNSでは「泣いた」「本人の言葉が聞けてよかった」と受け止める声が広がり、騒動は落ち着きに向かっている。</p>']];
-  var body='<p>「'+h+'」——この話題に、SNSでも関連する投稿が増えている。</p><div class="box">ネットの声「続報を待ちたい」「本人の言葉が一番だと思う」</div><p>編集部では関係各所への取材を続けており、新しい情報が入り次第、続報する。</p>';
+  var body='<p>「'+h+'」——この話題に、SNSでも関連する投稿が増えている。</p><div class="box">ネットの声「続報を待ちたい」「本人の言葉が一番だと思う」</div><p>編集部では関係各所への取材を続けており、新しい情報が入り次第、お伝えする。</p>';
   for(var s=0;s<SPECIAL.length;s++){ if(h.indexOf(SPECIAL[s][0])>=0){ body=SPECIAL[s][1]; break; } }
   a.innerHTML='<div class="article"><button class="btn-main" style="background:#f2f2f7;width:auto;padding:7px 14px;margin:0 0 12px" onclick="newsBack()">‹ 一覧に戻る</button><button class="btn-main" style="background:#111;color:#fff;width:auto;padding:7px 14px;margin:0 0 12px 6px" onclick="toast(\'🔗 <b>記事のリンクをコピーしました</b>\')">共有</button><h2>'+h+'</h2><div class="m">'+m+'</div><img src="'+img+'" alt="" style="width:100%;border-radius:12px;margin:6px 0 12px">'+body+'</div>';
   var ns=$("#news-scroll"); if(ns) ns.scrollTop=0; };
